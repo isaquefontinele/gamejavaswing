@@ -1,4 +1,4 @@
-package gamejavaswing;
+package menu;
 
 public class Main {
 
