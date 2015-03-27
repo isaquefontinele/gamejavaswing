@@ -8,4 +8,8 @@ public abstract class Creature {
 	//private position pos
 	//private icon image
 
+	public void movement(Direction dir){
+		
+		
+	}
 }

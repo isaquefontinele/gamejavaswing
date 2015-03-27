@@ -2,7 +2,7 @@ package gameplay;
 
 public class Hero extends Creature {
 	
-	private HeroClass classe;
+	private HeroClass heroClass;
 	
 	public Hero() {
 		
