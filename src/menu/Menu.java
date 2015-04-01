@@ -2,6 +2,8 @@ package menu;
 
 //package action;
 
+import gameplay.Gameplay;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -66,7 +68,7 @@ public class Menu extends JFrame {
 	public class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-
+			Gameplay gameplay = new Gameplay();
 		}
 	}
 
