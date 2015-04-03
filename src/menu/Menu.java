@@ -15,12 +15,19 @@ import javax.swing.*;
 public class Menu extends JFrame {
 
 	private JPanel buttonPanel, showPanel;
-	private static final int DEFAULT_WIDTH = 300;
-	private static final int DEFAULT_HEIGHT = 200;
+	private static Dimension screenSize;
+	private static int WINDOW_WIDTH;
+	private static int WINDOW_HEIGHT;
+	private static double windowSize = 0.8; // Size of the window in percentage
+	private GridLayout manager;
 	JButton playButton;
 
 	public Menu() {
-		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		WINDOW_WIDTH = (int) Math.round(screenSize.width * windowSize);
+		WINDOW_HEIGHT = (int) Math.round(screenSize.height * windowSize);
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
@@ -57,18 +64,24 @@ public class Menu extends JFrame {
 		exitButton.setText("Exit");
 		
 		// add panel to frame
-		this.setLayout(new GridLayout(1, 2));
+		manager = new GridLayout(1, 2);
+		this.setLayout(manager);
 		
 		add(buttonPanel);
 		add(showPanel);
-	
+
+
 
 	}
 
 	public class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-			Gameplay gameplay = new Gameplay();
+			manager = new GridLayout();
+			setLayout(manager);
+			
+			Gameplay gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT);
+			add(gameplay);
 		}
 	}
 

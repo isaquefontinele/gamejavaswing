@@ -2,7 +2,9 @@ package gameplay;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -26,8 +28,12 @@ public class Gameplay extends JPanel implements ActionListener {
 	private boolean doorOpened;
 	private ArrayList<Monster> monsters;
 	
-	public Gameplay() {
+	
+	public Gameplay(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
+
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
+		setBackground(Color.GREEN);
 		addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.BLACK);
@@ -37,16 +43,16 @@ public class Gameplay extends JPanel implements ActionListener {
         setSize(900, 1000);
 
         hero = new Hero();
-
         initObjects();
 
         timer = new Timer(speed, this);
         timer.start();
+
 	}
 
 	public void initObjects() {
-		
-
+		items = new ArrayList<Item>();
+		monsters = new ArrayList<Monster>();
     }
 	
     private class TAdapter extends KeyAdapter {
@@ -72,7 +78,7 @@ public class Gameplay extends JPanel implements ActionListener {
             doorOpened = true;
         }
         
-
+        
 		hero.move();
 		checkCollisions();
 		repaint();

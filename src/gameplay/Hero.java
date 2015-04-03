@@ -9,35 +9,21 @@ import javax.swing.ImageIcon;
 public class Hero extends Creature {
 
 	private HeroClass heroClass;
-	private int x;
-	private int y;
-	private int increaseX;
-	private int increaseY;
+
 	private Image image;
 	private int width;
 	private int height;
+	private int shield;
 
 	public Hero() {
-
-        image = new ImageIcon(this.getClass().getResource("hero.png")).getImage();
-        width = image.getWidth(null);
-        height = image.getHeight(null);
+		this.image = new ImageIcon(this.getClass().getResource(
+				"/images/hero.png")).getImage();
+		this.width = image.getWidth(null);
+		this.height = image.getHeight(null);
+		this.heroClass = HeroClass.WARRIOR;
+		this.shield = heroClass.getShieldValue();
 	}
 
-	public void move() {
-
-        x += increaseX;
-        y += increaseY;
-
-        if (x < 1) {
-            x = 1;
-        }
-
-        if (y < 1) {
-            y = 1;
-        }
-    }
-	
 	public void keyPressed(KeyEvent e) {
 
 		int key = e.getKeyCode();
@@ -79,8 +65,16 @@ public class Hero extends Creature {
 		}
 	}
 
-	
+	// Getters and Setters
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
+	}
+
+	public void setShield(int i) {
+		this.shield = i;
+	}
+
+	public int getShield() {
+		return shield;
 	}
 }
