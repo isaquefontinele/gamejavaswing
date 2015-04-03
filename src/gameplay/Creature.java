@@ -7,10 +7,10 @@ public abstract class Creature {
 	private boolean state;
 	// private position pos
 	// private icon image
-	protected int x;
-	protected int y;
-	protected int increaseX;
-	protected int increaseY;
+	private int x;
+	private int y;
+	private int increaseX;
+	private int increaseY;
 
 	public void move() {
 

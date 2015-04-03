@@ -36,18 +36,14 @@ public class Gameplay extends JPanel implements ActionListener {
 		setBackground(Color.GREEN);
 		addKeyListener(new TAdapter());
         setFocusable(true);
-        setBackground(Color.BLACK);
         setDoubleBuffered(true);
         inGame = true;
-
-        setSize(900, 1000);
 
         hero = new Hero();
         initObjects();
 
         timer = new Timer(speed, this);
         timer.start();
-
 	}
 
 	public void initObjects() {

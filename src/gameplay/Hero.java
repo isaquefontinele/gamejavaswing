@@ -29,19 +29,19 @@ public class Hero extends Creature {
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_LEFT) {
-			increaseX = -1;
+			setIncreaseX(-1);
 		}
 
 		if (key == KeyEvent.VK_RIGHT) {
-			increaseX = 1;
+			setIncreaseX(1);
 		}
 
 		if (key == KeyEvent.VK_UP) {
-			increaseY = -1;
+			setIncreaseY(-1);
 		}
 
 		if (key == KeyEvent.VK_DOWN) {
-			increaseY = 1;
+			setIncreaseY(1);
 		}
 	}
 
@@ -49,25 +49,25 @@ public class Hero extends Creature {
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_LEFT) {
-			increaseX = 0;
+			setIncreaseX(0);
 		}
 
 		if (key == KeyEvent.VK_RIGHT) {
-			increaseX = 0;
+			setIncreaseX(0);
 		}
 
 		if (key == KeyEvent.VK_UP) {
-			increaseY = 0;
+			setIncreaseY(0);
 		}
 
 		if (key == KeyEvent.VK_DOWN) {
-			increaseY = 0;
+			setIncreaseY(0);
 		}
 	}
 
 	// Getters and Setters
 	public Rectangle getBounds() {
-		return new Rectangle(x, y, width, height);
+		return new Rectangle(getX(), getY(), width, height);
 	}
 
 	public void setShield(int i) {

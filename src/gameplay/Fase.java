@@ -18,6 +18,16 @@ public class Fase {
 			+ "N W N N N N N W N\n"
 			+ "I N N N N N N N N\n";
 	
+	/**
+	 *  N = Nothing == ground
+	 *  W = Walls
+	 *  M = Monster
+	 *  H = Hero
+	 *  E = Exit
+	 *  I = Entrance
+	 *  O = Objects
+	 */
+	
 	public Fase() {
 		
 	}

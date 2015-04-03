@@ -9,6 +9,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import com.sun.javafx.scene.control.skin.ButtonSkin;
+
 /**
  * A frame with a panel that demonstrates color change actions.
  */
@@ -77,8 +79,15 @@ public class Menu extends JFrame {
 	public class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-			manager = new GridLayout();
-			setLayout(manager);
+			
+			Component[] components1 = buttonPanel.getComponents();
+			for (int i = 0; i < components1.length; i++) {
+				components1[i].setEnabled(false);
+			}
+			Component[] components2 = showPanel.getComponents();
+			for (int i = 0; i < components2.length; i++) {
+				components2[i].setEnabled(false);
+			}
 			
 			Gameplay gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT);
 			add(gameplay);
