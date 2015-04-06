@@ -9,9 +9,6 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import com.sun.corba.se.impl.orbutil.RepIdDelegator;
-import com.sun.javafx.scene.control.skin.ButtonSkin;
-
 /**
  * A frame with a panel that demonstrates color change actions.
  */
@@ -35,6 +32,7 @@ public class Menu extends JFrame {
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
 		showPanel = new JPanel();
+		showPanel.setLayout(new GridLayout(1,1));
 		scores = new Scoreboard(WINDOW_WIDTH/2, WINDOW_HEIGHT);
 
 		// define actions
@@ -53,9 +51,9 @@ public class Menu extends JFrame {
 
 		// add buttons
 		buttonPanel.add(playButton);
-		buttonPanel.add(creditsButton);
 		buttonPanel.add(settingsButton);
 		buttonPanel.add(scoresButton);
+		buttonPanel.add(creditsButton);
 		buttonPanel.add(exitButton);
 
 		// Set names
@@ -105,22 +103,27 @@ public class Menu extends JFrame {
 	private class creditsAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-//			showPanel.removeAll();
+			showPanel.removeAll();
+			revalidate();
+			repaint();
 		}
 	}
 
 	private class settingsAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-//			showPanel.removeAll();
+			showPanel.removeAll();
+			revalidate();
+			repaint();
 		}
 	}
 
 	private class scoresAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-//			showPanel.removeAll();
+			showPanel.removeAll();
 			showPanel.add(scores);
+			revalidate();
 			repaint();
 			
 		}
