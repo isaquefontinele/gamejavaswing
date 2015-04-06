@@ -104,6 +104,8 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 			showPanel.removeAll();
+			JLabel l = new JLabel("Isaque Fontinele & Danny O'Dea");
+			showPanel.add(l);
 			revalidate();
 			repaint();
 		}
@@ -113,6 +115,10 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 			showPanel.removeAll();
+			Action muteAction = new muteAction();
+			JButton mute = new JButton(muteAction);
+			mute.setText("Mute");
+			showPanel.add(mute);
 			revalidate();
 			repaint();
 		}
@@ -132,6 +138,12 @@ public class Menu extends JFrame {
 	private class exitAction extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			System.exit(0);
+		}
+	}
+	
+	private class muteAction extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			//Code dealing with removing sound
 		}
 	}
 }
