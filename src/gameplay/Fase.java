@@ -6,6 +6,9 @@ public class Fase {
 	private final int MATRIX_HEIGHT = 9;
 	private String[][] matrix = new String [9][9];
 	private Item[] items;
+	private Monster[] monsters;
+	private int[] exitPos;
+	private int[] heroPos;
 
 	private String matrixRaw = 
 			  "N N N N N N N N E\n"
@@ -29,7 +32,7 @@ public class Fase {
 	 */
 	
 	public Fase() {
-		
+
 	}
 	
 	private void loadMatrix() {
@@ -45,13 +48,32 @@ public class Fase {
 		}
 	}
 	
+	private void setThingsPositions() {
+//		addItems();
+//		addMonsters();
+//		setExitPos();
+//		setHeroPos();
+	}
+	
 	
 	// Getters and Setters
 	public String[][] getMatrix() {
 		return matrix;
 	}
-	
-	public int getNumOfItems() {
-		return items.length;
+
+	public Item[] getItems() {
+		return items;
+	}
+
+	public void setItems(Item[] items) {
+		this.items = items;
+	}
+
+	public Monster[] getMonsters() {
+		return monsters;
+	}
+
+	public void setMonsters(Monster[] monsters) {
+		this.monsters = monsters;
 	}
 }

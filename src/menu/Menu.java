@@ -23,7 +23,6 @@ public class Menu extends JFrame {
 	private static int WINDOW_HEIGHT;
 	private static double windowSize = 0.8; // Size of the window in percentage
 	private GridLayout manager;
-	JButton playButton;
 	private Scoreboard scores;
 
 	public Menu() {
@@ -106,21 +105,21 @@ public class Menu extends JFrame {
 	private class creditsAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-
+//			showPanel.removeAll();
 		}
 	}
 
 	private class settingsAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-
+//			showPanel.removeAll();
 		}
 	}
 
 	private class scoresAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-			showPanel.removeAll();
+//			showPanel.removeAll();
 			showPanel.add(scores);
 			repaint();
 			

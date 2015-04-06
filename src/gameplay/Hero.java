@@ -10,16 +10,15 @@ public class Hero extends Creature {
 
 	private HeroClass heroClass;
 
-	private Image image;
 	private int width;
 	private int height;
 	private int shield;
 
 	public Hero() {
-		this.image = new ImageIcon(this.getClass().getResource(
-				"/images/hero.png")).getImage();
-		this.width = image.getWidth(null);
-		this.height = image.getHeight(null);
+		this.setImage(new ImageIcon(this.getClass().getResource(
+				"/images/hero.png")).getImage());
+		this.width = getImage().getWidth(null);
+		this.height = getImage().getHeight(null);
 		this.heroClass = HeroClass.WARRIOR;
 		this.shield = heroClass.getShieldValue();
 	}

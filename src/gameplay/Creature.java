@@ -1,8 +1,11 @@
 package gameplay;
 
+import java.awt.Image;
+
 public abstract class Creature {
 
 	private String name;
+	private Image image;
 	private int life;
 	private boolean state;
 	// private position pos
@@ -81,6 +84,14 @@ public abstract class Creature {
 
 	public void setIncreaseY(int increaseY) {
 		this.increaseY = increaseY;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 }

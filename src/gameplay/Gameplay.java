@@ -3,6 +3,8 @@ package gameplay;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -20,23 +22,24 @@ public class Gameplay extends JPanel implements ActionListener {
 	private int currentFaseNumber = 1;
 	private Fase currentFase = new Fase();
 	private String[][] matrix = currentFase.getMatrix();
-	private ArrayList<Item> items;
+	private Item[] items;
+	private Monster[] monsters;
 	
 	private Timer timer;
 	private boolean inGame;
 	private Hero hero;
 	private boolean doorOpened;
-	private ArrayList<Monster> monsters;
+
 	
 	
 	public Gameplay(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
 
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		setBackground(Color.GREEN);
-		addKeyListener(new TAdapter());
+		addKeyListener(new TAdapter()); // Keyboard input
         setFocusable(true);
         setDoubleBuffered(true);
+        
         inGame = true;
 
         hero = new Hero();
@@ -47,8 +50,10 @@ public class Gameplay extends JPanel implements ActionListener {
 	}
 
 	public void initObjects() {
-		items = new ArrayList<Item>();
-		monsters = new ArrayList<Monster>();
+		items = currentFase.getItems();
+		monsters = currentFase.getMonsters();
+		
+
     }
 	
     private class TAdapter extends KeyAdapter {
@@ -67,10 +72,18 @@ public class Gameplay extends JPanel implements ActionListener {
 		
 	}
 
+	private void checkCollisions() {
+		Rectangle heroRect = hero.getBounds();
+		Rectangle[] monstersRect = new Rectangle[monsters.length];
+		
+		for (int i = 0; i < monsters.length; i++) {
+			monstersRect[i] = monsters[i].getBounds();
+		}
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-        if (items.size()==0) {
+        if (items.length==0) {
             doorOpened = true;
         }
         
@@ -80,13 +93,37 @@ public class Gameplay extends JPanel implements ActionListener {
 		repaint();
 		
 	}
-
-	private void checkCollisions() {
-		Rectangle heroRect = hero.getBounds();
-		Rectangle[] monstersRect = new Rectangle[monsters.size()];
-		
-		for (int i = 0; i < monsters.size(); i++) {
-			monstersRect[i] = monsters.get(i).getBounds();
+	
+	@Override
+	public void paint(Graphics g) {
+		if (inGame) {
+			
+			Graphics2D g2d = (Graphics2D)g;
+			
+			// Print hero
+			g2d.drawImage(hero.getImage(), hero.getX(), hero.getY(),
+                    this);
+			
+			// Print items
+			for (int i = 0; i < items.length; i++) {
+				g2d.drawImage(items[i].getImage(), items[i].getX(), items[i].getY(),
+	                    this);
+			}
+			
+			// Print monsters
+			for (int i = 0; i < monsters.length; i++) {
+				g2d.drawImage(monsters[i].getImage(), monsters[i].getX(), monsters[i].getY(),
+	                    this);
+			}
+			
+			// Print background
+			g2d.setColor(Color.WHITE);
+			
+			// Update screen
+	        Toolkit.getDefaultToolkit().sync();
+	        g.dispose();
 		}
 	}
+	
+
 }
