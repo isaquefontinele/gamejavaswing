@@ -1,7 +1,15 @@
+package menu;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridLayout;
+
+import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 
-public class Scoreboard extends Jpanel{
+public class Scoreboard extends JPanel{
 
 	private Score[] scores;
 	
@@ -22,7 +30,7 @@ public class Scoreboard extends Jpanel{
 	public void setBoard(boolean det)
 	{
 		Component[] components1 = getComponents();
-		for (int i = 0; i < components2.length; i++) {
+		for (int i = 0; i < components1.length; i++) {
 			components1[i].setEnabled(det);
 		}	
 	}

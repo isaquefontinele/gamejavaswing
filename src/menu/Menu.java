@@ -139,5 +139,4 @@ public class Menu extends JFrame {
 			scores.setBoard(false);
 		}
 	}
-
 }
