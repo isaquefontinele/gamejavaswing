@@ -9,6 +9,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import com.sun.corba.se.impl.orbutil.RepIdDelegator;
 import com.sun.javafx.scene.control.skin.ButtonSkin;
 
 /**
@@ -26,7 +27,7 @@ public class Menu extends JFrame {
 	private Scoreboard scores;
 
 	public Menu() {
-		
+
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		WINDOW_WIDTH = (int) Math.round(screenSize.width * windowSize);
 		WINDOW_HEIGHT = (int) Math.round(screenSize.height * windowSize);
@@ -34,8 +35,8 @@ public class Menu extends JFrame {
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
-		
 		showPanel = new JPanel();
+		scores = new Scoreboard(WINDOW_WIDTH/2, WINDOW_HEIGHT);
 
 		// define actions
 		Action playAction = new playAction();
@@ -51,7 +52,6 @@ public class Menu extends JFrame {
 		JButton scoresButton = new JButton(scoresAction);
 		JButton exitButton = new JButton(exitAction);
 
-		
 		// add buttons
 		buttonPanel.add(playButton);
 		buttonPanel.add(creditsButton);
@@ -65,78 +65,71 @@ public class Menu extends JFrame {
 		settingsButton.setText("Settings");
 		scoresButton.setText("Scores");
 		exitButton.setText("Exit");
-		
+
 		// add panel to frame
 		manager = new GridLayout(1, 2);
-		this.setLayout(manager);
-		
+		setLayout(manager);
+
 		add(buttonPanel);
 		add(showPanel);
 
-		scores = new Scoreboard(WINDOW_WIDTH, WINDOW_HEIGHT);	
-		add(scores);
-		scores.setBoard(false);
-
 	}
 
-	//Trigger visibility of the main menu components
-	public void menuSet(boolean pick)
-	{
+	// Trigger visibility of the main menu components
+	private void enableButtonPanel(boolean pick) {
 		Component[] components1 = buttonPanel.getComponents();
 		for (int i = 0; i < components1.length; i++) {
 			components1[i].setEnabled(pick);
 		}
-		components1 = showPanel.getComponents();
+
+	}
+
+	private void enableShowPanel(boolean pick) {
+		Component[] components1 = showPanel.getComponents();
 		for (int i = 0; i < components1.length; i++) {
 			components1[i].setEnabled(pick);
 		}
 	}
-	
-	public class playAction extends AbstractAction {
+
+	private class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-			
-			menuSet(false);
-			
+
+			enableButtonPanel(false);
+			enableShowPanel(false);
+
 			Gameplay gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT);
 			add(gameplay);
 		}
 	}
 
-	public class creditsAction extends AbstractAction {
+	private class creditsAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
 
 		}
 	}
 
-	public class settingsAction extends AbstractAction {
+	private class settingsAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
 
 		}
 	}
 
-	public class scoresAction extends AbstractAction {
+	private class scoresAction extends AbstractAction {
 
-		public void actionPerformed(ActionEvent event) {			
-			menuSet(false);
-			scores.setBoard(true);					
+		public void actionPerformed(ActionEvent event) {
+			showPanel.removeAll();
+			showPanel.add(scores);
+			repaint();
+			
 		}
 	}
 
-	public class exitAction extends AbstractAction {
+	private class exitAction extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			System.exit(0);
-		}
-	}
-	
-	public class backAction extends AbstractAction {
-		public void actionPerformed(ActionEvent event) {
-			
-			//Enable the main menu
-			menuSet(true);
-			scores.setBoard(false);
 		}
 	}
 }

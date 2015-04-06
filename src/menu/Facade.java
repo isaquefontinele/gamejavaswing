@@ -4,8 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * @version 1.33 2007-06-12
- * @author Cay Horstmann
+ * @version 1.00 2015-02-24
+ * @author Isaque Fontinele & Denny O'Dea
  */
 public class Facade {
 	public Facade() {
