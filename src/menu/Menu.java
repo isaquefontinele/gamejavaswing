@@ -23,6 +23,7 @@ public class Menu extends JFrame {
 	private static double windowSize = 0.8; // Size of the window in percentage
 	private GridLayout manager;
 	JButton playButton;
+	private Scoreboard scores;
 
 	public Menu() {
 		
@@ -72,22 +73,30 @@ public class Menu extends JFrame {
 		add(buttonPanel);
 		add(showPanel);
 
-
+		scores = new Scoreboard(WINDOW_WIDTH, WINDOW_HEIGHT);	
+		add(scores);
+		scores.setBoard(false);
 
 	}
 
+	//Trigger visibility of the main menu components
+	public void menuSet(boolean pick)
+	{
+		Component[] components1 = buttonPanel.getComponents();
+		for (int i = 0; i < components1.length; i++) {
+			components1[i].setEnabled(pick);
+		}
+		components1 = showPanel.getComponents();
+		for (int i = 0; i < components1.length; i++) {
+			components1[i].setEnabled(pick);
+		}
+	}
+	
 	public class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
 			
-			Component[] components1 = buttonPanel.getComponents();
-			for (int i = 0; i < components1.length; i++) {
-				components1[i].setEnabled(false);
-			}
-			Component[] components2 = showPanel.getComponents();
-			for (int i = 0; i < components2.length; i++) {
-				components2[i].setEnabled(false);
-			}
+			menuSet(false);
 			
 			Gameplay gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT);
 			add(gameplay);
@@ -110,14 +119,24 @@ public class Menu extends JFrame {
 
 	public class scoresAction extends AbstractAction {
 
-		public void actionPerformed(ActionEvent event) {
-
+		public void actionPerformed(ActionEvent event) {			
+			menuSet(false);
+			scores.setBoard(true);					
 		}
 	}
 
 	public class exitAction extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			System.exit(0);
+		}
+	}
+	
+	public class backAction extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			
+			//Enable the main menu
+			menuSet(true);
+			scores.setBoard(false);
 		}
 	}
 
