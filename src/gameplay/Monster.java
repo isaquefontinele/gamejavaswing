@@ -8,17 +8,16 @@ public class Monster extends Creature {
 	
 	private MonsterType type;
 	private int attack;
-	private int[] pos = new int[2];
 	private int width;
 	private int height;
 	
 	public Monster() {
 		this.setImage(new ImageIcon(this.getClass().getResource(
-				"/images/hero.png")).getImage());
-		this.width = getImage().getWidth(null);
-		this.height = getImage().getHeight(null);
+				"/images/monster1.png")).getImage());
+		this.setWidth(getImage().getWidth(null));
+		this.setHeight(getImage().getHeight(null));
 		this.type = MonsterType.ZOMBIE;
-		this.attack = type.getAttackValue();
+		this.setAttack(type.getAttackValue());
 	}
 
 	public void move() {
@@ -31,7 +30,27 @@ public class Monster extends Creature {
 		return null;
 	}
 	
-	public int[] getPos() {
-		return pos;
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
 	}
 }

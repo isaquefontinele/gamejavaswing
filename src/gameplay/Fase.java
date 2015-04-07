@@ -32,7 +32,19 @@ public class Fase {
 	 */
 	
 	public Fase() {
-
+		// Creating a temporary item
+		this.items = new Item[1];
+		Item tempItem = new Item();
+		int[] num = {100,100};
+		tempItem.setPos(num);
+		items[0] = tempItem;
+		
+		// Creating a temporary monster
+		this.monsters = new Monster[1];
+		Monster tempMonster = new Monster();
+		tempMonster.setX(200);
+		tempMonster.setY(200);
+		monsters[0] = tempMonster;
 	}
 	
 	private void loadMatrix() {
@@ -75,5 +87,21 @@ public class Fase {
 
 	public void setMonsters(Monster[] monsters) {
 		this.monsters = monsters;
+	}
+
+	public int[] getExitPos() {
+		return exitPos;
+	}
+
+	public void setExitPos(int[] exitPos) {
+		this.exitPos = exitPos;
+	}
+
+	public int[] getHeroPos() {
+		return heroPos;
+	}
+
+	public void setHeroPos(int[] heroPos) {
+		this.heroPos = heroPos;
 	}
 }

@@ -21,6 +21,7 @@ public class Menu extends JFrame {
 	private static double windowSize = 0.8; // Size of the window in percentage
 	private GridLayout manager;
 	private Scoreboard scores;
+	private Gameplay gameplay;
 
 	public Menu() {
 
@@ -95,7 +96,7 @@ public class Menu extends JFrame {
 			enableButtonPanel(false);
 			enableShowPanel(false);
 
-			Gameplay gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT);
+			gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT);
 			add(gameplay);
 		}
 	}

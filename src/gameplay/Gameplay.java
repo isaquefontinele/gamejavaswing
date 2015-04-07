@@ -18,7 +18,7 @@ import javax.swing.Timer;
 
 public class Gameplay extends JPanel implements ActionListener {
 
-	private int speed = 5;
+	private int SPEED = 5;
 	private int currentFaseNumber = 1;
 	private Fase currentFase = new Fase();
 	private String[][] matrix = currentFase.getMatrix();
@@ -38,18 +38,19 @@ public class Gameplay extends JPanel implements ActionListener {
 		
 		addKeyListener(new TAdapter()); // Keyboard input
         setFocusable(true);
+        setBackground(Color.GREEN);
         setDoubleBuffered(true);
-        
         inGame = true;
 
         hero = new Hero();
         initObjects();
 
-        timer = new Timer(speed, this);
+        timer = new Timer(SPEED, this);
         timer.start();
 	}
 
 	public void initObjects() {
+
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
 		
@@ -91,11 +92,12 @@ public class Gameplay extends JPanel implements ActionListener {
 		hero.move();
 		checkCollisions();
 		repaint();
-		
 	}
 	
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
+		
 		if (inGame) {
 			
 			Graphics2D g2d = (Graphics2D)g;
@@ -117,7 +119,7 @@ public class Gameplay extends JPanel implements ActionListener {
 			}
 			
 			// Print background
-			g2d.setColor(Color.WHITE);
+//			g2d.setColor(Color.RED);
 			
 			// Update screen
 	        Toolkit.getDefaultToolkit().sync();
