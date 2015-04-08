@@ -5,12 +5,12 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Monster extends Creature {
-	
+
 	private MonsterType type;
 	private int attack;
 	private int width;
 	private int height;
-	
+
 	public Monster() {
 		this.setImage(new ImageIcon(this.getClass().getResource(
 				"/images/monster1.png")).getImage());
@@ -23,13 +23,12 @@ public class Monster extends Creature {
 	public void move() {
 
 	}
-	
-	
-	//Getters and Setters
+
+	// Getters and Setters
 	public Rectangle getBounds() {
 		return null;
 	}
-	
+
 	public int getHeight() {
 		return height;
 	}

@@ -1,7 +1,10 @@
 package gameplay;
 
+
 public class Fase {
 	
+	private int WINDOW_WIDTH;
+	private int WINDOW_HEIGHT;
 	private final int MATRIX_LENGTH = 9;
 	private final int MATRIX_HEIGHT = 9;
 	private String[][] matrix = new String [9][9];
@@ -20,6 +23,7 @@ public class Fase {
 			+ "N N W W W W W N N\n"
 			+ "N W N N N N N W N\n"
 			+ "I N N N N N N N N\n";
+
 	
 	/**
 	 *  N = Nothing == ground
@@ -29,9 +33,13 @@ public class Fase {
 	 *  E = Exit
 	 *  I = Entrance
 	 *  O = Objects
+	 * @param wINDOW_HEIGHT 
+	 * @param wINDOW_WIDTH 
 	 */
 	
-	public Fase() {
+	public Fase(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
+		this.WINDOW_WIDTH = WINDOW_WIDTH;
+		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
 		// Creating a temporary item
 		this.items = new Item[1];
 		Item tempItem = new Item();
@@ -61,10 +69,36 @@ public class Fase {
 	}
 	
 	private void setThingsPositions() {
-//		addItems();
-//		addMonsters();
-//		setExitPos();
-//		setHeroPos();
+		
+		float blockSize = WINDOW_WIDTH / (float) matrix.length;
+		
+		String[] matrixRow;
+		for (int i = 0; i < matrix.length; i++) {
+			matrixRow = matrix[i];
+			for (int j = 0; j < matrixRow.length; j++) {
+				switch (matrixRow[j]) {
+				case "W":
+					
+					break;
+				case "O":
+//					Item tempItem = new Item();
+//					tempItem.setPos(pos)
+					break;
+				case "E":
+					
+					break;
+				case "H":
+					
+					break;
+				case "M":
+					
+					break;
+				default: // Nothing
+					
+					break;
+				}
+			}
+		}
 	}
 	
 	

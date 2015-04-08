@@ -147,4 +147,13 @@ public class Menu extends JFrame {
 			//Code dealing with removing sound
 		}
 	}
+	
+	// Getters and Setters
+	public Gameplay getGameplay() {
+		return gameplay;
+	}
+
+	public void setGameplay(Gameplay gameplay) {
+		this.gameplay = gameplay;
+	}
 }

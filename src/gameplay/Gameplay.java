@@ -20,7 +20,7 @@ public class Gameplay extends JPanel implements ActionListener {
 
 	private int SPEED = 5;
 	private int currentFaseNumber = 1;
-	private Fase currentFase = new Fase();
+	private Fase currentFase;
 	private String[][] matrix = currentFase.getMatrix();
 	private Item[] items;
 	private Monster[] monsters;
@@ -42,6 +42,7 @@ public class Gameplay extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         inGame = true;
 
+        currentFase = new Fase(WINDOW_WIDTH, WINDOW_HEIGHT);
         hero = new Hero();
         initObjects();
 
@@ -126,6 +127,4 @@ public class Gameplay extends JPanel implements ActionListener {
 	        g.dispose();
 		}
 	}
-	
-
 }
