@@ -43,8 +43,8 @@ public class Fase {
 		// Creating a temporary item
 		this.items = new Item[1];
 		Item tempItem = new Item();
-		int[] num = {100,100};
-		tempItem.setPos(num);
+		tempItem.setX(100);
+		tempItem.setY(100);
 		items[0] = tempItem;
 		
 		// Creating a temporary monster

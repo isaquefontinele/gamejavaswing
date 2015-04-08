@@ -3,6 +3,8 @@ package gameplay;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -18,10 +20,11 @@ import javax.swing.Timer;
 
 public class Gameplay extends JPanel implements ActionListener {
 
+	private int WINDOW_WIDTH, WINDOW_HEIGHT;
 	private int SPEED = 5;
 	private int currentFaseNumber = 1;
 	private Fase currentFase;
-	private String[][] matrix = currentFase.getMatrix();
+	private String[][] matrix;
 	private Item[] items;
 	private Monster[] monsters;
 	
@@ -32,10 +35,12 @@ public class Gameplay extends JPanel implements ActionListener {
 
 	
 	
-	public Gameplay(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
+	public Gameplay(int WINDOW_WIDTH, int WINDOW_HEIGHT, HeroClass heroClass) {
 
+		this.WINDOW_WIDTH = WINDOW_WIDTH;
+		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		
+
 		addKeyListener(new TAdapter()); // Keyboard input
         setFocusable(true);
         setBackground(Color.GREEN);
@@ -43,7 +48,8 @@ public class Gameplay extends JPanel implements ActionListener {
         inGame = true;
 
         currentFase = new Fase(WINDOW_WIDTH, WINDOW_HEIGHT);
-        hero = new Hero();
+        matrix = currentFase.getMatrix();
+        hero = new Hero(heroClass);
         initObjects();
 
         timer = new Timer(SPEED, this);
@@ -66,12 +72,32 @@ public class Gameplay extends JPanel implements ActionListener {
 
         public void keyPressed(KeyEvent e) {
             hero.keyPressed(e);
+            checkState(e);
         }
     }
 	
 	
 	private void updateScore() {
 		
+	}
+
+	public void checkState(KeyEvent e) {
+		int key = e.getKeyCode();
+
+		// Pause
+		if (key == KeyEvent.VK_P) {
+			if (timer.isRunning()) {
+				timer.stop();
+				repaint();
+			} else {
+				timer.start();
+			}	
+		}
+		
+		if (key == KeyEvent.VK_ESCAPE) {
+			this.removeAll();
+		}
+
 	}
 
 	private void checkCollisions() {
@@ -93,6 +119,8 @@ public class Gameplay extends JPanel implements ActionListener {
 		hero.move();
 		checkCollisions();
 		repaint();
+		
+//		this.removeAll();
 	}
 	
 	@Override
@@ -102,10 +130,6 @@ public class Gameplay extends JPanel implements ActionListener {
 		if (inGame) {
 			
 			Graphics2D g2d = (Graphics2D)g;
-			
-			// Print hero
-			g2d.drawImage(hero.getImage(), hero.getX(), hero.getY(),
-                    this);
 			
 			// Print items
 			for (int i = 0; i < items.length; i++) {
@@ -119,8 +143,21 @@ public class Gameplay extends JPanel implements ActionListener {
 	                    this);
 			}
 			
-			// Print background
-//			g2d.setColor(Color.RED);
+			// Print hero
+			g2d.drawImage(hero.getImage(), hero.getX(), hero.getY(),
+                    this);			
+			
+			// Print Pause
+			if (!timer.isRunning()) {
+				
+				String msg = "Game Paused";
+				Font small = new Font("Helvetica", Font.BOLD, 30);
+	            FontMetrics metr = this.getFontMetrics(small);
+	            g2d.setColor(Color.white);
+	            g2d.setFont(small);
+				
+				g2d.drawString(msg, (WINDOW_WIDTH - metr.stringWidth(msg)) /2, WINDOW_HEIGHT/2);
+			}
 			
 			// Update screen
 	        Toolkit.getDefaultToolkit().sync();

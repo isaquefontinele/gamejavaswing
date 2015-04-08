@@ -12,14 +12,17 @@ public class Hero extends Creature {
 	private int width;
 	private int height;
 	private int shield;
+	private int xLimit;
+	private int yLimit;
 
-	public Hero() {
+	public Hero(HeroClass heroClass) {
 		this.setImage(new ImageIcon(this.getClass().getResource(
 				"/images/hero.png")).getImage());
 		this.width = getImage().getWidth(null);
 		this.height = getImage().getHeight(null);
 		this.heroClass = HeroClass.WARRIOR;
 		this.shield = heroClass.getShieldValue();
+		this.heroClass = heroClass;
 	}
 
 	public void keyPressed(KeyEvent e) {

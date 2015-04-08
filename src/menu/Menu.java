@@ -3,6 +3,7 @@ package menu;
 //package action;
 
 import gameplay.Gameplay;
+import gameplay.HeroClass;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -22,6 +23,7 @@ public class Menu extends JFrame {
 	private GridLayout manager;
 	private Scoreboard scores;
 	private Gameplay gameplay;
+	private HeroClass currentHeroClass;
 
 	public Menu() {
 
@@ -95,8 +97,9 @@ public class Menu extends JFrame {
 
 			enableButtonPanel(false);
 			enableShowPanel(false);
+			currentHeroClass = HeroClass.WARRIOR;
 
-			gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT);
+			gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT, currentHeroClass);
 			add(gameplay);
 		}
 	}

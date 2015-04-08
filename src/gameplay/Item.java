@@ -7,7 +7,9 @@ import javax.swing.ImageIcon;
 public class Item {
 
 	private Image image;
-	private int[] pos = new int[2]; //Change to X,Y
+//	private int[] pos = new int[2]; //Change to X,Y
+	private int x;
+	private int y;
 	private int width;
 	private int height;
 
@@ -19,14 +21,6 @@ public class Item {
 	}
 
 	// Getters and Setters
-	public int[] getPos() {
-		return pos;
-	}
-
-	public void setPos(int[] pos) {
-		this.pos = pos;
-	}
-
 	public Image getImage() {
 		return image;
 	}
@@ -36,11 +30,19 @@ public class Item {
 	}
 
 	public int getX() {
-		return pos[0];
+		return x;
 	}
 
 	public int getY() {
-		return pos[1];
+		return y;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	public int getHeight() {

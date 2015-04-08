@@ -20,13 +20,13 @@ public abstract class Creature {
 		x += increaseX;
 		y += increaseY;
 
-		if (x < 1) {
-			x = 1;
-		}
-
-		if (y < 1) {
-			y = 1;
-		}
+		// if (x < 1) {
+		// x = 1;
+		// }
+		//
+		// if (y < 1) {
+		// y = 1;
+		// }
 	}
 
 	// Getters and Setters
