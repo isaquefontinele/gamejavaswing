@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Menu;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -95,7 +96,8 @@ public class Gameplay extends JPanel implements ActionListener {
 		}
 		
 		if (key == KeyEvent.VK_ESCAPE) {
-			this.removeAll();
+//			this.setVisible(false);
+			
 		}
 
 	}
@@ -120,7 +122,6 @@ public class Gameplay extends JPanel implements ActionListener {
 		checkCollisions();
 		repaint();
 		
-//		this.removeAll();
 	}
 	
 	@Override

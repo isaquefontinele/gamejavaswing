@@ -74,7 +74,7 @@ public class Menu extends JFrame {
 		add(showPanel);
 
 	}
-
+	
 	// Trigger visibility of the main menu components
 	private void enableButtonPanel(boolean pick) {
 		Component[] components1 = buttonPanel.getComponents();
