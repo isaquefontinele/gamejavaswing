@@ -9,22 +9,18 @@ public class Hero extends Creature {
 
 	private HeroClass heroClass;
 	private Direction direction;
+	private int SPEED = 3;
 	private int width;
 	private int height;
 	private int shield;
-	private boolean stopLeft;
-	private boolean stopRight;
-	private boolean stopUp;
-	private boolean stopDown;
 
 	public Hero(HeroClass heroClass) {
-		this.setImage(new ImageIcon(this.getClass().getResource(
-				"/images/hero.png")).getImage());
+		setImage(heroClass);
 		this.width = getImage().getWidth(null);
 		this.height = getImage().getHeight(null);
-		this.heroClass = heroClass;
+		this.setHeroClass(heroClass);
 		this.shield = heroClass.getShieldValue();
-		this.heroClass = heroClass;
+		this.setHeroClass(heroClass);
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -32,31 +28,27 @@ public class Hero extends Creature {
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
-//			if (!stopLeft) {
-				setIncreaseX(-4);
-				setDirection(Direction.LEFT);
-//			}
+			setIncreaseX(-SPEED);
+			setDirection(Direction.LEFT);
+
 		}
 
 		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-//			if (!stopRight) {
-				setIncreaseX(4);
-				setDirection(Direction.RIGHT);
-//			}
+			setIncreaseX(SPEED);
+			setDirection(Direction.RIGHT);
+
 		}
 
 		if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-//			if (!stopUp) {
-				setIncreaseY(-4);
-				setDirection(Direction.UP);
-//			}
+			setIncreaseY(-SPEED);
+			setDirection(Direction.UP);
+
 		}
 
 		if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-//			if (!stopDown) {
-				setIncreaseY(4);
-				setDirection(Direction.DOWN);
-//			}
+			setIncreaseY(SPEED);
+			setDirection(Direction.DOWN);
+
 		}
 	}
 
@@ -80,14 +72,26 @@ public class Hero extends Creature {
 		}
 	}
 
-	public void Go() {
-		setStopLeft(false);
-		setStopRight(false);
-		setStopUp(false);
-		setStopDown(false);
-	}
 
 	// Getters and Setters
+	public void setImage(HeroClass heroClass) {
+		switch (heroClass) {
+		case WARRIOR:
+			super.setImage(new ImageIcon(this.getClass().getResource(
+					"/images/hero.png")).getImage());
+			break;
+		case MAGE:
+			super.setImage(new ImageIcon(this.getClass().getResource(
+					"/images/hero.png")).getImage());
+			break;
+		case HUNTER:
+			super.setImage(new ImageIcon(this.getClass().getResource(
+					"/images/hero.png")).getImage());
+			break;
+		}
+		
+	}
+	
 	public Rectangle getBounds() {
 		return new Rectangle(getX(), getY(), width, height);
 	}
@@ -108,19 +112,11 @@ public class Hero extends Creature {
 		this.direction = direction;
 	}
 
-	public void setStopLeft(boolean stopLeft) {
-		this.stopLeft = stopLeft;
+	public HeroClass getHeroClass() {
+		return heroClass;
 	}
 
-	public void setStopRight(boolean stopRight) {
-		this.stopRight = stopRight;
-	}
-
-	public void setStopUp(boolean stopUp) {
-		this.stopUp = stopUp;
-	}
-
-	public void setStopDown(boolean stopDown) {
-		this.stopDown = stopDown;
+	public void setHeroClass(HeroClass heroClass) {
+		this.heroClass = heroClass;
 	}
 }

@@ -32,7 +32,7 @@ public class Fase {
 			+ "W N W O N M N O W N W\n"
 			+ "W N N W W W W W N N W\n"
 			+ "W N W N N N N N W N W\n"
-			+ "W H N N N N N N N N W\n"
+			+ "W N N N N H N N N N W\n"
 			+ "W W W W W W W W W W W";
 	
 	/**
@@ -50,21 +50,11 @@ public class Fase {
 	public Fase(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
 		this.WINDOW_WIDTH = WINDOW_WIDTH;
 		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
-		// Creating a temporary item
+		
 		this.items = new ArrayList<Item>();
-//		Item tempItem = new Item();
-//		tempItem.setX(100);
-//		tempItem.setY(100);
-//		items.add(tempItem);
-		
-		// Creating a temporary monster
 		this.monsters = new ArrayList<Monster>();
-//		Monster tempMonster = new Monster();
-//		tempMonster.setX(-100);
-//		tempMonster.setY(-100);
-//		monsters.add(tempMonster);
+		this.walls = new ArrayList<Wall>();
 		
-		walls = new ArrayList<Wall>();
 		loadMatrix();
 		setThingsPositions();
 	}
@@ -112,7 +102,7 @@ public class Fase {
 					setHeroPosY(blockHeight*i);
 					break;
 				case "M":
-					Monster tempMonster = new Monster();
+					Monster tempMonster = new Monster(MonsterType.ESQUELETON);
 					tempMonster.setX(blockWidth*j);
 					tempMonster.setY(blockHeight*i);
 					monsters.add(tempMonster);

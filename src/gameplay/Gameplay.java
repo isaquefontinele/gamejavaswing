@@ -57,6 +57,8 @@ public class Gameplay extends JPanel implements ActionListener {
 
         timer = new Timer(SPEED, this);
         timer.start();
+
+
 	}
 
 	public void initObjects() {
@@ -79,6 +81,7 @@ public class Gameplay extends JPanel implements ActionListener {
 		hero.move();
 		checkCollisions();
 		repaint();
+//		timer.setDelay(5);
 		
 	}
 	
