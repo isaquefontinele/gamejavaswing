@@ -13,7 +13,7 @@ public class Monster extends Creature {
 
 	public Monster() {
 		this.setImage(new ImageIcon(this.getClass().getResource(
-				"/images/monster1.png")).getImage());
+				"/images/esqueleton.png")).getImage());
 		this.setWidth(getImage().getWidth(null));
 		this.setHeight(getImage().getHeight(null));
 		this.type = MonsterType.ZOMBIE;

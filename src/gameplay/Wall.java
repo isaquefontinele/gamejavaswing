@@ -12,7 +12,7 @@ public class Wall {
 	
 	public Wall() {
 		this.setImage(new ImageIcon(this.getClass().getResource(
-				"/images/wall2.png")).getImage());
+				"/images/wall.png")).getImage());
 		
 	}
 

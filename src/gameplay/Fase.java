@@ -1,6 +1,7 @@
 package gameplay;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 
@@ -8,26 +9,31 @@ public class Fase {
 	
 	private int WINDOW_WIDTH;
 	private int WINDOW_HEIGHT;
-	private final int MATRIX_LENGTH = 9;
-	private final int MATRIX_HEIGHT = 9;
-	private String[][] matrix = new String [9][9];
+	private final int MATRIX_LENGTH = 11;
+	private String[][] matrix = new String [MATRIX_LENGTH][MATRIX_LENGTH];
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
-	private int[] exitPos;
-	private int[] heroPos;
 	private ArrayList<Wall> walls;
+	private int heroPosX;
+	private int heroPosY;
+	private int exitPosX;
+	private int exitPosY;
+	
+	
 
 	private String matrixRaw = 
-			  "N N N N N N N N E\n"
-			+ "N W N N N N N W N\n"
-			+ "N W N W W W N W N\n"
-			+ "M W N N N N N W M\n"
-			+ "N N W N W N W N N\n"
-			+ "N W O N M N O N N\n"
-			+ "N N W W W W W N N\n"
-			+ "N W N N N N N W N\n"
-			+ "I N N N N N N N N\n";
 
+			  "W W W W W W W W W E W\n"
+			+ "W N N N N N N N N N W\n"
+			+ "W N W N N N N N W N W\n"
+			+ "W N W N W W W N W N W\n"
+			+ "W M W N N N N N W M W\n"
+			+ "W N N W N W N W N N W\n"
+			+ "W N W O N M N O W N W\n"
+			+ "W N N W W W W W N N W\n"
+			+ "W N W N N N N N W N W\n"
+			+ "W H N N N N N N N N W\n"
+			+ "W W W W W W W W W W W";
 	
 	/**
 	 *  N = Nothing == ground
@@ -45,18 +51,18 @@ public class Fase {
 		this.WINDOW_WIDTH = WINDOW_WIDTH;
 		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
 		// Creating a temporary item
-		this.items = new ArrayList<Item>(1);
-		Item tempItem = new Item();
-		tempItem.setX(100);
-		tempItem.setY(100);
-		items.add(tempItem);
+		this.items = new ArrayList<Item>();
+//		Item tempItem = new Item();
+//		tempItem.setX(100);
+//		tempItem.setY(100);
+//		items.add(tempItem);
 		
 		// Creating a temporary monster
-		this.monsters = new ArrayList<Monster>(1);
-		Monster tempMonster = new Monster();
-		tempMonster.setX(200);
-		tempMonster.setY(200);
-		monsters.add(tempMonster);
+		this.monsters = new ArrayList<Monster>();
+//		Monster tempMonster = new Monster();
+//		tempMonster.setX(-100);
+//		tempMonster.setY(-100);
+//		monsters.add(tempMonster);
 		
 		walls = new ArrayList<Wall>();
 		loadMatrix();
@@ -64,11 +70,11 @@ public class Fase {
 	}
 	
 	private void loadMatrix() {
-		String[] tempLine = new String[9];
-		String[] tempColumn = new String[9];
+		String[] tempLine = new String[11];
+		String[] tempColumn = new String[11];
 		
 		tempLine = matrixRaw.split("\n");
-		for (int i = 0; i < MATRIX_HEIGHT; i++) {
+		for (int i = 0; i < MATRIX_LENGTH; i++) {
 			tempColumn = tempLine[i].split("\\s");
 			for (int j = 0; j < MATRIX_LENGTH; j++) {
 				matrix[i][j] = tempColumn[j];
@@ -78,9 +84,8 @@ public class Fase {
 	
 	private void setThingsPositions() {
 		
-		int blockWidth = WINDOW_WIDTH / matrix.length;
-		int blockHeight = WINDOW_HEIGHT / matrix[0].length;
-		
+		int blockWidth = 76;
+		int blockHeight = 76;
 		String[] matrixRow;
 		for (int i = 0; i < matrix.length; i++) {
 			matrixRow = matrix[i];
@@ -89,21 +94,28 @@ public class Fase {
 				case "W":
 					Wall tempWall = new Wall();
 					tempWall.setX(blockWidth*j);
-					tempWall.setY(blockWidth*i);
+					tempWall.setY(blockHeight*i);
 					walls.add(tempWall);
 					break;
 				case "O":
-//					Item tempItem = new Item();
-//					tempItem.setPos(pos)
+					Item tempItem = new Item();
+					tempItem.setX(blockWidth*j);
+					tempItem.setY(blockHeight*i);
+					items.add(tempItem);
 					break;
 				case "E":
-					
+					setExitPosX(blockWidth*j);
+					setExitPosY(blockHeight*i);
 					break;
 				case "H":
-					
+					setHeroPosX(blockWidth*j);
+					setHeroPosY(blockHeight*i);
 					break;
 				case "M":
-					
+					Monster tempMonster = new Monster();
+					tempMonster.setX(blockWidth*j);
+					tempMonster.setY(blockHeight*i);
+					monsters.add(tempMonster);
 					break;
 				default: // Nothing
 					
@@ -135,23 +147,39 @@ public class Fase {
 		this.monsters = monsters;
 	}
 
-	public int[] getExitPos() {
-		return exitPos;
-	}
-
-	public void setExitPos(int[] exitPos) {
-		this.exitPos = exitPos;
-	}
-
-	public int[] getHeroPos() {
-		return heroPos;
-	}
-
-	public void setHeroPos(int[] heroPos) {
-		this.heroPos = heroPos;
-	}
-
 	public ArrayList<Wall> getWalls() {
 		return walls;
+	}
+
+	public int getHeroPosX() {
+		return heroPosX;
+	}
+
+	public void setHeroPosX(int heroPosX) {
+		this.heroPosX = heroPosX;
+	}
+
+	public int getHeroPosY() {
+		return heroPosY;
+	}
+
+	public void setHeroPosY(int heroPosY) {
+		this.heroPosY = heroPosY;
+	}
+
+	public int getExitPosX() {
+		return exitPosX;
+	}
+
+	public void setExitPosX(int exitPosX) {
+		this.exitPosX = exitPosX;
+	}
+
+	public int getExitPosY() {
+		return exitPosY;
+	}
+
+	public void setExitPosY(int exitPosY) {
+		this.exitPosY = exitPosY;
 	}
 }

@@ -24,6 +24,7 @@ public class Menu extends JFrame {
 	private Scoreboard scores;
 	private Gameplay gameplay;
 	private HeroClass currentHeroClass;
+	public boolean inGame = false;
 
 	public Menu() {
 
@@ -75,6 +76,7 @@ public class Menu extends JFrame {
 
 	}
 	
+
 	// Trigger visibility of the main menu components
 	private void enableButtonPanel(boolean pick) {
 		Component[] components1 = buttonPanel.getComponents();
@@ -99,8 +101,13 @@ public class Menu extends JFrame {
 			enableShowPanel(false);
 			currentHeroClass = HeroClass.WARRIOR;
 
-			gameplay = new Gameplay(WINDOW_WIDTH, WINDOW_HEIGHT, currentHeroClass);
+			
+			setSize(WINDOW_HEIGHT, WINDOW_HEIGHT);
+			setLocationRelativeTo(null);
+			setLayout(null);
+			gameplay = new Gameplay(WINDOW_HEIGHT, WINDOW_HEIGHT, currentHeroClass);
 			add(gameplay);
+			gameplay.setLocation(0, 0);
 		}
 	}
 

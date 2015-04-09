@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -35,6 +36,7 @@ public class Gameplay extends JPanel implements ActionListener {
 	private boolean inGame;
 	private Hero hero;
 	private boolean doorOpened;
+	private boolean touchingMonster;
 
 	
 	
@@ -64,6 +66,8 @@ public class Gameplay extends JPanel implements ActionListener {
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
 		walls = currentFase.getWalls();
+		hero.setX(currentFase.getHeroPosX());
+		hero.setY(currentFase.getHeroPosY());
 
     }
 	
@@ -97,6 +101,7 @@ public class Gameplay extends JPanel implements ActionListener {
 			}	
 		}
 		
+		// Somehow get out of the game back to menu
 		if (key == KeyEvent.VK_ESCAPE) {
 //			this.setVisible(false);
 			
@@ -106,11 +111,21 @@ public class Gameplay extends JPanel implements ActionListener {
 
 	private void checkCollisions() {
 		Rectangle heroRect = hero.getBounds();
-		Rectangle[] monstersRect = new Rectangle[monsters.size()];
+		Rectangle monsterRect;
+//		Rectangle[] monstersRect = new Rectangle[monsters.size()];
 		
 		for (int i = 0; i < monsters.size(); i++) {
-			monstersRect[i] = monsters.get(i).getBounds();
+			monsterRect = monsters.get(i).getBounds();
+			
+			if (heroRect.intersects(monsterRect)) {
+				touchingMonster = true;
+			} else {
+				touchingMonster = false;
+			}
+			
 		}
+		
+		
 	}
 	
 	@Override
@@ -121,7 +136,7 @@ public class Gameplay extends JPanel implements ActionListener {
         
         
 		hero.move();
-		checkCollisions();
+//		checkCollisions();
 		repaint();
 		
 	}
@@ -129,18 +144,25 @@ public class Gameplay extends JPanel implements ActionListener {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		Graphics2D g2d = (Graphics2D)g;
 		
 		if (inGame) {
 			
-			Graphics2D g2d = (Graphics2D)g;
+
 			
 			// Print Walls
 			for (int i = 0; i < walls.size(); i++) {
-//				Image resizedWall = walls.get(i).getImage().getScaledInstance(100, 100, Image.SCALE_FAST);
+//				Image scaledImage = walls.get(i).getImage().getScaledInstance(100, 100, Image.SCALE_FAST);
+//				BufferedImage imageBuff = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+//				Graphics g2 = imageBuff.getGraphics();
+
 				
 				g2d.drawImage(walls.get(i).getImage(), walls.get(i).getX(), walls.get(i).getY(),
 	                    this);
+//				g2.dispose();
 			}
+			
+			
 			
 			// Print items
 			for (int i = 0; i < items.size(); i++) {
@@ -169,6 +191,18 @@ public class Gameplay extends JPanel implements ActionListener {
 				
 				g2d.drawString(msg, (WINDOW_WIDTH - metr.stringWidth(msg)) /2, WINDOW_HEIGHT/2);
 			}
+			
+			// Touching monster
+			if (touchingMonster) {
+				String msg = "Touching monster";
+				Font small = new Font("Helvetica", Font.BOLD, 30);
+	            FontMetrics metr = this.getFontMetrics(small);
+	            g2d.setColor(Color.white);
+	            g2d.setFont(small);
+				
+				g2d.drawString(msg, (WINDOW_WIDTH - metr.stringWidth(msg)) /2, WINDOW_HEIGHT/2);
+			}
+			
 			
 			// Update screen
 	        Toolkit.getDefaultToolkit().sync();
