@@ -231,7 +231,7 @@ public class Gameplay extends JPanel implements ActionListener {
 			
 			
 			// Update screen
-	        Toolkit.getDefaultToolkit().sync();
+//	        Toolkit.getDefaultToolkit().sync();
 	        g.dispose();
 		}
 	}
