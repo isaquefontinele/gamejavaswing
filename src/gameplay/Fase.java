@@ -1,5 +1,8 @@
 package gameplay;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 
 public class Fase {
 	
@@ -8,10 +11,11 @@ public class Fase {
 	private final int MATRIX_LENGTH = 9;
 	private final int MATRIX_HEIGHT = 9;
 	private String[][] matrix = new String [9][9];
-	private Item[] items;
-	private Monster[] monsters;
+	private ArrayList<Item> items;
+	private ArrayList<Monster> monsters;
 	private int[] exitPos;
 	private int[] heroPos;
+	private ArrayList<Wall> walls;
 
 	private String matrixRaw = 
 			  "N N N N N N N N E\n"
@@ -41,18 +45,22 @@ public class Fase {
 		this.WINDOW_WIDTH = WINDOW_WIDTH;
 		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
 		// Creating a temporary item
-		this.items = new Item[1];
+		this.items = new ArrayList<Item>(1);
 		Item tempItem = new Item();
 		tempItem.setX(100);
 		tempItem.setY(100);
-		items[0] = tempItem;
+		items.add(tempItem);
 		
 		// Creating a temporary monster
-		this.monsters = new Monster[1];
+		this.monsters = new ArrayList<Monster>(1);
 		Monster tempMonster = new Monster();
 		tempMonster.setX(200);
 		tempMonster.setY(200);
-		monsters[0] = tempMonster;
+		monsters.add(tempMonster);
+		
+		walls = new ArrayList<Wall>();
+		loadMatrix();
+		setThingsPositions();
 	}
 	
 	private void loadMatrix() {
@@ -70,7 +78,8 @@ public class Fase {
 	
 	private void setThingsPositions() {
 		
-		float blockSize = WINDOW_WIDTH / (float) matrix.length;
+		int blockWidth = WINDOW_WIDTH / matrix.length;
+		int blockHeight = WINDOW_HEIGHT / matrix[0].length;
 		
 		String[] matrixRow;
 		for (int i = 0; i < matrix.length; i++) {
@@ -78,7 +87,10 @@ public class Fase {
 			for (int j = 0; j < matrixRow.length; j++) {
 				switch (matrixRow[j]) {
 				case "W":
-					
+					Wall tempWall = new Wall();
+					tempWall.setX(blockWidth*j);
+					tempWall.setY(blockWidth*i);
+					walls.add(tempWall);
 					break;
 				case "O":
 //					Item tempItem = new Item();
@@ -107,19 +119,19 @@ public class Fase {
 		return matrix;
 	}
 
-	public Item[] getItems() {
+	public ArrayList<Item> getItems() {
 		return items;
 	}
 
-	public void setItems(Item[] items) {
+	public void setItems(ArrayList<Item> items) {
 		this.items = items;
 	}
 
-	public Monster[] getMonsters() {
+	public ArrayList<Monster> getMonsters() {
 		return monsters;
 	}
 
-	public void setMonsters(Monster[] monsters) {
+	public void setMonsters(ArrayList<Monster> monsters) {
 		this.monsters = monsters;
 	}
 
@@ -137,5 +149,9 @@ public class Fase {
 
 	public void setHeroPos(int[] heroPos) {
 		this.heroPos = heroPos;
+	}
+
+	public ArrayList<Wall> getWalls() {
+		return walls;
 	}
 }

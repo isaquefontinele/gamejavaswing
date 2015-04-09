@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Menu;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -26,8 +27,9 @@ public class Gameplay extends JPanel implements ActionListener {
 	private int currentFaseNumber = 1;
 	private Fase currentFase;
 	private String[][] matrix;
-	private Item[] items;
-	private Monster[] monsters;
+	private ArrayList<Item> items;
+	private ArrayList<Monster> monsters;
+	private ArrayList<Wall> walls;
 	
 	private Timer timer;
 	private boolean inGame;
@@ -61,7 +63,7 @@ public class Gameplay extends JPanel implements ActionListener {
 
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
-		
+		walls = currentFase.getWalls();
 
     }
 	
@@ -104,16 +106,16 @@ public class Gameplay extends JPanel implements ActionListener {
 
 	private void checkCollisions() {
 		Rectangle heroRect = hero.getBounds();
-		Rectangle[] monstersRect = new Rectangle[monsters.length];
+		Rectangle[] monstersRect = new Rectangle[monsters.size()];
 		
-		for (int i = 0; i < monsters.length; i++) {
-			monstersRect[i] = monsters[i].getBounds();
+		for (int i = 0; i < monsters.size(); i++) {
+			monstersRect[i] = monsters.get(i).getBounds();
 		}
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-        if (items.length==0) {
+        if (items.size()==0) {
             doorOpened = true;
         }
         
@@ -132,15 +134,23 @@ public class Gameplay extends JPanel implements ActionListener {
 			
 			Graphics2D g2d = (Graphics2D)g;
 			
+			// Print Walls
+			for (int i = 0; i < walls.size(); i++) {
+//				Image resizedWall = walls.get(i).getImage().getScaledInstance(100, 100, Image.SCALE_FAST);
+				
+				g2d.drawImage(walls.get(i).getImage(), walls.get(i).getX(), walls.get(i).getY(),
+	                    this);
+			}
+			
 			// Print items
-			for (int i = 0; i < items.length; i++) {
-				g2d.drawImage(items[i].getImage(), items[i].getX(), items[i].getY(),
+			for (int i = 0; i < items.size(); i++) {
+				g2d.drawImage(items.get(i).getImage(), items.get(i).getX(), items.get(i).getY(),
 	                    this);
 			}
 			
 			// Print monsters
-			for (int i = 0; i < monsters.length; i++) {
-				g2d.drawImage(monsters[i].getImage(), monsters[i].getX(), monsters[i].getY(),
+			for (int i = 0; i < monsters.size(); i++) {
+				g2d.drawImage(monsters.get(i).getImage(), monsters.get(i).getX(), monsters.get(i).getY(),
 	                    this);
 			}
 			

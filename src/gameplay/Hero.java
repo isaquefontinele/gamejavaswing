@@ -30,19 +30,19 @@ public class Hero extends Creature {
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
-			setIncreaseX(-2);
+			setIncreaseX(-3);
 		}
 
 		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-			setIncreaseX(2);
+			setIncreaseX(3);
 		}
 
 		if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-			setIncreaseY(-2);
+			setIncreaseY(-3);
 		}
 
 		if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-			setIncreaseY(2);
+			setIncreaseY(3);
 		}
 	}
 
