@@ -27,7 +27,6 @@ public class Gameplay extends JPanel implements ActionListener {
 	private int SPEED = 5;
 	private int currentFaseNumber = 1;
 	private Fase currentFase;
-	private String[][] matrix;
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> walls;
@@ -53,7 +52,6 @@ public class Gameplay extends JPanel implements ActionListener {
         inGame = true;
 
         currentFase = new Fase(WINDOW_WIDTH, WINDOW_HEIGHT);
-        matrix = currentFase.getMatrix();
         hero = new Hero(heroClass);
         initObjects();
 
@@ -70,6 +68,19 @@ public class Gameplay extends JPanel implements ActionListener {
 		hero.setY(currentFase.getHeroPosY());
 
     }
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+        if (items.size()==0) {
+            doorOpened = true;
+        }
+        
+        
+		hero.move();
+		checkCollisions();
+		repaint();
+		
+	}
 	
     private class TAdapter extends KeyAdapter {
 
@@ -111,35 +122,47 @@ public class Gameplay extends JPanel implements ActionListener {
 
 	private void checkCollisions() {
 		Rectangle heroRect = hero.getBounds();
-		Rectangle monsterRect;
-//		Rectangle[] monstersRect = new Rectangle[monsters.size()];
 		
+		// Colisions with monsters
+		Rectangle monsterRect;
 		for (int i = 0; i < monsters.size(); i++) {
 			monsterRect = monsters.get(i).getBounds();
 			
 			if (heroRect.intersects(monsterRect)) {
 				touchingMonster = true;
+				break;
 			} else {
 				touchingMonster = false;
 			}
-			
 		}
 		
+//		 Colisions with walls
+//		Rectangle wallRect;
+//		for (int i = 0; i < walls.size(); i++) {
+//			wallRect = walls.get(i).getBounds();
+//			
+//			if (heroRect.intersects(wallRect)) {
+//				if (hero.getDirection() == Direction.LEFT) {
+//					hero.setStopLeft(true);
+//					break;
+//				} else if (hero.getDirection() == Direction.RIGHT) {
+//					hero.setStopRight(true);
+//					break;
+//				} else if (hero.getDirection() == Direction.UP) {
+//					hero.setStopUp(true);
+//					break;
+//				} else if (hero.getDirection() == Direction.DOWN) {
+//					hero.setStopDown(true);
+//					break;
+//				} else {
+//					hero.Go();
+//				}
+//			}
+//		}
 		
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-        if (items.size()==0) {
-            doorOpened = true;
-        }
-        
-        
-		hero.move();
-//		checkCollisions();
-		repaint();
-		
-	}
+
 	
 	@Override
 	public void paint(Graphics g) {

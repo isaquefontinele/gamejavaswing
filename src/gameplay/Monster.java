@@ -26,7 +26,7 @@ public class Monster extends Creature {
 
 	// Getters and Setters
 	public Rectangle getBounds() {
-		return null;
+		return new Rectangle(getX(), getY(), width, height);
 	}
 
 	public int getHeight() {
