@@ -37,16 +37,20 @@ public class Gameplay extends JPanel implements ActionListener {
 	private boolean doorOpened;
 	private boolean touchingMonster;
 	private final int blockSize = 76;
+	private JPanel buttonPanel, showPanel;
 
 
 	
 	
-	public Gameplay(int WINDOW_WIDTH, int WINDOW_HEIGHT, HeroClass heroClass) {
+	public Gameplay(int WINDOW_WIDTH, int WINDOW_HEIGHT, HeroClass heroClass, JPanel buttonPanel, JPanel showPanel) {
 
 		this.WINDOW_WIDTH = WINDOW_WIDTH;
 		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+		this.showPanel = showPanel;
+		this.buttonPanel = buttonPanel;
+		
 		addKeyListener(new TAdapter()); // Keyboard input
         setFocusable(true);
         setBackground(Color.GREEN);
@@ -124,10 +128,27 @@ public class Gameplay extends JPanel implements ActionListener {
 		
 		// Somehow get out of the game back to menu
 		if (key == KeyEvent.VK_ESCAPE) {
-//			this.setVisible(false);
+			this.setVisible(false);
+			enableButtonPanel(true);
+			enableShowPanel(true);
 			
 		}
 
+	}
+	
+	// Trigger visibility of the main menu components
+	public void enableButtonPanel(boolean pick) {
+		Component[] components1 = buttonPanel.getComponents();
+		for (int i = 0; i < components1.length; i++) {
+			components1[i].setEnabled(pick);
+		}
+	}
+
+	public void enableShowPanel(boolean pick) {
+		Component[] components1 = showPanel.getComponents();
+		for (int i = 0; i < components1.length; i++) {
+			components1[i].setEnabled(pick);
+		}
 	}
 
 	private void checkCollisions() {

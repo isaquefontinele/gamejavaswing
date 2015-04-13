@@ -78,35 +78,38 @@ public class Menu extends JFrame {
 	
 
 	// Trigger visibility of the main menu components
-	private void enableButtonPanel(boolean pick) {
-		Component[] components1 = buttonPanel.getComponents();
-		for (int i = 0; i < components1.length; i++) {
-			components1[i].setEnabled(pick);
-		}
-
-	}
-
-	private void enableShowPanel(boolean pick) {
-		Component[] components1 = showPanel.getComponents();
-		for (int i = 0; i < components1.length; i++) {
-			components1[i].setEnabled(pick);
-		}
-	}
+//	private void enableButtonPanel(boolean pick) {
+//		Component[] components1 = buttonPanel.getComponents();
+//		for (int i = 0; i < components1.length; i++) {
+//			components1[i].setEnabled(pick);
+//		}
+//	}
+//
+//	private void enableShowPanel(boolean pick) {
+//		Component[] components1 = showPanel.getComponents();
+//		for (int i = 0; i < components1.length; i++) {
+//			components1[i].setEnabled(pick);
+//		}
+//	}
 
 	private class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
 
-			enableButtonPanel(false);
-			enableShowPanel(false);
+//			enableButtonPanel(false);
+//			enableShowPanel(false);
 			currentHeroClass = HeroClass.WARRIOR;
 
 			
 			setSize(WINDOW_HEIGHT, WINDOW_HEIGHT);
 			setLocationRelativeTo(null);
 			setLayout(null);
-			gameplay = new Gameplay(WINDOW_HEIGHT, WINDOW_HEIGHT, currentHeroClass);
+			gameplay = new Gameplay(WINDOW_HEIGHT, WINDOW_HEIGHT, currentHeroClass, buttonPanel, showPanel);
+			
 			add(gameplay);
+			
+			gameplay.enableButtonPanel(false);
+			gameplay.enableShowPanel(false);
 			gameplay.setLocation(0, 0);
 		}
 	}
