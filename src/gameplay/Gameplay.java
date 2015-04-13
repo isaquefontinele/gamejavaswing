@@ -25,17 +25,19 @@ public class Gameplay extends JPanel implements ActionListener {
 
 	private int WINDOW_WIDTH, WINDOW_HEIGHT;
 	private int SPEED = 5;
-	private int currentFaseNumber = 1;
 	private Fase currentFase;
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
-	private ArrayList<Wall> walls;
+	private ArrayList<Wall> wallsToPrint;
+	private ArrayList<Wall> wallsToCollision;
 	
 	private Timer timer;
 	private boolean inGame;
 	private Hero hero;
 	private boolean doorOpened;
 	private boolean touchingMonster;
+	private final int blockSize = 76;
+
 
 	
 	
@@ -51,8 +53,12 @@ public class Gameplay extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         inGame = true;
 
-        currentFase = new Fase(WINDOW_WIDTH, WINDOW_HEIGHT);
-        hero = new Hero(heroClass);
+        currentFase = new Fase(WINDOW_WIDTH, WINDOW_HEIGHT, blockSize);
+        
+        hero = new Hero(heroClass, blockSize);
+        hero.setMatrixWidth(currentFase.getMatrixWidth());
+        hero.setMatrixHeigth(currentFase.getMatrixHeight());
+        
         initObjects();
 
         timer = new Timer(SPEED, this);
@@ -65,7 +71,8 @@ public class Gameplay extends JPanel implements ActionListener {
 
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
-		walls = currentFase.getWalls();
+		wallsToPrint = currentFase.getWallsToPrint();
+		wallsToCollision = currentFase.getWallsToCollision();;
 		hero.setX(currentFase.getHeroPosX());
 		hero.setY(currentFase.getHeroPosY());
 
@@ -174,16 +181,14 @@ public class Gameplay extends JPanel implements ActionListener {
 		
 		if (inGame) {
 			
-
-			
 			// Print Walls
-			for (int i = 0; i < walls.size(); i++) {
+			for (int i = 0; i < wallsToPrint.size(); i++) {
 //				Image scaledImage = walls.get(i).getImage().getScaledInstance(100, 100, Image.SCALE_FAST);
 //				BufferedImage imageBuff = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
 //				Graphics g2 = imageBuff.getGraphics();
 
 				
-				g2d.drawImage(walls.get(i).getImage(), walls.get(i).getX(), walls.get(i).getY(),
+				g2d.drawImage(wallsToPrint.get(i).getImage(), wallsToPrint.get(i).getX(), wallsToPrint.get(i).getY(),
 	                    this);
 //				g2.dispose();
 			}

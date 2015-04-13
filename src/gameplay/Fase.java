@@ -10,10 +10,13 @@ public class Fase {
 	private int WINDOW_WIDTH;
 	private int WINDOW_HEIGHT;
 	private final int MATRIX_LENGTH = 11;
+	private int faseNum = 1;
 	private String[][] matrix = new String [MATRIX_LENGTH][MATRIX_LENGTH];
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
-	private ArrayList<Wall> walls;
+	private ArrayList<Wall> wallsToPrint;
+	private ArrayList<Wall> wallsToCollision;
+	private int blockSize;
 	private int heroPosX;
 	private int heroPosY;
 	private int exitPosX;
@@ -34,6 +37,7 @@ public class Fase {
 			+ "W N W N N N N N W N W\n"
 			+ "W N N N N H N N N N W\n"
 			+ "W W W W W W W W W W W";
+
 	
 	/**
 	 *  N = Nothing == ground
@@ -47,13 +51,15 @@ public class Fase {
 	 * @param wINDOW_WIDTH 
 	 */
 	
-	public Fase(int WINDOW_WIDTH, int WINDOW_HEIGHT) {
+	public Fase(int WINDOW_WIDTH, int WINDOW_HEIGHT, int blockSize) {
 		this.WINDOW_WIDTH = WINDOW_WIDTH;
 		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
+		setBlockSize(blockSize);
 		
 		this.items = new ArrayList<Item>();
 		this.monsters = new ArrayList<Monster>();
-		this.walls = new ArrayList<Wall>();
+		this.wallsToPrint = new ArrayList<Wall>();
+		this.wallsToCollision = new ArrayList<Wall>();
 		
 		loadMatrix();
 		setThingsPositions();
@@ -81,11 +87,17 @@ public class Fase {
 			matrixRow = matrix[i];
 			for (int j = 0; j < matrixRow.length; j++) {
 				switch (matrixRow[j]) {
-				case "W":
+				case "W": 
 					Wall tempWall = new Wall();
 					tempWall.setX(blockWidth*j);
 					tempWall.setY(blockHeight*i);
-					walls.add(tempWall);
+					//Otimization: exclude external walls from collison
+					if (i != 0 && i != matrix.length-1) {
+						if (j != 0 && j != matrixRow.length-1) {
+							wallsToCollision.add(tempWall);
+						}
+					}
+					wallsToPrint.add(tempWall);
 					break;
 				case "O":
 					Item tempItem = new Item();
@@ -137,10 +149,14 @@ public class Fase {
 		this.monsters = monsters;
 	}
 
-	public ArrayList<Wall> getWalls() {
-		return walls;
+	public ArrayList<Wall> getWallsToPrint() {
+		return wallsToPrint;
 	}
-
+	
+	public ArrayList<Wall> getWallsToCollision() {
+		return wallsToCollision;
+	}
+	
 	public int getHeroPosX() {
 		return heroPosX;
 	}
@@ -171,5 +187,29 @@ public class Fase {
 
 	public void setExitPosY(int exitPosY) {
 		this.exitPosY = exitPosY;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
+	}
+
+	public int getFaseNum() {
+		return faseNum;
+	}
+
+	public void setFaseNum(int faseNum) {
+		this.faseNum = faseNum;
+	}
+	
+	public int getMatrixWidth() {
+		return matrix.length;
+	}
+
+	public int getMatrixHeight() {
+		return matrix[0].length;
 	}
 }

@@ -2,25 +2,26 @@ package gameplay;
 
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-
 import javax.swing.ImageIcon;
 
 public class Hero extends Creature {
 
 	private HeroClass heroClass;
 	private Direction direction;
-	private int SPEED = 3;
+	private int SPEED = 4;
 	private int width;
 	private int height;
 	private int shield;
 
-	public Hero(HeroClass heroClass) {
+	public Hero(HeroClass heroClass, int blockSize) {
+		super.setBlockSize(blockSize);
 		setImage(heroClass);
 		this.width = getImage().getWidth(null);
 		this.height = getImage().getHeight(null);
 		this.setHeroClass(heroClass);
 		this.shield = heroClass.getShieldValue();
 		this.setHeroClass(heroClass);
+		
 	}
 
 	public void keyPressed(KeyEvent e) {
