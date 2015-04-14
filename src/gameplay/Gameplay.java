@@ -27,21 +27,23 @@ public class Gameplay extends JPanel implements ActionListener {
 	private int GAME_WIDTH, GAME_HEIGHT;
 	private int SPEED = 5;
 	private Fase currentFase;
+	
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> wallsToPrint;
 	private ArrayList<Wall> wallsToCollision;
 	private ArrayList<Integer> groundTilesX;
 	private ArrayList<Integer> groundTilesY;
-	private Image groundTile;
 	
+	private Image groundTile;
 	private Timer timer;
-	private boolean inGame;
 	private Hero hero;
+	private JPanel buttonPanel, showPanel;
+
+	private boolean inGame;
 	private boolean doorOpened;
 	private boolean touchingMonster;
 	private final int blockSize = 75;
-	private JPanel buttonPanel, showPanel;
 	private int heroInicialX, heroInicialY;
 	
 
@@ -75,8 +77,6 @@ public class Gameplay extends JPanel implements ActionListener {
 
         timer = new Timer(SPEED, this);
         timer.start();
-
-
 	}
 
 	public void initObjects() {
@@ -100,12 +100,9 @@ public class Gameplay extends JPanel implements ActionListener {
             doorOpened = true;
         }
         
-        
 		hero.move();
 		checkCollisions();
 		repaint();
-//		timer.setDelay(5);
-		
 	}
 	
     private class TAdapter extends KeyAdapter {
@@ -164,6 +161,7 @@ public class Gameplay extends JPanel implements ActionListener {
 
 	private void checkCollisions() {
 		Rectangle heroRect = hero.getBounds();
+		updateCorners();
 		
 		// Colisions with monsters
 		Rectangle monsterRect;
@@ -179,33 +177,35 @@ public class Gameplay extends JPanel implements ActionListener {
 		}
 		
 //		 Colisions with walls
-//		Rectangle wallRect;
-//		for (int i = 0; i < walls.size(); i++) {
-//			wallRect = walls.get(i).getBounds();
-//			
-//			if (heroRect.intersects(wallRect)) {
-//				if (hero.getDirection() == Direction.LEFT) {
-//					hero.setStopLeft(true);
-//					break;
-//				} else if (hero.getDirection() == Direction.RIGHT) {
-//					hero.setStopRight(true);
-//					break;
-//				} else if (hero.getDirection() == Direction.UP) {
-//					hero.setStopUp(true);
-//					break;
-//				} else if (hero.getDirection() == Direction.DOWN) {
-//					hero.setStopDown(true);
-//					break;
-//				} else {
-//					hero.Go();
-//				}
+//		Rectangle topLeft = new Rectangle(hero.getTopLeftX(), hero.getTopLeftY(), 1, 1);
+//		Rectangle topRight = new Rectangle(hero.getTopRightX(), hero.getTopRightY(), 1, 1);
+//		Rectangle downLeft = new Rectangle(hero.getDownLeftX(), hero.getDownLeftY(), 1, 1);
+//		Rectangle downRight = new Rectangle(hero.getDownRightX(), hero.getDownRightY(), 1, 1);
+//		
+//		for (int i = 0; i < wallsToCollision.size(); i++) {
+//		
+//			if (wallsToCollision.get(i).getBounds().intersects(topLeft) || wallsToCollision.get(i).getBounds().intersects(topRight)) {
+//				hero.setCanGoUp(false);
 //			}
 //		}
-		
 	}
 	
 
 	
+	private void updateCorners() {
+		hero.setTopLeftX(hero.getX()-1);
+		hero.setTopLeftY(hero.getY()-1);
+		
+		hero.setTopRightX(hero.getTopLeftX()+75+1);
+		hero.setTopRightY(hero.getY());
+		
+		hero.setDownLeftX(hero.getTopLeftX());
+		hero.setDownLeftY(hero.getTopLeftY()+75+1);
+		
+		hero.setDownRightX(hero.getDownLeftX()+75+1);
+		hero.setDownRightY(hero.getDownLeftY());
+	}
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);

@@ -17,29 +17,12 @@ public class Fase {
 	private ArrayList<Wall> wallsToPrint;
 	private ArrayList<Wall> wallsToCollision;
 	private ArrayList<Integer> groundTilesX;
-	public ArrayList<Integer> getGroundTilesX() {
-		return groundTilesX;
-	}
-
-	public void setGroundTilesX(ArrayList<Integer> groundTilesX) {
-		this.groundTilesX = groundTilesX;
-	}
-
-	public ArrayList<Integer> getGroundTilesY() {
-		return groundTilesY;
-	}
-
-	public void setGroundTilesY(ArrayList<Integer> groundTilesY) {
-		this.groundTilesY = groundTilesY;
-	}
-
 	private ArrayList<Integer> groundTilesY;
 	private int blockSize;
 	private int heroPosX;
 	private int heroPosY;
 	private int exitPosX;
 	private int exitPosY;
-	
 	
 
 	private String matrixRaw = 
@@ -129,6 +112,8 @@ public class Fase {
 				case "E":
 					setExitPosX(blockWidth*j);
 					setExitPosY(blockHeight*i);
+					groundTilesX.add(blockWidth*j);
+					groundTilesY.add(blockHeight*i);
 					break;
 				case "H":
 					setHeroPosX(blockWidth*j);
@@ -232,5 +217,13 @@ public class Fase {
 
 	public int getMatrixHeight() {
 		return matrix[0].length;
+	}
+	
+	public ArrayList<Integer> getGroundTilesX() {
+		return groundTilesX;
+	}
+
+	public ArrayList<Integer> getGroundTilesY() {
+		return groundTilesY;
 	}
 }
