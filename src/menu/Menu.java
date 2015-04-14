@@ -17,8 +17,10 @@ public class Menu extends JFrame {
 
 	private JPanel buttonPanel, showPanel;
 	private static Dimension screenSize;
-	private static int WINDOW_WIDTH;
-	private static int WINDOW_HEIGHT;
+	private static int MENU_WIDTH;
+	private static int MENU_HEIGHT;
+	private static int GAME_WIDTH;
+	private static int GAME_HEIGHT;
 	private static double windowSize = 0.8; // Size of the window in percentage
 	private GridLayout manager;
 	private Scoreboard scores;
@@ -27,17 +29,19 @@ public class Menu extends JFrame {
 	public boolean inGame = false;
 
 	public Menu() {
-
+		int blockSize = 75;
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		WINDOW_WIDTH = (int) Math.round(screenSize.width * windowSize);
-		WINDOW_HEIGHT = (int) Math.round(screenSize.height * windowSize);
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		MENU_WIDTH = (int) Math.round(screenSize.width * windowSize);
+		MENU_HEIGHT = (int) Math.round(screenSize.height * windowSize);
+		GAME_WIDTH = blockSize * 11;
+		GAME_HEIGHT = blockSize * 11;
+		setSize(MENU_WIDTH, MENU_HEIGHT);
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
 		showPanel = new JPanel();
 		showPanel.setLayout(new GridLayout(1,1));
-		scores = new Scoreboard(WINDOW_WIDTH/2, WINDOW_HEIGHT);
+		scores = new Scoreboard(MENU_WIDTH/2, MENU_HEIGHT);
 
 		// define actions
 		Action playAction = new playAction();
@@ -92,6 +96,13 @@ public class Menu extends JFrame {
 //		}
 //	}
 
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		
+		System.out.println(this.getWidth() + " " + this.getHeight());
+	}
+	
 	private class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
@@ -101,10 +112,10 @@ public class Menu extends JFrame {
 			currentHeroClass = HeroClass.WARRIOR;
 
 			
-			setSize(WINDOW_HEIGHT, WINDOW_HEIGHT);
+			setSize(GAME_WIDTH, GAME_HEIGHT);
 			setLocationRelativeTo(null);
 			setLayout(null);
-			gameplay = new Gameplay(WINDOW_HEIGHT, WINDOW_HEIGHT, currentHeroClass, buttonPanel, showPanel);
+			gameplay = new Gameplay(MENU_WIDTH, MENU_HEIGHT, currentHeroClass, buttonPanel, showPanel);
 			
 			add(gameplay);
 			

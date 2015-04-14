@@ -16,6 +16,24 @@ public class Fase {
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> wallsToPrint;
 	private ArrayList<Wall> wallsToCollision;
+	private ArrayList<Integer> groundTilesX;
+	public ArrayList<Integer> getGroundTilesX() {
+		return groundTilesX;
+	}
+
+	public void setGroundTilesX(ArrayList<Integer> groundTilesX) {
+		this.groundTilesX = groundTilesX;
+	}
+
+	public ArrayList<Integer> getGroundTilesY() {
+		return groundTilesY;
+	}
+
+	public void setGroundTilesY(ArrayList<Integer> groundTilesY) {
+		this.groundTilesY = groundTilesY;
+	}
+
+	private ArrayList<Integer> groundTilesY;
 	private int blockSize;
 	private int heroPosX;
 	private int heroPosY;
@@ -60,6 +78,9 @@ public class Fase {
 		this.monsters = new ArrayList<Monster>();
 		this.wallsToPrint = new ArrayList<Wall>();
 		this.wallsToCollision = new ArrayList<Wall>();
+		this.groundTilesX = new ArrayList<Integer>();
+		this.groundTilesY = new ArrayList<Integer>();
+		
 		
 		loadMatrix();
 		setThingsPositions();
@@ -80,8 +101,8 @@ public class Fase {
 	
 	private void setThingsPositions() {
 		
-		int blockWidth = 76;
-		int blockHeight = 76;
+		int blockWidth = 75;
+		int blockHeight = 75;
 		String[] matrixRow;
 		for (int i = 0; i < matrix.length; i++) {
 			matrixRow = matrix[i];
@@ -120,8 +141,8 @@ public class Fase {
 					monsters.add(tempMonster);
 					break;
 				default: // Nothing
-					
-					break;
+					groundTilesX.add(blockWidth*j);
+					groundTilesY.add(blockHeight*i);;
 				}
 			}
 		}

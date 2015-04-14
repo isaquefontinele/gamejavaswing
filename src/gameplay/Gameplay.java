@@ -18,46 +18,54 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Gameplay extends JPanel implements ActionListener {
 
-	private int WINDOW_WIDTH, WINDOW_HEIGHT;
+	private int GAME_WIDTH, GAME_HEIGHT;
 	private int SPEED = 5;
 	private Fase currentFase;
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> wallsToPrint;
 	private ArrayList<Wall> wallsToCollision;
+	private ArrayList<Integer> groundTilesX;
+	private ArrayList<Integer> groundTilesY;
+	private Image groundTile;
 	
 	private Timer timer;
 	private boolean inGame;
 	private Hero hero;
 	private boolean doorOpened;
 	private boolean touchingMonster;
-	private final int blockSize = 76;
+	private final int blockSize = 75;
 	private JPanel buttonPanel, showPanel;
+	private int heroInicialX, heroInicialY;
+	
 
 
 	
 	
-	public Gameplay(int WINDOW_WIDTH, int WINDOW_HEIGHT, HeroClass heroClass, JPanel buttonPanel, JPanel showPanel) {
+	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass, JPanel buttonPanel, JPanel showPanel) {
 
-		this.WINDOW_WIDTH = WINDOW_WIDTH;
-		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
-		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+		this.GAME_WIDTH = blockSize*11;
+		this.GAME_HEIGHT = blockSize*11;
+		setSize(GAME_WIDTH, GAME_HEIGHT);
 
 		this.showPanel = showPanel;
 		this.buttonPanel = buttonPanel;
 		
 		addKeyListener(new TAdapter()); // Keyboard input
         setFocusable(true);
-        setBackground(Color.GREEN);
+        setBackground(Color.GRAY);
         setDoubleBuffered(true);
         inGame = true;
+        groundTile = new ImageIcon(this.getClass().getResource(
+				"/images/groundTile.png")).getImage();
 
-        currentFase = new Fase(WINDOW_WIDTH, WINDOW_HEIGHT, blockSize);
+        currentFase = new Fase(GAME_WIDTH, GAME_HEIGHT, blockSize);
         
         hero = new Hero(heroClass, blockSize);
         hero.setMatrixWidth(currentFase.getMatrixWidth());
@@ -79,6 +87,10 @@ public class Gameplay extends JPanel implements ActionListener {
 		wallsToCollision = currentFase.getWallsToCollision();;
 		hero.setX(currentFase.getHeroPosX());
 		hero.setY(currentFase.getHeroPosY());
+		heroInicialX = hero.getX() + 0;
+		heroInicialY = hero.getY() + 0;
+		groundTilesX = currentFase.getGroundTilesX();
+		groundTilesY = currentFase.getGroundTilesY();
 
     }
 	
@@ -129,11 +141,10 @@ public class Gameplay extends JPanel implements ActionListener {
 		// Somehow get out of the game back to menu
 		if (key == KeyEvent.VK_ESCAPE) {
 			this.setVisible(false);
+			this.setEnabled(false);
 			enableButtonPanel(true);
 			enableShowPanel(true);
-			
 		}
-
 	}
 	
 	// Trigger visibility of the main menu components
@@ -200,7 +211,14 @@ public class Gameplay extends JPanel implements ActionListener {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D)g;
 		
+		
 		if (inGame) {
+			
+			// Print ground
+			for (int i = 0; i < groundTilesX.size(); i++) {
+				g2d.drawImage(groundTile, groundTilesX.get(i), groundTilesY.get(i),
+	                    this);
+			}
 			
 			// Print Walls
 			for (int i = 0; i < wallsToPrint.size(); i++) {
@@ -218,17 +236,23 @@ public class Gameplay extends JPanel implements ActionListener {
 			
 			// Print items
 			for (int i = 0; i < items.size(); i++) {
+				g2d.drawImage(groundTile, items.get(i).getX(), items.get(i).getY(),
+	                    this);
 				g2d.drawImage(items.get(i).getImage(), items.get(i).getX(), items.get(i).getY(),
 	                    this);
 			}
 			
 			// Print monsters
 			for (int i = 0; i < monsters.size(); i++) {
+				g2d.drawImage(groundTile, monsters.get(i).getX(), monsters.get(i).getY(),
+	                    this);
 				g2d.drawImage(monsters.get(i).getImage(), monsters.get(i).getX(), monsters.get(i).getY(),
 	                    this);
 			}
 			
 			// Print hero
+			g2d.drawImage(groundTile, heroInicialX, heroInicialY,
+                    this);
 			g2d.drawImage(hero.getImage(), hero.getX(), hero.getY(),
                     this);			
 			
@@ -241,7 +265,7 @@ public class Gameplay extends JPanel implements ActionListener {
 	            g2d.setColor(Color.white);
 	            g2d.setFont(small);
 				
-				g2d.drawString(msg, (WINDOW_WIDTH - metr.stringWidth(msg)) /2, WINDOW_HEIGHT/2);
+				g2d.drawString(msg, (GAME_WIDTH - metr.stringWidth(msg)) /2, GAME_HEIGHT/2);
 			}
 			
 			// Touching monster
@@ -252,12 +276,11 @@ public class Gameplay extends JPanel implements ActionListener {
 	            g2d.setColor(Color.white);
 	            g2d.setFont(small);
 				
-				g2d.drawString(msg, (WINDOW_WIDTH - metr.stringWidth(msg)) /2, WINDOW_HEIGHT/2);
+				g2d.drawString(msg, (GAME_WIDTH - metr.stringWidth(msg)) /2, GAME_HEIGHT/2);
 			}
 			
 			
 			// Update screen
-//	        Toolkit.getDefaultToolkit().sync();
 	        g.dispose();
 		}
 	}
