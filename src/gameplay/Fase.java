@@ -11,7 +11,9 @@ public class Fase {
 	private int WINDOW_HEIGHT;
 	private final int MATRIX_LENGTH = 11;
 	private int faseNum = 1;
+	private int monstersTotal = 3;
 	private String[][] matrix = new String [MATRIX_LENGTH][MATRIX_LENGTH];
+	private String[][] matrixMonstersConfigs = new String[monstersTotal][3];
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> wallsToPrint;
@@ -39,6 +41,11 @@ public class Fase {
 			+ "W N N N N H N N N N W\n"
 			+ "W W W W W W W W W W W";
 
+	private String monsterConfig = 
+			
+			  "E V 100\n"
+			+ "E V 100\n"
+			+ "E H 100";
 	
 	/**
 	 *  N = Nothing == ground
@@ -65,12 +72,14 @@ public class Fase {
 		this.groundTilesY = new ArrayList<Integer>();
 		
 		
+		
 		loadMatrix();
+		loadMonstersConfig();
 		setThingsPositions();
 	}
 	
 	private void loadMatrix() {
-		String[] tempLine = new String[11];
+		String[] tempLine = new String[3];
 		String[] tempColumn = new String[11];
 		
 		tempLine = matrixRaw.split("\n");
@@ -82,8 +91,22 @@ public class Fase {
 		}
 	}
 	
-	private void setThingsPositions() {
+	private void loadMonstersConfig() {
+		String[] tempLine = new String[3];
+		String[] tempColumn = new String[3];
 		
+		tempLine = monsterConfig.split("\n");
+		for (int i = 0; i < monstersTotal; i++) {
+			tempColumn = tempLine[i].split("\\s");
+			for (int j = 0; j < 3; j++) {
+				matrixMonstersConfigs[i][j] = tempColumn[j];
+			}
+		}
+		Arrays.deepToString(matrixMonstersConfigs);
+	}
+	
+	private void setThingsPositions() {
+		int monsterIndex = 0;
 		int blockWidth = 75;
 		int blockHeight = 75;
 		String[] matrixRow;
@@ -122,10 +145,25 @@ public class Fase {
 					groundTilesY.add(blockHeight*i);
 					break;
 				case "M":
-					Monster tempMonster = new Monster(MonsterType.ESQUELETON, monsterDirection.HORIZONTAL, 100);
+					// Create generic monster
+					Monster tempMonster = new Monster();
+					// Set Type
+					if (matrixMonstersConfigs[monsterIndex][0].equals("E")) {
+						tempMonster.setType(MonsterType.ESQUELETON);
+					}
+					// Set Direction of Movement
+					if (matrixMonstersConfigs[monsterIndex][1].equals("H")) {
+						tempMonster.setDirection(monsterDirection.HORIZONTAL);
+					} else {
+						tempMonster.setDirection(monsterDirection.VERTICAL);
+					}
+					// Set max Range
+					tempMonster.setMaxRange(Integer.parseInt(matrixMonstersConfigs[monsterIndex][2]));
+					// Set location
 					tempMonster.setX(blockWidth*j);
 					tempMonster.setY(blockHeight*i);
 					monsters.add(tempMonster);
+					monsterIndex++;
 					groundTilesX.add(blockWidth*j);
 					groundTilesY.add(blockHeight*i);
 					break;

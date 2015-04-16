@@ -11,25 +11,12 @@ public class Monster extends Creature {
 	private int width;
 	private int height;
 	private int SPEED = 1;
-	private int maxRange, currentRange;
+	private int maxRange;
+	private int currentRange = 0;
 	private monsterDirection direction;
 	private boolean right, left, up, down;
 
-	public Monster(MonsterType monsterType, monsterDirection direction,
-			int maxRange) {
-		setImage(monsterType);
-//		setIncreaseX(0);
-//		setIncreaseY(0);
-		this.setWidth(getImage().getWidth(null));
-		this.setHeight(getImage().getHeight(null));
-		this.type = monsterType;
-		this.setAttack(type.getAttackValue());
-		this.direction = direction;
-		this.maxRange = maxRange;
-		this.currentRange = 0;
-
-		setMovement();
-
+	public Monster() {
 	}
 
 	private void setMovement() {
@@ -48,8 +35,6 @@ public class Monster extends Creature {
 	}
 
 	public void ai() {
-//		System.out.println(currentRange);
-		System.out.println(this.getY());
 		if (right) {
 			if (currentRange <= maxRange) {
 				setIncreaseX(SPEED);
@@ -108,6 +93,19 @@ public class Monster extends Creature {
 
 	}
 
+	public void setType(MonsterType type) {
+		this.type = type;
+		setImage(type);
+		this.setWidth(getImage().getWidth(null));
+		this.setHeight(getImage().getHeight(null));
+		this.setAttack(type.getAttackValue());
+	}
+
+	public void setDirection(monsterDirection direction) {
+		this.direction = direction;
+		setMovement();
+	}
+
 	public Rectangle getBounds() {
 		return new Rectangle(getX(), getY(), width, height);
 	}
@@ -134,5 +132,20 @@ public class Monster extends Creature {
 
 	public void setAttack(int attack) {
 		this.attack = attack;
+	}
+	public MonsterType getType() {
+		return type;
+	}
+
+	public int getMaxRange() {
+		return maxRange;
+	}
+
+	public void setMaxRange(int maxRange) {
+		this.maxRange = maxRange;
+	}
+
+	public monsterDirection getDirection() {
+		return direction;
 	}
 }
