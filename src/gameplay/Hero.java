@@ -28,6 +28,8 @@ public class Hero extends Creature {
 	public Hero(HeroClass heroClass, int blockSize) {
 		super.setBlockSize(blockSize);
 		setImage(heroClass);
+		setIncreaseX(0);
+		setIncreaseY(0);
 		this.width = getImage().getWidth(null);
 		this.height = getImage().getHeight(null);
 		this.setHeroClass(heroClass);

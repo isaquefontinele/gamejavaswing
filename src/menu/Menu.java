@@ -100,7 +100,7 @@ public class Menu extends JFrame {
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		System.out.println(this.getWidth() + " " + this.getHeight());
+//		System.out.println(this.getWidth() + " " + this.getHeight());
 	}
 	
 	private class playAction extends AbstractAction {

@@ -44,8 +44,6 @@ public class Gameplay extends JPanel implements ActionListener {
 	private boolean doorOpened;
 	private boolean touchingMonster;
 	private final int blockSize = 75;
-	private int heroInicialX, heroInicialY;
-	
 
 
 	
@@ -87,8 +85,6 @@ public class Gameplay extends JPanel implements ActionListener {
 		wallsToCollision = currentFase.getWallsToCollision();;
 		hero.setX(currentFase.getHeroPosX());
 		hero.setY(currentFase.getHeroPosY());
-		heroInicialX = hero.getX() + 0;
-		heroInicialY = hero.getY() + 0;
 		groundTilesX = currentFase.getGroundTilesX();
 		groundTilesY = currentFase.getGroundTilesY();
 
@@ -100,16 +96,20 @@ public class Gameplay extends JPanel implements ActionListener {
             doorOpened = true;
         }
         
-		hero.move();
+		
 		monstersMove();
+		hero.move();
 		checkCollisions();
 		repaint();
 	}
 	
     private void monstersMove() {
+//    	System.out.println(timer.getDelay());
 		for (int i = 0; i < monsters.size(); i++) {
-			monsters.get(i).ai();;
+			monsters.get(i).ai();
+			monsters.get(i).move();
 		}
+//		repaint();
 		
 	}
 
@@ -234,7 +234,6 @@ public class Gameplay extends JPanel implements ActionListener {
 //				BufferedImage imageBuff = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
 //				Graphics g2 = imageBuff.getGraphics();
 
-				
 				g2d.drawImage(wallsToPrint.get(i).getImage(), wallsToPrint.get(i).getX(), wallsToPrint.get(i).getY(),
 	                    this);
 //				g2.dispose();
@@ -252,15 +251,11 @@ public class Gameplay extends JPanel implements ActionListener {
 			
 			// Print monsters
 			for (int i = 0; i < monsters.size(); i++) {
-				g2d.drawImage(groundTile, monsters.get(i).getX(), monsters.get(i).getY(),
-	                    this);
 				g2d.drawImage(monsters.get(i).getImage(), monsters.get(i).getX(), monsters.get(i).getY(),
 	                    this);
 			}
 			
 			// Print hero
-			g2d.drawImage(groundTile, heroInicialX, heroInicialY,
-                    this);
 			g2d.drawImage(hero.getImage(), hero.getX(), hero.getY(),
                     this);			
 			

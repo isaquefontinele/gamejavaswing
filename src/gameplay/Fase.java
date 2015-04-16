@@ -118,16 +118,20 @@ public class Fase {
 				case "H":
 					setHeroPosX(blockWidth*j);
 					setHeroPosY(blockHeight*i);
+					groundTilesX.add(blockWidth*j);
+					groundTilesY.add(blockHeight*i);
 					break;
 				case "M":
-					Monster tempMonster = new Monster(MonsterType.ESQUELETON, monsterDirection.HORIZONTAL, 200);
+					Monster tempMonster = new Monster(MonsterType.ESQUELETON, monsterDirection.HORIZONTAL, 100);
 					tempMonster.setX(blockWidth*j);
 					tempMonster.setY(blockHeight*i);
 					monsters.add(tempMonster);
+					groundTilesX.add(blockWidth*j);
+					groundTilesY.add(blockHeight*i);
 					break;
 				default: // Nothing
 					groundTilesX.add(blockWidth*j);
-					groundTilesY.add(blockHeight*i);;
+					groundTilesY.add(blockHeight*i);
 				}
 			}
 		}

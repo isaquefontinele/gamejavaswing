@@ -31,13 +31,13 @@ public abstract class Creature {
 			 y = blockSize;
 		 }
 		 
-		 if (x > blockSize*(matrixWidth-2)) {
-			x = blockSize*(matrixWidth-2);
-		 }
-		 
-		 if (y > blockSize*(matrixHeigth-2)) {
-			 y = blockSize*(matrixHeigth-2);
-		}
+//		 if (x > blockSize*(matrixWidth-2)) {
+//			x = blockSize*(matrixWidth-2);
+//		 }
+//		 
+//		 if (y > blockSize*(matrixHeigth-2)) {
+//			 y = blockSize*(matrixHeigth-2);
+//		}
 	}
 
 	// Getters and Setters

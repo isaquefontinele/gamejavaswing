@@ -18,9 +18,11 @@ public class Monster extends Creature {
 	public Monster(MonsterType monsterType, monsterDirection direction,
 			int maxRange) {
 		setImage(monsterType);
+//		setIncreaseX(0);
+//		setIncreaseY(0);
 		this.setWidth(getImage().getWidth(null));
 		this.setHeight(getImage().getHeight(null));
-		this.type = MonsterType.ZOMBIE;
+		this.type = monsterType;
 		this.setAttack(type.getAttackValue());
 		this.direction = direction;
 		this.maxRange = maxRange;
@@ -36,20 +38,20 @@ public class Monster extends Creature {
 			this.left = false;
 			this.down = false;
 			this.up = false;
-		} else if (direction == monsterDirection.VERTICAL) {
-			if (direction == monsterDirection.HORIZONTAL) {
-				this.down = true;
-				this.up = false;
-				this.right = false;
-				this.left = false;
-
-			}
+		} 
+		if (direction == monsterDirection.VERTICAL) {
+			this.down = true;
+			this.up = false;
+			this.right = false;
+			this.left = false;
 		}
 	}
 
 	public void ai() {
+//		System.out.println(currentRange);
+		System.out.println(this.getY());
 		if (right) {
-			if (currentRange < maxRange) {
+			if (currentRange <= maxRange) {
 				setIncreaseX(SPEED);
 				currentRange += SPEED;
 			} else {
@@ -58,7 +60,7 @@ public class Monster extends Creature {
 			}
 		}
 		if (left) {
-			if (currentRange > maxRange) {
+			if (currentRange >= -maxRange) {
 				setIncreaseX(-SPEED);
 				currentRange -= SPEED;
 			} else {
@@ -77,7 +79,7 @@ public class Monster extends Creature {
 			}
 		}
 		if (up) {
-			if (currentRange > maxRange) {
+			if (currentRange >= -maxRange) {
 				setIncreaseY(-SPEED);
 				currentRange -= SPEED;
 			} else {
