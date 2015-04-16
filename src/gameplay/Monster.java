@@ -1,6 +1,5 @@
 package gameplay;
 
-import java.awt.Image;
 import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
@@ -11,17 +10,81 @@ public class Monster extends Creature {
 	private int attack;
 	private int width;
 	private int height;
+	private int SPEED = 1;
+	private int maxRange, currentRange;
+	private monsterDirection direction;
+	private boolean right, left, up, down;
 
-	public Monster(MonsterType monsterType) {
+	public Monster(MonsterType monsterType, monsterDirection direction,
+			int maxRange) {
 		setImage(monsterType);
 		this.setWidth(getImage().getWidth(null));
 		this.setHeight(getImage().getHeight(null));
 		this.type = MonsterType.ZOMBIE;
 		this.setAttack(type.getAttackValue());
+		this.direction = direction;
+		this.maxRange = maxRange;
+		this.currentRange = 0;
+
+		setMovement();
+
 	}
 
-	public void move() {
+	private void setMovement() {
+		if (direction == monsterDirection.HORIZONTAL) {
+			this.right = true;
+			this.left = false;
+			this.down = false;
+			this.up = false;
+		} else if (direction == monsterDirection.VERTICAL) {
+			if (direction == monsterDirection.HORIZONTAL) {
+				this.down = true;
+				this.up = false;
+				this.right = false;
+				this.left = false;
 
+			}
+		}
+	}
+
+	public void ai() {
+		if (right) {
+			if (currentRange < maxRange) {
+				setIncreaseX(SPEED);
+				currentRange += SPEED;
+			} else {
+				right = false;
+				left = true;
+			}
+		}
+		if (left) {
+			if (currentRange > maxRange) {
+				setIncreaseX(-SPEED);
+				currentRange -= SPEED;
+			} else {
+				right = true;
+				left = false;
+			}
+		}
+
+		if (down) {
+			if (currentRange < maxRange) {
+				setIncreaseY(SPEED);
+				currentRange += SPEED;
+			} else {
+				down = false;
+				up = true;
+			}
+		}
+		if (up) {
+			if (currentRange > maxRange) {
+				setIncreaseY(-SPEED);
+				currentRange -= SPEED;
+			} else {
+				down = true;
+				up = false;
+			}
+		}
 	}
 
 	// Getters and Setters
@@ -42,7 +105,7 @@ public class Monster extends Creature {
 		}
 
 	}
-	
+
 	public Rectangle getBounds() {
 		return new Rectangle(getX(), getY(), width, height);
 	}

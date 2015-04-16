@@ -101,11 +101,19 @@ public class Gameplay extends JPanel implements ActionListener {
         }
         
 		hero.move();
+		monstersMove();
 		checkCollisions();
 		repaint();
 	}
 	
-    private class TAdapter extends KeyAdapter {
+    private void monstersMove() {
+		for (int i = 0; i < monsters.size(); i++) {
+			monsters.get(i).ai();;
+		}
+		
+	}
+
+	private class TAdapter extends KeyAdapter {
 
         public void keyReleased(KeyEvent e) {
             hero.keyReleased(e);

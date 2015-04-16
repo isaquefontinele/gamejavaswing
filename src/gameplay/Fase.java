@@ -120,7 +120,7 @@ public class Fase {
 					setHeroPosY(blockHeight*i);
 					break;
 				case "M":
-					Monster tempMonster = new Monster(MonsterType.ESQUELETON);
+					Monster tempMonster = new Monster(MonsterType.ESQUELETON, monsterDirection.HORIZONTAL, 200);
 					tempMonster.setX(blockWidth*j);
 					tempMonster.setY(blockHeight*i);
 					monsters.add(tempMonster);
