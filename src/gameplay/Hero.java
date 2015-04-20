@@ -40,7 +40,7 @@ public class Hero extends Creature {
 		this.canGoUp = true;
 		this.canGoDown = true;
 	}
-
+	
 	public void keyPressed(KeyEvent e) {
 
 		int key = e.getKeyCode();
@@ -52,6 +52,9 @@ public class Hero extends Creature {
 		}
 
 		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+//			if (getX() > getBlockSize()*(getMatrixWidth()-2)) {
+//				setX(getBlockSize()*(getMatrixWidth()-2));
+//			}
 			if (canGoRight) {
 				setIncreaseX(SPEED);
 			}

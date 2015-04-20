@@ -11,8 +11,7 @@ public abstract class Creature {
 	private int blockSize;
 	private int matrixWidth;
 	private int matrixHeigth;
-	// private position pos
-	// private icon image
+
 	private int x;
 	private int y;
 	private int increaseX;
@@ -23,13 +22,13 @@ public abstract class Creature {
 		x += increaseX;
 		y += increaseY;
 
-		 if (x < blockSize) {
-			 x = blockSize;
-		 }
-		
-		 if (y < blockSize) {
-			 y = blockSize;
-		 }
+//		 if (x < blockSize) {
+//			 x = blockSize;
+//		 }
+//		
+//		 if (y < blockSize) {
+//			 y = blockSize;
+//		 }
 		 
 //		 if (x > blockSize*(matrixWidth-2)) {
 //			x = blockSize*(matrixWidth-2);
