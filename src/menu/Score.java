@@ -16,12 +16,6 @@ public class Score implements Comparable<Score> {
 		this.player = player;
 	}
 	
-	/*public Score(Player player, int time, int points) {
-		this.points = points;
-		this.time = time;
-		this.player = player;
-	}	*/
-	
 	//Reads in a string with the correct information separating information blocks by " " 
 	public Score(String fileInput)
 	{
@@ -38,10 +32,14 @@ public class Score implements Comparable<Score> {
 		return "Name: " + player + " - Score: " + points
 				+ " - Time: " + time;
 	}
+	
+	public String fileToString() {
+		return (player + " " + points + " " + time);
+	}
 
 	@Override
 	public int compareTo(Score other) {
-		return this.points - other.getPoints();
+		return other.getPoints() - this.points;
 	}
 
 	// Getters and Setters
