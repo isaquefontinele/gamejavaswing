@@ -129,8 +129,18 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 			showPanel.removeAll();
+			manager = new GridLayout(3, 3);
+			showPanel.setLayout(manager);
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
 			JLabel l = new JLabel("Isaque Fontinele & Danny O'Dea");
 			showPanel.add(l);
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
 			revalidate();
 			repaint();
 		}
@@ -142,8 +152,18 @@ public class Menu extends JFrame {
 			showPanel.removeAll();
 			Action muteAction = new muteAction();
 			JButton mute = new JButton(muteAction);
+			manager = new GridLayout(3, 3);
+			showPanel.setLayout(manager);
 			mute.setText("Mute");
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
 			showPanel.add(mute);
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
+			showPanel.add(new JLabel(""));
 			revalidate();
 			repaint();
 		}
@@ -153,10 +173,10 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 			showPanel.removeAll();
+			showPanel.setLayout(null);
 			showPanel.add(scores);
 			revalidate();
 			repaint();
-			
 		}
 	}
 

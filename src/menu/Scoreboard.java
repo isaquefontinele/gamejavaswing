@@ -38,7 +38,6 @@ public class Scoreboard extends JPanel{
 		setLayout(new GridLayout(10, 1));
 		setBackground(Color.WHITE);
 		updateLabels();
-		printScores();
 	}
 	
 	public void updateLabels()
