@@ -22,19 +22,19 @@ public abstract class Creature {
 		x += increaseX;
 		y += increaseY;
 
-//		 if (x < blockSize) {
-//			 x = blockSize;
-//		 }
-//		
-//		 if (y < blockSize) {
-//			 y = blockSize;
-//		 }
+		 if (x <= blockSize) {
+			 x = blockSize;
+		 }
+		
+		 if (y <= blockSize) {
+			 y = blockSize;
+		 }
 		 
-//		 if (x > blockSize*(matrixWidth-2)) {
+//		 if (x >= blockSize*(matrixWidth-2)) {
 //			x = blockSize*(matrixWidth-2);
 //		 }
 //		 
-//		 if (y > blockSize*(matrixHeigth-2)) {
+//		 if (y >= blockSize*(matrixHeigth-2)) {
 //			 y = blockSize*(matrixHeigth-2);
 //		}
 	}

@@ -143,7 +143,8 @@ public class Gameplay extends JPanel implements ActionListener {
 			}	
 		}
 		
-		// Somehow get out of the game back to menu
+		// ESC
+		// Get out of the game back to menu
 		if (key == KeyEvent.VK_ESCAPE) {
 			this.setVisible(false);
 			this.setEnabled(false);
@@ -185,17 +186,40 @@ public class Gameplay extends JPanel implements ActionListener {
 		}
 		
 //		 Colisions with walls
-//		Rectangle topLeft = new Rectangle(hero.getTopLeftX(), hero.getTopLeftY(), 1, 1);
-//		Rectangle topRight = new Rectangle(hero.getTopRightX(), hero.getTopRightY(), 1, 1);
-//		Rectangle downLeft = new Rectangle(hero.getDownLeftX(), hero.getDownLeftY(), 1, 1);
-//		Rectangle downRight = new Rectangle(hero.getDownRightX(), hero.getDownRightY(), 1, 1);
-//		
-//		for (int i = 0; i < wallsToCollision.size(); i++) {
-//		
-//			if (wallsToCollision.get(i).getBounds().intersects(topLeft) || wallsToCollision.get(i).getBounds().intersects(topRight)) {
-//				hero.setCanGoUp(false);
-//			}
-//		}
+		Rectangle topLeft = new Rectangle(hero.getTopLeftX(), hero.getTopLeftY(), 1, 1);
+		Rectangle topRight = new Rectangle(hero.getTopRightX(), hero.getTopRightY(), 1, 1);
+		Rectangle downLeft = new Rectangle(hero.getDownLeftX(), hero.getDownLeftY(), 1, 1);
+		Rectangle downRight = new Rectangle(hero.getDownRightX(), hero.getDownRightY(), 1, 1);
+		
+		hero.setCanGoDown(true);
+		hero.setCanGoUp(true);
+		hero.setCanGoRight(true);
+		hero.setCanGoLeft(true);
+		for (int i = 0; i < wallsToCollision.size(); i++) {
+			
+			if (wallsToCollision.get(i).getBounds().intersects(hero.getBounds())) {
+				if (hero.getDirection() == Direction.RIGHT) {
+					hero.setCanGoRight(false);
+					hero.setX(wallsToCollision.get(i).getX()-blockSize);
+					break;
+				}
+				if (hero.getDirection() == Direction.LEFT) {
+					hero.setCanGoRight(false);
+					hero.setX(wallsToCollision.get(i).getX()+blockSize);
+					break;
+				}
+				if (hero.getDirection() == Direction.UP) {
+					hero.setCanGoRight(false);
+					hero.setY(wallsToCollision.get(i).getY()+blockSize);
+					break;
+				}
+				if (hero.getDirection() == Direction.DOWN) {
+					hero.setCanGoRight(false);
+					hero.setY(wallsToCollision.get(i).getY()-blockSize);
+					break;
+				}
+			}
+		}
 	}
 	
 

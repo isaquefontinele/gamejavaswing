@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 public class Hero extends Creature {
 
 	private HeroClass heroClass;
+	private Direction direction;
 	private int SPEED = 4;
 	private int width;
 	private int height;
@@ -41,6 +42,7 @@ public class Hero extends Creature {
 		this.canGoDown = true;
 	}
 	
+	
 	public void keyPressed(KeyEvent e) {
 
 		int key = e.getKeyCode();
@@ -48,27 +50,28 @@ public class Hero extends Creature {
 		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
 			if (canGoLeft) {
 				setIncreaseX(-SPEED);
+				setDirection(Direction.LEFT);
 			}
 		}
 
 		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-//			if (getX() > getBlockSize()*(getMatrixWidth()-2)) {
-//				setX(getBlockSize()*(getMatrixWidth()-2));
-//			}
 			if (canGoRight) {
 				setIncreaseX(SPEED);
+				setDirection(Direction.RIGHT);
 			}
 		}
 
 		if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
 			if (canGoUp) {
 				setIncreaseY(-SPEED);
+				setDirection(Direction.UP);
 			}
 		}
 
 		if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 			if (canGoDown) {
 				setIncreaseY(SPEED);
+				setDirection(Direction.DOWN);
 			}
 		}
 	}
@@ -210,5 +213,13 @@ public class Hero extends Creature {
 
 	public void setDownRightY(int downRightY) {
 		this.downRightY = downRightY;
+	}
+
+	public Direction getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 }
