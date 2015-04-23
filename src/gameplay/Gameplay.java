@@ -37,6 +37,7 @@ public class Gameplay extends JPanel implements ActionListener {
 	private ArrayList<Integer> groundTilesY;
 	
 	private Image groundTile;
+	private Image door;
 	private Timer timer;
 	private Hero hero;
 	private JPanel buttonPanel, showPanel;
@@ -65,7 +66,8 @@ public class Gameplay extends JPanel implements ActionListener {
         inGame = true;
         groundTile = new ImageIcon(this.getClass().getResource(
 				"/images/groundTile.png")).getImage();
-
+        door = new ImageIcon(this.getClass().getResource(
+				"/images/door.png")).getImage();
         currentFase = new Fase(GAME_WIDTH, GAME_HEIGHT, blockSize);
         
         hero = new Hero(heroClass, blockSize);
@@ -90,7 +92,6 @@ public class Gameplay extends JPanel implements ActionListener {
 		groundTilesX = currentFase.getGroundTilesX();
 		groundTilesY = currentFase.getGroundTilesY();
 		bullets = new ArrayList<Bullet>();
-
     }
 	
 	@Override
@@ -318,6 +319,13 @@ public class Gameplay extends JPanel implements ActionListener {
 				g2d.drawImage(monsters.get(i).getImage(), monsters.get(i).getX(), monsters.get(i).getY(),
 	                    this);
 			}
+			
+			// Print door
+			if (items.size() != 0) {
+				g2d.drawImage(door, currentFase.getExitPosX(), currentFase.getExitPosY(),
+	                    this);
+			}
+
 			
 			// Print hero
 			g2d.drawImage(hero.getImage(), hero.getX(), hero.getY(),

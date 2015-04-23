@@ -91,7 +91,7 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 
-			currentHeroClass = HeroClass.WARRIOR;
+			currentHeroClass = HeroClass.MAGE;
 			
 			setSize(GAME_WIDTH, GAME_HEIGHT);
 			setLocationRelativeTo(null);

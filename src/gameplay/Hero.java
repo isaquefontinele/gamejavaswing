@@ -118,7 +118,7 @@ public class Hero extends Creature {
 			break;
 		case MAGE:
 			super.setImage(new ImageIcon(this.getClass().getResource(
-					"/images/hero.png")).getImage());
+					"/images/mage.png")).getImage());
 			break;
 		case HUNTER:
 			super.setImage(new ImageIcon(this.getClass().getResource(
