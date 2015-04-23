@@ -174,7 +174,7 @@ public class Menu extends JFrame {
 		}
 	}
 	
-	private void resizeWindow() {
+	public void resizeWindow() {
 		if (!inGame) {
 			setSize(MENU_WIDTH, MENU_HEIGHT);
 		} else {

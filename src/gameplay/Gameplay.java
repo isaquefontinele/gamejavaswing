@@ -164,7 +164,7 @@ public class Gameplay extends JPanel implements ActionListener {
 			this.setEnabled(false);
 			enableButtonPanel(true);
 			enableShowPanel(true);
-//			this.getParent().paint(getGraphics());
+//			this.getParent().getParent();
 		}
 	}
 	
@@ -244,6 +244,13 @@ public class Gameplay extends JPanel implements ActionListener {
 					}
 					break;
 				}
+			}
+		}
+		
+		// Collect items
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getBounds().intersects(hero.getBounds())) {
+				items.remove(items.get(i));
 			}
 		}
 	}

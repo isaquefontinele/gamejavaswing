@@ -131,6 +131,8 @@ public class Fase {
 					tempItem.setX(blockWidth*j);
 					tempItem.setY(blockHeight*i);
 					items.add(tempItem);
+					groundTilesX.add(blockWidth*j);
+					groundTilesY.add(blockHeight*i);
 					break;
 				case "E":
 					setExitPosX(blockWidth*j);
