@@ -35,7 +35,8 @@ public class Menu extends JFrame {
 		MENU_HEIGHT = (int) Math.round(screenSize.height * windowSize);
 		GAME_WIDTH = blockSize * 11;
 		GAME_HEIGHT = blockSize * 11;
-		setSize(MENU_WIDTH, MENU_HEIGHT);
+//		setSize(MENU_WIDTH, MENU_HEIGHT);
+		resizeWindow();
 
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
@@ -77,29 +78,12 @@ public class Menu extends JFrame {
 
 		add(buttonPanel);
 		add(showPanel);
-
 	}
 	
-
-	// Trigger visibility of the main menu components
-//	private void enableButtonPanel(boolean pick) {
-//		Component[] components1 = buttonPanel.getComponents();
-//		for (int i = 0; i < components1.length; i++) {
-//			components1[i].setEnabled(pick);
-//		}
-//	}
-//
-//	private void enableShowPanel(boolean pick) {
-//		Component[] components1 = showPanel.getComponents();
-//		for (int i = 0; i < components1.length; i++) {
-//			components1[i].setEnabled(pick);
-//		}
-//	}
 
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		
 //		System.out.println(this.getWidth() + " " + this.getHeight());
 	}
 	
@@ -107,17 +91,21 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 
-//			enableButtonPanel(false);
-//			enableShowPanel(false);
 			currentHeroClass = HeroClass.WARRIOR;
-
 			
 			setSize(GAME_WIDTH, GAME_HEIGHT);
 			setLocationRelativeTo(null);
 			setLayout(null);
-			gameplay = new Gameplay(MENU_WIDTH, MENU_HEIGHT, currentHeroClass, buttonPanel, showPanel);
 			
-			add(gameplay);
+			// New Game
+			if (gameplay == null) {
+				gameplay = new Gameplay(MENU_WIDTH, MENU_HEIGHT, currentHeroClass, buttonPanel, showPanel);
+				add(gameplay);
+				
+			} else { // Continue existing game
+				gameplay.setVisible(true);
+				gameplay.setEnabled(true);
+			}
 			
 			gameplay.enableButtonPanel(false);
 			gameplay.enableShowPanel(false);
@@ -183,6 +171,14 @@ public class Menu extends JFrame {
 	private class exitAction extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			System.exit(0);
+		}
+	}
+	
+	private void resizeWindow() {
+		if (!inGame) {
+			setSize(MENU_WIDTH, MENU_HEIGHT);
+		} else {
+			setSize(GAME_WIDTH, GAME_HEIGHT);
 		}
 	}
 	

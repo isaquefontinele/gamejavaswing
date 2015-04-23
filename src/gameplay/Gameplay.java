@@ -75,6 +75,7 @@ public class Gameplay extends JPanel implements ActionListener {
 
         timer = new Timer(SPEED, this);
         timer.start();
+        
 	}
 
 	public void initObjects() {
@@ -150,6 +151,7 @@ public class Gameplay extends JPanel implements ActionListener {
 			this.setEnabled(false);
 			enableButtonPanel(true);
 			enableShowPanel(true);
+//			this.getParent().paint(getGraphics());
 		}
 	}
 	
@@ -186,11 +188,6 @@ public class Gameplay extends JPanel implements ActionListener {
 		}
 		
 //		 Colisions with walls
-		Rectangle topLeft = new Rectangle(hero.getTopLeftX(), hero.getTopLeftY(), 1, 1);
-		Rectangle topRight = new Rectangle(hero.getTopRightX(), hero.getTopRightY(), 1, 1);
-		Rectangle downLeft = new Rectangle(hero.getDownLeftX(), hero.getDownLeftY(), 1, 1);
-		Rectangle downRight = new Rectangle(hero.getDownRightX(), hero.getDownRightY(), 1, 1);
-		
 		hero.setCanGoDown(true);
 		hero.setCanGoUp(true);
 		hero.setCanGoRight(true);
@@ -200,22 +197,22 @@ public class Gameplay extends JPanel implements ActionListener {
 			if (wallsToCollision.get(i).getBounds().intersects(hero.getBounds())) {
 				if (hero.getDirection() == Direction.RIGHT) {
 					hero.setCanGoRight(false);
-					hero.setX(wallsToCollision.get(i).getX()-blockSize);
+					hero.setX(wallsToCollision.get(i).getX()-hero.getWidth());
 					break;
 				}
-				if (hero.getDirection() == Direction.LEFT) {
+				else if (hero.getDirection() == Direction.LEFT) {
 					hero.setCanGoRight(false);
 					hero.setX(wallsToCollision.get(i).getX()+blockSize);
 					break;
 				}
-				if (hero.getDirection() == Direction.UP) {
+				else if (hero.getDirection() == Direction.UP) {
 					hero.setCanGoRight(false);
 					hero.setY(wallsToCollision.get(i).getY()+blockSize);
 					break;
 				}
-				if (hero.getDirection() == Direction.DOWN) {
+				else if (hero.getDirection() == Direction.DOWN) {
 					hero.setCanGoRight(false);
-					hero.setY(wallsToCollision.get(i).getY()-blockSize);
+					hero.setY(wallsToCollision.get(i).getY()-hero.getHeight());
 					break;
 				}
 			}

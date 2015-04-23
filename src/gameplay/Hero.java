@@ -25,7 +25,6 @@ public class Hero extends Creature {
 	private int downRightX;
 	private int downRightY;
 
-
 	public Hero(HeroClass heroClass, int blockSize) {
 		super.setBlockSize(blockSize);
 		setImage(heroClass);
@@ -33,9 +32,8 @@ public class Hero extends Creature {
 		setIncreaseY(0);
 		this.width = getImage().getWidth(null);
 		this.height = getImage().getHeight(null);
-		this.setHeroClass(heroClass);
+		setHeroClass(heroClass);
 		this.shield = heroClass.getShieldValue();
-		this.setHeroClass(heroClass);
 		this.canGoRight = true;
 		this.canGoLeft = true;
 		this.canGoUp = true;
@@ -55,7 +53,7 @@ public class Hero extends Creature {
 		}
 
 		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-			if (canGoRight) {
+			if (canGoRight && getX() <= 75*9+width/2) {
 				setIncreaseX(SPEED);
 				setDirection(Direction.RIGHT);
 			}
@@ -221,5 +219,21 @@ public class Hero extends Creature {
 
 	public void setDirection(Direction direction) {
 		this.direction = direction;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 }

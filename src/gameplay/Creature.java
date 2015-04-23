@@ -26,7 +26,7 @@ public abstract class Creature {
 			 x = blockSize;
 		 }
 		
-		 if (y <= blockSize) {
+		 if (y <= blockSize && x < blockSize*9) {
 			 y = blockSize;
 		 }
 		 
