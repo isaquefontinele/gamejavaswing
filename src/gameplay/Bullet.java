@@ -8,6 +8,7 @@ public class Bullet {
 
 	private final Direction direction;
     private int x, y;
+    private int damage = 3;
     private Image currentImage;
     boolean visible;
     private int width, height;
@@ -105,4 +106,18 @@ public class Bullet {
     public int getY() {
         return y;
     }
+
+
+
+
+	public int getDamage() {
+		return damage;
+	}
+
+
+
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
 }

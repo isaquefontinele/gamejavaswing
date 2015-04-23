@@ -150,6 +150,7 @@ public class Fase {
 					// Set Type
 					if (matrixMonstersConfigs[monsterIndex][0].equals("E")) {
 						tempMonster.setType(MonsterType.ESQUELETON);
+						tempMonster.setLife(12);
 					}
 					// Set Direction of Movement
 					if (matrixMonstersConfigs[monsterIndex][1].equals("H")) {

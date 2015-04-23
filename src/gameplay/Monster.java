@@ -148,4 +148,9 @@ public class Monster extends Creature {
 	public monsterDirection getDirection() {
 		return direction;
 	}
+
+	public void shoot(int damage) {
+		setLife(getLife()-damage);
+		
+	}
 }

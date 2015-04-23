@@ -183,6 +183,7 @@ public class Gameplay extends JPanel implements ActionListener {
 		}
 	}
 
+	// WATCH OUT!!! Collisions ahead!
 	private void checkCollisions() {
 		Rectangle heroRect = hero.getBounds();
 		updateCorners();
@@ -200,7 +201,7 @@ public class Gameplay extends JPanel implements ActionListener {
 			}
 		}
 		
-//		 Colisions with walls
+		// Colisions with walls
 		hero.setCanGoDown(true);
 		hero.setCanGoUp(true);
 		hero.setCanGoRight(true);
@@ -226,6 +227,21 @@ public class Gameplay extends JPanel implements ActionListener {
 				else if (hero.getDirection() == Direction.DOWN) {
 					hero.setCanGoRight(false);
 					hero.setY(wallsToCollision.get(i).getY()-hero.getHeight());
+					break;
+				}
+			}
+		}
+		
+		// Colisions between bullets and monsters
+		for (int i = 0; i < bullets.size(); i++) {
+			for (int j = 0; j < monsters.size(); j++) {
+				if (bullets.get(i).getBounds().intersects(monsters.get(j).getBounds())) {
+					monsters.get(j).shoot(bullets.get(i).getDamage());
+					bullets.remove(bullets.get(i));
+					
+					if (monsters.get(j).getLife() <= 0) {
+						monsters.remove(monsters.get(j));
+					}
 					break;
 				}
 			}
