@@ -32,6 +32,7 @@ public class Gameplay extends JPanel implements ActionListener {
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> wallsToPrint;
 	private ArrayList<Wall> wallsToCollision;
+	private ArrayList<Bullet> bullets;
 	private ArrayList<Integer> groundTilesX;
 	private ArrayList<Integer> groundTilesY;
 	
@@ -88,6 +89,7 @@ public class Gameplay extends JPanel implements ActionListener {
 		hero.setY(currentFase.getHeroPosY());
 		groundTilesX = currentFase.getGroundTilesX();
 		groundTilesY = currentFase.getGroundTilesY();
+		bullets = new ArrayList<Bullet>();
 
     }
 	
@@ -100,11 +102,22 @@ public class Gameplay extends JPanel implements ActionListener {
 		
 		monstersMove();
 		hero.move();
+		bulletsMove();
 		checkCollisions();
 		repaint();
 	}
 	
-    private void monstersMove() {
+    private void bulletsMove() {
+		for (int i = 0; i < bullets.size(); i++) {
+			if (bullets.get(i).isVisible()){
+				bullets.get(i).move();
+			} else {
+				bullets.remove(bullets.get(i));
+			}
+		}
+	}
+
+	private void monstersMove() {
 //    	System.out.println(timer.getDelay());
 		for (int i = 0; i < monsters.size(); i++) {
 			monsters.get(i).ai();
@@ -260,7 +273,14 @@ public class Gameplay extends JPanel implements ActionListener {
 //				g2.dispose();
 			}
 			
+			// Print bullets
+			bullets.addAll(hero.getBullets());
+			hero.getBullets().clear();
 			
+			for (int i = 0; i < bullets.size(); i++) {
+				g2d.drawImage(bullets.get(i).getImage(), bullets.get(i).getX(), bullets.get(i).getY(),
+	                    this);
+			}
 			
 			// Print items
 			for (int i = 0; i < items.size(); i++) {

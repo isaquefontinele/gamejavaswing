@@ -2,6 +2,8 @@ package gameplay;
 
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 public class Hero extends Creature {
@@ -24,6 +26,7 @@ public class Hero extends Creature {
 	private int downLeftY;
 	private int downRightX;
 	private int downRightY;
+	private ArrayList<Bullet> bullets;
 
 	public Hero(HeroClass heroClass, int blockSize) {
 		super.setBlockSize(blockSize);
@@ -33,11 +36,13 @@ public class Hero extends Creature {
 		this.width = getImage().getWidth(null);
 		this.height = getImage().getHeight(null);
 		setHeroClass(heroClass);
+		direction = Direction.RIGHT;
 		this.shield = heroClass.getShieldValue();
 		this.canGoRight = true;
 		this.canGoLeft = true;
 		this.canGoUp = true;
 		this.canGoDown = true;
+		this.setBullets(new ArrayList<Bullet>());
 	}
 	
 	
@@ -72,6 +77,10 @@ public class Hero extends Creature {
 				setDirection(Direction.DOWN);
 			}
 		}
+		
+		if (key == KeyEvent.VK_SPACE) {
+			shoot();
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -92,6 +101,11 @@ public class Hero extends Creature {
 		if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 			setIncreaseY(0);
 		}
+	}
+	
+	private void shoot() {
+		bullets.add(new Bullet( getX() + width/2, getY() + height/2, getDirection()));
+
 	}
 
 
@@ -235,5 +249,15 @@ public class Hero extends Creature {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+
+	public ArrayList<Bullet> getBullets() {
+		return bullets;
+	}
+
+
+	public void setBullets(ArrayList<Bullet> bullets) {
+		this.bullets = bullets;
 	}
 }
