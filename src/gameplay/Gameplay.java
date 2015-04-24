@@ -315,6 +315,7 @@ public class Gameplay extends JPanel implements ActionListener {
 				g2d.drawString(winStr, (GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
 				GAME_HEIGHT / 2);
 				timer.stop();
+				updateScore();
 			}
 
 			// Update screen
@@ -323,7 +324,7 @@ public class Gameplay extends JPanel implements ActionListener {
 	}
 	
 	private void updateScore() {
-
+		// Do you thing with updateScore
 	}
 	
 	// Keyboard stuff
