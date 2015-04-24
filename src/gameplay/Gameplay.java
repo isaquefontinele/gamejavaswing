@@ -242,6 +242,17 @@ public class Gameplay extends JPanel implements ActionListener {
 				}
 			}
 		}
+		
+		// Colisions between bullets and walls
+		for (int i = 0; i < bullets.size(); i++) {
+			for (int j = 0; j < walls.size(); j++) {
+				if (bullets.get(i).getBounds()
+						.intersects(walls.get(j).getBounds())) {
+					bullets.remove(bullets.get(i));
+					break;
+				}
+			}
+		}
 
 		// Collect items
 		for (int i = 0; i < items.size(); i++) {
