@@ -1,0 +1,36 @@
+11x11
+W W W W W W W W W W W
+W N N N N N N N N E W
+W N W N N N N N W N W
+W N W N W W W N W N W
+W M W N N N N N W M W
+W N N W N W N W N N W
+W N W O N M N O N N W
+W N N W W W W W N N W
+W N W N N N N N W N W
+W I N N N N N N N N W
+W W W W W W W W W W W
+3
+E V 100
+E H 100
+E V 100
+2
+T
+T
+0
+
+
+
+
+Explaining:
+
+11x11 = Matrix dimensions
+Matrix itself
+3 = Number of monsters in order of reading row after row
+E V 100
+E = type of monster (esqueleton)
+V = Direction of move (vertical)
+100 = Max range
+2 = Number of items
+T = type of item (treasure)
+0 = End of reading
