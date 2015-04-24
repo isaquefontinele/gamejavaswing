@@ -33,8 +33,8 @@ public class Menu extends JFrame {
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		MENU_WIDTH = (int) Math.round(screenSize.width * windowSize);
 		MENU_HEIGHT = (int) Math.round(screenSize.height * windowSize);
-		GAME_WIDTH = blockSize * 11;
-		GAME_HEIGHT = blockSize * 11;
+		GAME_WIDTH = blockSize * 11 + 15;
+		GAME_HEIGHT = blockSize * 12 - 30;
 //		setSize(MENU_WIDTH, MENU_HEIGHT);
 		resizeWindow();
 

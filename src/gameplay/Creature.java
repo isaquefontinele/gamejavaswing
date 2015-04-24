@@ -8,7 +8,6 @@ public abstract class Creature {
 	private Image image;
 	private int life;
 	private boolean state;
-	private int blockSize;
 	private int matrixWidth;
 	private int matrixHeigth;
 
@@ -18,25 +17,8 @@ public abstract class Creature {
 	private int increaseY;
 
 	public void move() {
-
 		x += increaseX;
 		y += increaseY;
-
-		 if (x <= blockSize) {
-			 x = blockSize;
-		 }
-		
-		 if (y <= blockSize && x < blockSize*9) {
-			 y = blockSize;
-		 }
-		 
-//		 if (x >= blockSize*(matrixWidth-2)) {
-//			x = blockSize*(matrixWidth-2);
-//		 }
-//		 
-//		 if (y >= blockSize*(matrixHeigth-2)) {
-//			 y = blockSize*(matrixHeigth-2);
-//		}
 	}
 
 	// Getters and Setters
@@ -102,14 +84,6 @@ public abstract class Creature {
 
 	public void setImage(Image image) {
 		this.image = image;
-	}
-
-	public int getBlockSize() {
-		return blockSize;
-	}
-
-	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
 	}
 
 	public int getMatrixWidth() {

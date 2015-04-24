@@ -16,8 +16,7 @@ public class Fase {
 	private String[][] matrixMonstersConfigs = new String[monstersTotal][3];
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
-	private ArrayList<Wall> wallsToPrint;
-	private ArrayList<Wall> wallsToCollision;
+	private ArrayList<Wall> walls;
 	private ArrayList<Integer> groundTilesX;
 	private ArrayList<Integer> groundTilesY;
 	private int blockSize;
@@ -25,6 +24,7 @@ public class Fase {
 	private int heroPosY;
 	private int exitPosX;
 	private int exitPosY;
+	private Wall doorWall;
 	
 
 	private String matrixRaw = 
@@ -66,8 +66,7 @@ public class Fase {
 		
 		this.items = new ArrayList<Item>();
 		this.monsters = new ArrayList<Monster>();
-		this.wallsToPrint = new ArrayList<Wall>();
-		this.wallsToCollision = new ArrayList<Wall>();
+		this.walls = new ArrayList<Wall>();
 		this.groundTilesX = new ArrayList<Integer>();
 		this.groundTilesY = new ArrayList<Integer>();
 		
@@ -114,35 +113,39 @@ public class Fase {
 			matrixRow = matrix[i];
 			for (int j = 0; j < matrixRow.length; j++) {
 				switch (matrixRow[j]) {
+				
 				case "W": 
 					Wall tempWall = new Wall();
 					tempWall.setX(blockWidth*j);
 					tempWall.setY(blockHeight*i);
-					//Otimization: exclude external walls from collison
-					if (i != 0 && i != matrix.length-1) {
-						if (j != 0 && j != matrixRow.length-1) {
-							wallsToCollision.add(tempWall);
-						}
-					}
-					wallsToPrint.add(tempWall);
+					walls.add(tempWall);
 					break;
 				case "O":
 					Item tempItem = new Item();
 					tempItem.setX(blockWidth*j);
 					tempItem.setY(blockHeight*i);
 					items.add(tempItem);
+					// Ground tile
 					groundTilesX.add(blockWidth*j);
 					groundTilesY.add(blockHeight*i);
 					break;
 				case "E":
 					setExitPosX(blockWidth*j);
 					setExitPosY(blockHeight*i);
+					// Ground tile
 					groundTilesX.add(blockWidth*j);
 					groundTilesY.add(blockHeight*i);
+					
+					Wall doorWall = new Wall();
+					doorWall.setX(blockWidth*j);
+					doorWall.setY(blockHeight*i);
+					setDoorWall(doorWall);
+					walls.add(doorWall);
 					break;
 				case "H":
 					setHeroPosX(blockWidth*j);
 					setHeroPosY(blockHeight*i);
+					// Ground tile
 					groundTilesX.add(blockWidth*j);
 					groundTilesY.add(blockHeight*i);
 					break;
@@ -167,10 +170,12 @@ public class Fase {
 					tempMonster.setY(blockHeight*i);
 					monsters.add(tempMonster);
 					monsterIndex++;
+					// Ground tile
 					groundTilesX.add(blockWidth*j);
 					groundTilesY.add(blockHeight*i);
 					break;
 				default: // Nothing
+					// Ground tile
 					groundTilesX.add(blockWidth*j);
 					groundTilesY.add(blockHeight*i);
 				}
@@ -199,15 +204,15 @@ public class Fase {
 	public void setMonsters(ArrayList<Monster> monsters) {
 		this.monsters = monsters;
 	}
+	
+	public ArrayList<Wall> getWalls() {
+		return walls;
+	}
 
-	public ArrayList<Wall> getWallsToPrint() {
-		return wallsToPrint;
+	public void setWalls(ArrayList<Wall> walls) {
+		this.walls = walls;
 	}
-	
-	public ArrayList<Wall> getWallsToCollision() {
-		return wallsToCollision;
-	}
-	
+
 	public int getHeroPosX() {
 		return heroPosX;
 	}
@@ -270,5 +275,13 @@ public class Fase {
 
 	public ArrayList<Integer> getGroundTilesY() {
 		return groundTilesY;
+	}
+
+	public Wall getDoorWall() {
+		return doorWall;
+	}
+
+	public void setDoorWall(Wall doorWall) {
+		this.doorWall = doorWall;
 	}
 }

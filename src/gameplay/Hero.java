@@ -18,31 +18,22 @@ public class Hero extends Creature {
 	private boolean canGoLeft;
 	private boolean canGoUp;
 	private boolean canGoDown;
-	private int topLeftX;
-	private int topLeftY;
-	private int topRightX;
-	private int topRightY;
-	private int downLeftX;
-	private int downLeftY;
-	private int downRightX;
-	private int downRightY;
 	private ArrayList<Bullet> bullets;
 
-	public Hero(HeroClass heroClass, int blockSize) {
-		super.setBlockSize(blockSize);
+	public Hero(HeroClass heroClass) {
 		setImage(heroClass);
 		setIncreaseX(0);
 		setIncreaseY(0);
-		this.width = getImage().getWidth(null);
-		this.height = getImage().getHeight(null);
+		width = getImage().getWidth(null);
+		height = getImage().getHeight(null);
 		this.heroClass = heroClass;
 		setLife(heroClass.getLife());
 		direction = Direction.RIGHT;
-		this.canGoRight = true;
-		this.canGoLeft = true;
-		this.canGoUp = true;
-		this.canGoDown = true;
-		this.setBullets(new ArrayList<Bullet>());
+		canGoRight = true;
+		canGoLeft = true;
+		canGoUp = true;
+		canGoDown = true;
+		setBullets(new ArrayList<Bullet>());
 	}
 	
 	
@@ -161,70 +152,6 @@ public class Hero extends Creature {
 
 	public void setCanGoDown(boolean canGoDown) {
 		this.canGoDown = canGoDown;
-	}
-
-	public int getTopLeftX() {
-		return topLeftX;
-	}
-
-	public void setTopLeftX(int topLeftX) {
-		this.topLeftX = topLeftX;
-	}
-
-	public int getTopLeftY() {
-		return topLeftY;
-	}
-
-	public void setTopLeftY(int topLeftY) {
-		this.topLeftY = topLeftY;
-	}
-
-	public int getTopRightX() {
-		return topRightX;
-	}
-
-	public void setTopRightX(int topRightX) {
-		this.topRightX = topRightX;
-	}
-
-	public int getTopRightY() {
-		return topRightY;
-	}
-
-	public void setTopRightY(int topRightY) {
-		this.topRightY = topRightY;
-	}
-
-	public int getDownLeftX() {
-		return downLeftX;
-	}
-
-	public void setDownLeftX(int downLeftX) {
-		this.downLeftX = downLeftX;
-	}
-
-	public int getDownLeftY() {
-		return downLeftY;
-	}
-
-	public void setDownLeftY(int downLeftY) {
-		this.downLeftY = downLeftY;
-	}
-
-	public int getDownRightX() {
-		return downRightX;
-	}
-
-	public void setDownRightX(int downRightX) {
-		this.downRightX = downRightX;
-	}
-
-	public int getDownRightY() {
-		return downRightY;
-	}
-
-	public void setDownRightY(int downRightY) {
-		this.downRightY = downRightY;
 	}
 
 	public Direction getDirection() {
