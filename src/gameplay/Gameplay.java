@@ -235,6 +235,7 @@ public class Gameplay extends JPanel implements ActionListener {
 		String touchingStr = "Touching monster";
 		String lifeStr = "Life: " + hero.getLife();
 		String scoreStr = "Score: " + currentScore;
+		String winStr = "Congratulations, you won!";
 		Font small = new Font("Helvetica", Font.BOLD, 30);
 		FontMetrics metr = this.getFontMetrics(small);
 		g2d.setColor(Color.white);
@@ -308,6 +309,13 @@ public class Gameplay extends JPanel implements ActionListener {
 
 			// Score
 			g2d.drawString(scoreStr, blockSize * 3, blockSize / 2);
+			
+			// Victory message
+			if (hero.getY() + hero.getHeight() <= 0) {
+				g2d.drawString(winStr, (GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
+				GAME_HEIGHT / 2);
+				timer.stop();
+			}
 
 			// Update screen
 			g.dispose();
