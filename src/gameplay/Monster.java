@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 public class Monster extends Creature {
 
 	private MonsterType type;
-	private int attack;
 	private int width;
 	private int height;
 	private int SPEED = 1;
@@ -98,7 +97,6 @@ public class Monster extends Creature {
 		setImage(type);
 		this.setWidth(getImage().getWidth(null));
 		this.setHeight(getImage().getHeight(null));
-		this.setAttack(type.getAttackValue());
 	}
 
 	public void setDirection(monsterDirection direction) {
@@ -127,12 +125,9 @@ public class Monster extends Creature {
 	}
 
 	public int getAttack() {
-		return attack;
+		return type.getAttackValue();
 	}
 
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
 	public MonsterType getType() {
 		return type;
 	}
@@ -152,5 +147,9 @@ public class Monster extends Creature {
 	public void shoot(int damage) {
 		setLife(getLife()-damage);
 		
+	}
+
+	public int getScore() {
+		return type.getScore();
 	}
 }

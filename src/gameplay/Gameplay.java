@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Menu;
 import java.awt.Rectangle;
@@ -19,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -26,6 +29,7 @@ public class Gameplay extends JPanel implements ActionListener {
 
 	private int GAME_WIDTH, GAME_HEIGHT;
 	private int SPEED = 5;
+//	private int TOP_BAR_Y = 20;
 	private Fase currentFase;
 	
 	private ArrayList<Item> items;
@@ -46,6 +50,8 @@ public class Gameplay extends JPanel implements ActionListener {
 	private boolean doorOpened;
 	private boolean touchingMonster;
 	private final int blockSize = 75;
+	private GridLayout manager;
+	private int currentScore;
 
 
 	
@@ -65,7 +71,7 @@ public class Gameplay extends JPanel implements ActionListener {
         setDoubleBuffered(true);
         inGame = true;
         groundTile = new ImageIcon(this.getClass().getResource(
-				"/images/groundTile.png")).getImage();
+				"/images/groundTile2.png")).getImage();
         door = new ImageIcon(this.getClass().getResource(
 				"/images/door.png")).getImage();
         currentFase = new Fase(GAME_WIDTH, GAME_HEIGHT, blockSize);
@@ -82,7 +88,7 @@ public class Gameplay extends JPanel implements ActionListener {
 	}
 
 	public void initObjects() {
-
+		currentScore = 0;
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
 		wallsToPrint = currentFase.getWallsToPrint();
@@ -241,6 +247,7 @@ public class Gameplay extends JPanel implements ActionListener {
 					bullets.remove(bullets.get(i));
 					
 					if (monsters.get(j).getLife() <= 0) {
+						currentScore += monsters.get(j).getScore();
 						monsters.remove(monsters.get(j));
 					}
 					break;
@@ -251,6 +258,7 @@ public class Gameplay extends JPanel implements ActionListener {
 		// Collect items
 		for (int i = 0; i < items.size(); i++) {
 			if (items.get(i).getBounds().intersects(hero.getBounds())) {
+				currentScore += 50;
 				items.remove(items.get(i));
 			}
 		}
@@ -276,7 +284,14 @@ public class Gameplay extends JPanel implements ActionListener {
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D)g;
-		
+		String pauseStr = "Game Paused";
+		String touchingStr = "Touching monster";
+		String lifeStr = "Life: " + hero.getLife();
+		String scoreStr = "Score: " + currentScore;
+		Font small = new Font("Helvetica", Font.BOLD, 30);
+        FontMetrics metr = this.getFontMetrics(small);
+        g2d.setColor(Color.white);
+        g2d.setFont(small);
 		
 		if (inGame) {
 			
@@ -333,26 +348,19 @@ public class Gameplay extends JPanel implements ActionListener {
 			
 			// Print Pause
 			if (!timer.isRunning()) {
-				
-				String msg = "Game Paused";
-				Font small = new Font("Helvetica", Font.BOLD, 30);
-	            FontMetrics metr = this.getFontMetrics(small);
-	            g2d.setColor(Color.white);
-	            g2d.setFont(small);
-				
-				g2d.drawString(msg, (GAME_WIDTH - metr.stringWidth(msg)) /2, GAME_HEIGHT/2);
+				g2d.drawString(pauseStr, (GAME_WIDTH - metr.stringWidth(pauseStr)) /2, GAME_HEIGHT/2);
 			}
 			
 			// Touching monster
 			if (touchingMonster) {
-				String msg = "Touching monster";
-				Font small = new Font("Helvetica", Font.BOLD, 30);
-	            FontMetrics metr = this.getFontMetrics(small);
-	            g2d.setColor(Color.white);
-	            g2d.setFont(small);
-				
-				g2d.drawString(msg, (GAME_WIDTH - metr.stringWidth(msg)) /2, GAME_HEIGHT/2);
+				g2d.drawString(touchingStr, (GAME_WIDTH - metr.stringWidth(touchingStr)) /2, GAME_HEIGHT/2);
 			}
+			
+			// Life
+			g2d.drawString(lifeStr, blockSize/3, blockSize/2);
+			
+			// Score
+			g2d.drawString(scoreStr, blockSize*3, blockSize/2);
 			
 			
 			// Update screen

@@ -35,9 +35,9 @@ public class Hero extends Creature {
 		setIncreaseY(0);
 		this.width = getImage().getWidth(null);
 		this.height = getImage().getHeight(null);
-		setHeroClass(heroClass);
+		this.heroClass = heroClass;
+		setLife(heroClass.getLife());
 		direction = Direction.RIGHT;
-		this.shield = heroClass.getShieldValue();
 		this.canGoRight = true;
 		this.canGoLeft = true;
 		this.canGoUp = true;
@@ -122,7 +122,7 @@ public class Hero extends Creature {
 			break;
 		case HUNTER:
 			super.setImage(new ImageIcon(this.getClass().getResource(
-					"/images/hero.png")).getImage());
+					"/images/archer.png")).getImage());
 			break;
 		}
 	}

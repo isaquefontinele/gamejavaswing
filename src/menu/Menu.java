@@ -89,9 +89,11 @@ public class Menu extends JFrame {
 	
 	private class playAction extends AbstractAction {
 
+		private GridLayout manager2;
+
 		public void actionPerformed(ActionEvent event) {
 
-			currentHeroClass = HeroClass.MAGE;
+			currentHeroClass = HeroClass.HUNTER;
 			
 			setSize(GAME_WIDTH, GAME_HEIGHT);
 			setLocationRelativeTo(null);

@@ -1,15 +1,15 @@
 package gameplay;
 
 public enum HeroClass {
-	WARRIOR(10), MAGE(2), HUNTER(5);
+	WARRIOR(20), MAGE(10), HUNTER(15);
 	
-	private int shieldValue;
+	private int life;
 	
-	private HeroClass(int shield) {
-		this.shieldValue = shield;
+	private HeroClass(int life) {
+		this.life = life;
 	}
-
-	public int getShieldValue() {
-		return shieldValue;
+	
+	public int getLife() {
+		return life;
 	}
 }
