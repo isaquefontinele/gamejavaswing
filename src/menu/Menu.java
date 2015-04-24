@@ -4,6 +4,7 @@ package menu;
 
 import gameplay.Gameplay;
 import gameplay.HeroClass;
+import gameplay.Player;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -26,7 +27,9 @@ public class Menu extends JFrame {
 	private Scoreboard scores;
 	private Gameplay gameplay;
 	private HeroClass currentHeroClass;
+	private Player currentPlayer;
 	public boolean inGame = false;
+	
 
 	public Menu() {
 		int blockSize = 75;

@@ -19,6 +19,7 @@ public class Fase {
 	private ArrayList<Wall> walls;
 	private ArrayList<Integer> groundTilesX;
 	private ArrayList<Integer> groundTilesY;
+	private ArrayList<Torch> torches;
 	private int blockSize;
 	private int heroPosX;
 	private int heroPosY;
@@ -32,11 +33,11 @@ public class Fase {
 			  "W W W W W W W W W E W\n"
 			+ "W N N N N N N N N N W\n"
 			+ "W N W N N N N N W N W\n"
-			+ "W N W N W W W N W N W\n"
+			+ "W N T N W W W N T N W\n"
 			+ "W M W N N N N N W M W\n"
 			+ "W N N W N W N W N N W\n"
 			+ "W N W O N M N O W N W\n"
-			+ "W N N W W W W W N N W\n"
+			+ "T N N W W W W W N N T\n"
 			+ "W N W N N N N N W N W\n"
 			+ "W N N N N H N N N N W\n"
 			+ "W W W W W W W W W W W";
@@ -69,6 +70,7 @@ public class Fase {
 		this.walls = new ArrayList<Wall>();
 		this.groundTilesX = new ArrayList<Integer>();
 		this.groundTilesY = new ArrayList<Integer>();
+		this.torches = new ArrayList<Torch>();
 		
 		
 		
@@ -174,6 +176,19 @@ public class Fase {
 					groundTilesX.add(blockWidth*j);
 					groundTilesY.add(blockHeight*i);
 					break;
+				case "T":
+					// Add torch
+					Torch tempTorch = new Torch();
+					tempTorch.setX(blockWidth*j);
+					tempTorch.setY(blockHeight*i);
+					torches.add(tempTorch);
+					
+					// Add wall
+					Wall tempWall2 = new Wall();
+					tempWall2.setX(blockWidth*j);
+					tempWall2.setY(blockHeight*i);
+					walls.add(tempWall2);
+					break;
 				default: // Nothing
 					// Ground tile
 					groundTilesX.add(blockWidth*j);
@@ -184,6 +199,14 @@ public class Fase {
 	}
 	
 	
+	public ArrayList<Torch> getTorches() {
+		return torches;
+	}
+
+	public void setTorches(ArrayList<Torch> torches) {
+		this.torches = torches;
+	}
+
 	// Getters and Setters
 	public String[][] getMatrix() {
 		return matrix;
