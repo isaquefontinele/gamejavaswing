@@ -95,7 +95,7 @@ public class Hero extends Creature {
 	}
 	
 	private void shoot() {
-		bullets.add(new Bullet( getX() + width/2, getY() + height/2, getDirection()));
+		bullets.add(new Bullet( getX() + width/2, getY() + height/2, getDirection(), heroClass));
 
 	}
 

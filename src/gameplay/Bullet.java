@@ -7,42 +7,28 @@ import javax.swing.ImageIcon;
 public class Bullet {
 
 	private final Direction direction;
-    private int x, y;
-    private int damage = 3;
-    private Image currentImage;
-    boolean visible;
-    private int width, height;
-    private final int BLOCK_SIZE = 75;
-    private final int MISSILE_SPEED = 2;
+	private HeroClass heroClass;
+	private final int MISSILE_SPEED = 2;
+	private int x, y;
+	private int damage = 3;
+	private int width, height;
+	private Image currentImage;
+	boolean visible;
 
-    public Bullet(int x, int y, Direction direction) {
+	public Bullet(int x, int y, Direction direction, HeroClass heroClass) {
 
-    	this.direction = direction;
-    	setImage();
-        visible = true;
-        width = currentImage.getWidth(null);
-        height = currentImage.getHeight(null);
-        this.x = x;
-        this.y = y;
-    }
+		this.direction = direction;
+		this.heroClass = heroClass;
+		setImage();
+		visible = true;
+		width = currentImage.getWidth(null);
+		height = currentImage.getHeight(null);
+		this.x = x;
+		this.y = y;
+	}
 
-
-    
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
-
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
-    }
-
-    public void move() {       
-        switch (direction) {
+	public void move() {
+		switch (direction) {
 		case RIGHT:
 			x += MISSILE_SPEED;
 			break;
@@ -56,66 +42,65 @@ public class Bullet {
 			y += MISSILE_SPEED;
 			break;
 		}
-        
-        
-//        if (x <= BLOCK_SIZE*2) {
-//        	visible = false;
-//		}
-//		
-//		if (y <= BLOCK_SIZE && x < BLOCK_SIZE*9) {
-//			visible = false;
-//		}
-//		 
-////		 if (x >= blockSize*(matrixWidth-2)) {
-////			x = blockSize*(matrixWidth-2);
-////		 }
-////		 
-////		 if (y >= blockSize*(matrixHeigth-2)) {
-////			 y = blockSize*(matrixHeigth-2);
-////		}
-//        if (x > BOARD_WIDTH)
-//            visible = false;
-    }
+	}
 
-    public Image getImage() {
-        return currentImage;
-    }
-    
+	// Getters and Setters
 	public void setImage() {
-		currentImage = new ImageIcon(this.getClass().getResource("/images/arrowRight.png")).getImage();
-        switch (direction) {
-		case RIGHT:
-			currentImage = new ImageIcon(this.getClass().getResource("/images/arrowRight.png")).getImage();
-			break;
-		case LEFT:
-			currentImage = new ImageIcon(this.getClass().getResource("/images/arrowLeft.png")).getImage();
-			break;
-		case UP:
-			currentImage = new ImageIcon(this.getClass().getResource("/images/arrowUp.png")).getImage();
-			break;
-		default: // Down
-			currentImage = new ImageIcon(this.getClass().getResource("/images/arrowDown.png")).getImage();
-			break;
+		currentImage = new ImageIcon(this.getClass().getResource(
+				"/images/arrowRight.png")).getImage();
+
+		if (heroClass == HeroClass.MAGE) {
+			currentImage = new ImageIcon(this.getClass().getResource(
+					"/images/fireball.png")).getImage();
+		} else {
+			switch (direction) {
+			case RIGHT:
+				currentImage = new ImageIcon(this.getClass().getResource(
+						"/images/arrowRight.png")).getImage();
+				break;
+			case LEFT:
+				currentImage = new ImageIcon(this.getClass().getResource(
+						"/images/arrowLeft.png")).getImage();
+				break;
+			case UP:
+				currentImage = new ImageIcon(this.getClass().getResource(
+						"/images/arrowUp.png")).getImage();
+				break;
+			default: // Down
+				currentImage = new ImageIcon(this.getClass().getResource(
+						"/images/arrowDown.png")).getImage();
+				break;
+			}
 		}
 	}
 
-    public int getX() {
-        return x;
-    }
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, width, height);
+	}
 
-    public int getY() {
-        return y;
-    }
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
+	}
 
+	public boolean isVisible() {
+		return visible;
+	}
 
+	public Image getImage() {
+		return currentImage;
+	}
 
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
 
 	public int getDamage() {
 		return damage;
 	}
-
-
-
 
 	public void setDamage(int damage) {
 		this.damage = damage;
