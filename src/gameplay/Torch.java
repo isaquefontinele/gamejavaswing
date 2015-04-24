@@ -15,8 +15,7 @@ public class Torch {
 	private int y;
 	private int width;
 	private int height;
-	private AffineTransform tx;
-	private AffineTransformOp op;
+	private Direction direction;
 
 	public Torch() {
 		
@@ -39,6 +38,7 @@ public class Torch {
 		this.f9 = new ImageIcon(this.getClass().getResource(
 				"/images/torch9.png")).getImage();
 		this.image = f1;
+		this.direction = Direction.LEFT;
 		setWidth(getImage().getWidth(null));
 		setHeight(getImage().getHeight(null));
 		
@@ -119,5 +119,13 @@ public class Torch {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public Direction getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 }

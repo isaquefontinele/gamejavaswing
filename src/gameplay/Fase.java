@@ -48,6 +48,12 @@ public class Fase {
 			+ "E V 100\n"
 			+ "E H 100";
 	
+	private String torchesConfig =
+			  "R\n"
+			+ "L\n"
+			+ "R\n"
+			+ "L";
+	
 	/**
 	 *  N = Nothing == ground
 	 *  W = Walls
@@ -108,6 +114,7 @@ public class Fase {
 	
 	private void setThingsPositions() {
 		int monsterIndex = 0;
+		int torchesIndex = 0;
 		int blockWidth = 75;
 		int blockHeight = 75;
 		String[] matrixRow;
@@ -182,6 +189,7 @@ public class Fase {
 					tempTorch.setX(blockWidth*j);
 					tempTorch.setY(blockHeight*i);
 					torches.add(tempTorch);
+					torchesIndex++;
 					
 					// Add wall
 					Wall tempWall2 = new Wall();
