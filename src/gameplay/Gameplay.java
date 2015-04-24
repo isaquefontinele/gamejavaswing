@@ -27,9 +27,9 @@ import javax.swing.Timer;
 
 public class Gameplay extends JPanel implements ActionListener {
 
-	private int GAME_WIDTH, GAME_HEIGHT;
+	private final int GAME_WIDTH, GAME_HEIGHT;
 	private int SPEED = 5;
-	private int currentScore;
+	private int currentScore = 0;
 	private final int blockSize = 75;
 
 	private Timer timer;
@@ -64,37 +64,39 @@ public class Gameplay extends JPanel implements ActionListener {
 		setFocusable(true);
 		setBackground(Color.GRAY);
 		setDoubleBuffered(true);
+		
+		hero = new Hero(heroClass);
+
+		initObjects();
+	}
+
+	public void initObjects() {
 		inGame = true;
+		currentFase = new Fase(GAME_WIDTH, GAME_HEIGHT, blockSize);
+		
+		// Local Images
 		groundTile = new ImageIcon(this.getClass().getResource(
 				"/images/groundTile2.png")).getImage();
 		door = new ImageIcon(this.getClass().getResource("/images/door.png"))
 				.getImage();
-		currentFase = new Fase(GAME_WIDTH, GAME_HEIGHT, blockSize);
-
-		hero = new Hero(heroClass);
+		
 		hero.setMatrixWidth(currentFase.getMatrixWidth());
 		hero.setMatrixHeigth(currentFase.getMatrixHeight());
 
-		initObjects();
-
-		timer = new Timer(SPEED, this);
-		timer.start();
-
-	}
-
-	public void initObjects() {
-		currentScore = 0;
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
 		walls = currentFase.getWalls();
-		;
 		hero.setX(currentFase.getHeroPosX());
 		hero.setY(currentFase.getHeroPosY());
 		groundTilesX = currentFase.getGroundTilesX();
 		groundTilesY = currentFase.getGroundTilesY();
 		bullets = new ArrayList<Bullet>();
+		
+		timer = new Timer(SPEED, this);
+		timer.start();
 	}
 
+	// Main Loop
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 
@@ -105,6 +107,7 @@ public class Gameplay extends JPanel implements ActionListener {
 		repaint();
 	}
 
+	// Updates bullets movement
 	private void bulletsMove() {
 		for (int i = 0; i < bullets.size(); i++) {
 			if (bullets.get(i).isVisible()) {
@@ -115,57 +118,15 @@ public class Gameplay extends JPanel implements ActionListener {
 		}
 	}
 
+	// Updates monsters movement
 	private void monstersMove() {
-		// System.out.println(timer.getDelay());
 		for (int i = 0; i < monsters.size(); i++) {
 			monsters.get(i).ai();
 			monsters.get(i).move();
 		}
-		// repaint();
-
 	}
 
-	private class TAdapter extends KeyAdapter {
-
-		public void keyReleased(KeyEvent e) {
-			hero.keyReleased(e);
-		}
-
-		public void keyPressed(KeyEvent e) {
-			hero.keyPressed(e);
-			checkState(e);
-		}
-	}
-
-	private void updateScore() {
-
-	}
-
-	public void checkState(KeyEvent e) {
-		int key = e.getKeyCode();
-
-		// Pause
-		if (key == KeyEvent.VK_P) {
-			if (timer.isRunning()) {
-				timer.stop();
-				repaint();
-			} else {
-				timer.start();
-			}
-		}
-
-		// ESC
-		// Get out of the game back to menu
-		if (key == KeyEvent.VK_ESCAPE) {
-			this.setVisible(false);
-			this.setEnabled(false);
-			enableButtonPanel(true);
-			enableShowPanel(true);
-			// this.getParent().getParent();
-		}
-	}
-
-	// Trigger visibility of the main menu components
+	// Change visibility of the main menu components
 	public void enableButtonPanel(boolean pick) {
 		Component[] components1 = buttonPanel.getComponents();
 		for (int i = 0; i < components1.length; i++) {
@@ -184,7 +145,7 @@ public class Gameplay extends JPanel implements ActionListener {
 	private void checkCollisions() {
 		Rectangle heroRect = hero.getBounds();
 
-		// Colisions with monsters
+		// Colisions of hero with monsters
 		Rectangle monsterRect;
 		for (int i = 0; i < monsters.size(); i++) {
 			monsterRect = monsters.get(i).getBounds();
@@ -197,7 +158,7 @@ public class Gameplay extends JPanel implements ActionListener {
 			}
 		}
 
-		// Colisions with walls
+		// Colisions of hero with walls
 		hero.setCanGoDown(true);
 		hero.setCanGoUp(true);
 		hero.setCanGoRight(true);
@@ -262,7 +223,10 @@ public class Gameplay extends JPanel implements ActionListener {
 			}
 		}
 	}
+	// -----------------------End of Colisions-----------------------
 
+	
+	// Painting area. Take care with fresh ink.
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -347,6 +311,48 @@ public class Gameplay extends JPanel implements ActionListener {
 
 			// Update screen
 			g.dispose();
+		}
+	}
+	
+	private void updateScore() {
+
+	}
+	
+	// Keyboard stuff
+	public void checkState(KeyEvent e) {
+		int key = e.getKeyCode();
+
+		// Pause
+		if (key == KeyEvent.VK_P) {
+			if (timer.isRunning()) {
+				timer.stop();
+				repaint();
+			} else {
+				timer.start();
+			}
+		}
+
+		// ESC
+		// Get out of the game back to menu
+		if (key == KeyEvent.VK_ESCAPE) {
+			this.setVisible(false);
+			this.setEnabled(false);
+			enableButtonPanel(true);
+			enableShowPanel(true);
+			// this.getParent().getParent();
+		}
+	}
+	
+	// Other Classes
+	private class TAdapter extends KeyAdapter {
+
+		public void keyReleased(KeyEvent e) {
+			hero.keyReleased(e);
+		}
+
+		public void keyPressed(KeyEvent e) {
+			hero.keyPressed(e);
+			checkState(e);
 		}
 	}
 }
