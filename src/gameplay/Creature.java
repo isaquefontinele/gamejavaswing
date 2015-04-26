@@ -8,8 +8,6 @@ public abstract class Creature {
 	private Image image;
 	private int life;
 	private boolean state;
-	private int matrixWidth;
-	private int matrixHeigth;
 
 	private int x;
 	private int y;
@@ -84,21 +82,5 @@ public abstract class Creature {
 
 	public void setImage(Image image) {
 		this.image = image;
-	}
-
-	public int getMatrixWidth() {
-		return matrixWidth;
-	}
-
-	public void setMatrixWidth(int matrixWidth) {
-		this.matrixWidth = matrixWidth;
-	}
-
-	public int getMatrixHeigth() {
-		return matrixHeigth;
-	}
-
-	public void setMatrixHeigth(int matrixHeigth) {
-		this.matrixHeigth = matrixHeigth;
 	}
 }

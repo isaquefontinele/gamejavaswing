@@ -24,7 +24,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private int SPEED = 5;
 	private int currentScore = 0;
 	private final int blockSize = 75;
-	private int animateIndex = 0;
 	private final long DELAY = 25;
 
 	private Timer timer;
@@ -76,9 +75,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				"/images/groundTile2.png")).getImage();
 		door = new ImageIcon(this.getClass().getResource("/images/door.png"))
 				.getImage();
-
-		hero.setMatrixWidth(currentFase.getMatrixWidth());
-		hero.setMatrixHeigth(currentFase.getMatrixHeight());
 
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
@@ -163,6 +159,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			animate();
 			repaint();
 
+			// Stuff to keep the loops with the same time
 			timeDiff = System.currentTimeMillis() - pastTime;
 			sleep = DELAY - timeDiff;
 
@@ -174,7 +171,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 			pastTime = System.currentTimeMillis();
 		}
-
 	}
 
 	// WATCH OUT!!! Collisions ahead!
@@ -262,7 +258,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	// -----------------------End of Colisions-----------------------
 
-	// Painting area. Take care with fresh ink.
+	// Start of Painting area. Take care about fresh ink.
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -328,7 +324,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			// Print torches
 			for (int i = 0; i < torches.size(); i++) {
 				// If torch is on right side of the board
-				if (torches.get(i).getX() >= GAME_WIDTH/2) {
+				if (torches.get(i).getDirection() == Direction.LEFT) {
 					g2d.drawImage(torches.get(i).getImage(), torches.get(i).getX() - torches.get(i).getWidth()/2,
 							torches.get(i).getY(), torches.get(i).getWidth(), torches.get(i).getHeight(), null);
 				} else {

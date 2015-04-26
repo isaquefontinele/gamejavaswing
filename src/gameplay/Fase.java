@@ -12,8 +12,10 @@ public class Fase {
 	private final int MATRIX_LENGTH = 11;
 	private int faseNum = 1;
 	private int monstersTotal = 3;
+	private int torchesTotal = 4;
 	private String[][] matrix = new String [MATRIX_LENGTH][MATRIX_LENGTH];
 	private String[][] matrixMonstersConfigs = new String[monstersTotal][3];
+	private String[] matrixTorchesConfigs = new String[torchesTotal];
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> walls;
@@ -82,6 +84,7 @@ public class Fase {
 		
 		loadMatrix();
 		loadMonstersConfig();
+		loadTorchesConfig();
 		setThingsPositions();
 	}
 	
@@ -109,7 +112,14 @@ public class Fase {
 				matrixMonstersConfigs[i][j] = tempColumn[j];
 			}
 		}
-		Arrays.deepToString(matrixMonstersConfigs);
+//		Arrays.deepToString(matrixMonstersConfigs);
+	}
+	
+	private void loadTorchesConfig() {
+		String[] tempLine = new String[3];
+				
+		matrixTorchesConfigs = torchesConfig.split("\n");
+		Arrays.toString(matrixTorchesConfigs);
 	}
 	
 	private void setThingsPositions() {
@@ -188,6 +198,11 @@ public class Fase {
 					Torch tempTorch = new Torch();
 					tempTorch.setX(blockWidth*j);
 					tempTorch.setY(blockHeight*i);
+					if (matrixTorchesConfigs[torchesIndex].equals("L")) {
+						tempTorch.setDirection(Direction.LEFT);
+					} else {
+						tempTorch.setDirection(Direction.RIGHT);
+					}
 					torches.add(tempTorch);
 					torchesIndex++;
 					
