@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
+import menu.Menu;
+
 public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private final int GAME_WIDTH, GAME_HEIGHT;
@@ -33,6 +35,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	JPanel showPanel;
 	private Fase currentFase;
 	private Thread animator;
+	private Menu menu;
 
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
@@ -49,7 +52,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private boolean touchingMonster;
 
 	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass,
-			JPanel buttonPanel, JPanel showPanel2) {
+			JPanel buttonPanel, JPanel showPanel2, Menu menu) {
 
 		this.GAME_WIDTH = blockSize * 11;
 		this.GAME_HEIGHT = blockSize * 11;
@@ -57,6 +60,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 		this.showPanel = showPanel2;
 		this.buttonPanel = buttonPanel;
+		this.menu = menu;
 
 		addKeyListener(new TAdapter()); // Keyboard input
 		setFocusable(true);
@@ -397,7 +401,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			this.setEnabled(false);
 			enableButtonPanel(true);
 			enableShowPanel(true);
-			// this.getParent().getParent();
+			
+			menu.resizeWindow();
 		}
 	}
 
