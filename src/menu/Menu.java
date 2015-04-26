@@ -1,7 +1,5 @@
 package menu;
 
-//package action;
-
 import gameplay.Gameplay;
 import gameplay.HeroClass;
 import gameplay.Player;
@@ -16,35 +14,47 @@ import javax.swing.*;
  */
 public class Menu extends JFrame {
 
-	private JPanel buttonPanel, showPanel;
-	private static Dimension screenSize;
-	private static int MENU_WIDTH;
-	private static int MENU_HEIGHT;
-	private static int GAME_WIDTH;
-	private static int GAME_HEIGHT;
-	private static double windowSize = 0.8; // Size of the window in percentage
+	private final static int MENU_WIDTH = 800;
+	private final static int MENU_HEIGHT = 600;
+	private int GAME_WIDTH;
+	private int GAME_HEIGHT;
+	private final int BLOCK_SIZE = 75;
+	public boolean inGame = false;
+	
+	private HeroClass currentHeroClass;
 	private GridLayout manager;
 	private Scoreboard scores;
 	private Gameplay gameplay;
-	private HeroClass currentHeroClass;
 	private Player currentPlayer;
-	public boolean inGame = false;
-	
+
+	private JLabel titleLabel;
+	private JPanel headPanel, buttonPanel;
+	private JPanel showPanel;
+	private JButton playButton;
+	private JButton creditsButton;
+	private JButton settingsButton;
+	private JButton scoresButton;
+	private JButton exitButton;
 
 	public Menu() {
-		int blockSize = 75;
-		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		MENU_WIDTH = (int) Math.round(screenSize.width * windowSize);
-		MENU_HEIGHT = (int) Math.round(screenSize.height * windowSize);
-		GAME_WIDTH = blockSize * 11 + 15;
-		GAME_HEIGHT = blockSize * 12 - 30;
-//		setSize(MENU_WIDTH, MENU_HEIGHT);
-		resizeWindow();
 
+		GAME_WIDTH = BLOCK_SIZE * 11 + 15;
+		GAME_HEIGHT = BLOCK_SIZE * 12 - 30;
+		setSize(MENU_WIDTH, MENU_HEIGHT);
+		resizeWindow();
+		
+		initObjects();
+		applyMenuLayout();
+	}
+	
+
+	private void initObjects() {
+		headPanel = new JPanel();
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
 		showPanel = new JPanel();
-		showPanel.setLayout(new GridLayout(1,1));
+		titleLabel = new JLabel();
+//		showPanel.setLayout(new GridLayout(1,1));
 		scores = new Scoreboard(MENU_WIDTH/2, MENU_HEIGHT);
 
 		// define actions
@@ -55,11 +65,15 @@ public class Menu extends JFrame {
 		Action exitAction = new exitAction();
 
 		// define buttons
-		JButton playButton = new JButton(playAction);
-		JButton creditsButton = new JButton(creditsAction);
-		JButton settingsButton = new JButton(settingsAction);
-		JButton scoresButton = new JButton(scoresAction);
-		JButton exitButton = new JButton(exitAction);
+		playButton = new JButton(playAction);
+		creditsButton = new JButton(creditsAction);
+		settingsButton = new JButton(settingsAction);
+		scoresButton = new JButton(scoresAction);
+		exitButton = new JButton(exitAction);
+	}
+
+
+	private void applyMenuLayout() {
 
 		// add buttons
 		buttonPanel.add(playButton);
@@ -74,15 +88,109 @@ public class Menu extends JFrame {
 		settingsButton.setText("Settings");
 		scoresButton.setText("Scores");
 		exitButton.setText("Exit");
+        titleLabel.setText("Dangerous Dungeon");
 
-		// add panel to frame
-		manager = new GridLayout(1, 2);
-		setLayout(manager);
+		// Title
+        titleLabel.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-		add(buttonPanel);
-		add(showPanel);
+        // Background colors
+        headPanel.setBackground(new java.awt.Color(51, 255, 0));
+        showPanel.setBackground(new java.awt.Color(255, 102, 102));
+
+        // Inside layout for head
+        javax.swing.GroupLayout headPanelLayout = new javax.swing.GroupLayout(headPanel);
+        headPanel.setLayout(headPanelLayout);
+        headPanelLayout.setHorizontalGroup(
+            headPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        headPanelLayout.setVerticalGroup(
+            headPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        
+        // Inside layout for buttons panel
+        javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
+        buttonPanel.setLayout(buttonPanelLayout);
+        buttonPanelLayout.setHorizontalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(playButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                    .addComponent(creditsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(settingsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scoresButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        buttonPanelLayout.setVerticalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(playButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(creditsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(settingsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scoresButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(exitButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        // Inside layout for show panel
+        javax.swing.GroupLayout showPanelLayout = new javax.swing.GroupLayout(showPanel);
+        showPanel.setLayout(showPanelLayout);
+        showPanelLayout.setHorizontalGroup(
+            showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 569, Short.MAX_VALUE)
+        );
+        showPanelLayout.setVerticalGroup(
+            showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        
+        // Layout for all the panels
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(headPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(showPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(headPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 295, Short.MAX_VALUE))
+                    .addComponent(showPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pack();
 	}
-	
+
 
 	@Override
 	public void paint(Graphics g) {
@@ -168,6 +276,7 @@ public class Menu extends JFrame {
 			showPanel.removeAll();
 			showPanel.setLayout(null);
 			showPanel.add(scores);
+
 			revalidate();
 			repaint();
 		}

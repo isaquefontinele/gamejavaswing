@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
 public class Gameplay extends JPanel implements ActionListener, Runnable {
@@ -28,7 +29,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private Timer timer;
 	private Hero hero;
-	private JPanel buttonPanel, showPanel;
+	private JPanel buttonPanel;
+	JPanel showPanel;
 	private Fase currentFase;
 	private Thread animator;
 
@@ -47,13 +49,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private boolean touchingMonster;
 
 	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass,
-			JPanel buttonPanel, JPanel showPanel) {
+			JPanel buttonPanel, JPanel showPanel2) {
 
 		this.GAME_WIDTH = blockSize * 11;
 		this.GAME_HEIGHT = blockSize * 11;
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 
-		this.showPanel = showPanel;
+		this.showPanel = showPanel2;
 		this.buttonPanel = buttonPanel;
 
 		addKeyListener(new TAdapter()); // Keyboard input
@@ -354,7 +356,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 						(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
 						GAME_HEIGHT / 2);
 				timer.stop();
-				updateScore();
+				initObjects();
 			}
 			
 			// Life

@@ -36,7 +36,7 @@ public class Scoreboard extends JPanel{
 
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setLayout(new GridLayout(10, 1));
-		setBackground(Color.WHITE);
+		setBackground(new Color(255, 102, 102));
 		updateLabels();
 	}
 	
