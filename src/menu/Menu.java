@@ -284,7 +284,12 @@ public class Menu extends JFrame {
 
 	private class exitAction extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
-			System.exit(0);
+			int dialogButton = JOptionPane.YES_NO_OPTION;
+			dialogButton = JOptionPane.showConfirmDialog (null, "Are you sure you want to leave this awesome game???","Warning",dialogButton);
+            
+            if (dialogButton == 0) {
+            	System.exit(0);
+			}
 		}
 	}
 	
