@@ -35,8 +35,7 @@ public class Hero extends Creature {
 		canGoDown = true;
 		setBullets(new ArrayList<Bullet>());
 	}
-	
-	
+
 	public void keyPressed(KeyEvent e) {
 
 		int key = e.getKeyCode();
@@ -49,7 +48,7 @@ public class Hero extends Creature {
 		}
 
 		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-			if (canGoRight && getX() <= 75*9+width/2) {
+			if (canGoRight && getX() <= 75 * 9 + width / 2) {
 				setIncreaseX(SPEED);
 				setDirection(Direction.RIGHT);
 			}
@@ -68,9 +67,13 @@ public class Hero extends Creature {
 				setDirection(Direction.DOWN);
 			}
 		}
-		
+
 		if (key == KeyEvent.VK_SPACE) {
-			shoot();
+			if (heroClass != HeroClass.WARRIOR) { // Warriors can't shoot
+				shoot();
+			} else {
+				//TODO Implement sword attack
+			}
 		}
 	}
 
@@ -93,12 +96,11 @@ public class Hero extends Creature {
 			setIncreaseY(0);
 		}
 	}
-	
+
 	private void shoot() {
-		bullets.add(new Bullet( getX() + width/2, getY() + height/2, getDirection(), heroClass));
-
+		bullets.add(new Bullet(getX() + width / 2, getY() + height / 2,
+				getDirection(), heroClass));
 	}
-
 
 	// Getters and Setters
 	public void setImage(HeroClass heroClass) {
@@ -117,7 +119,7 @@ public class Hero extends Creature {
 			break;
 		}
 	}
-	
+
 	public Rectangle getBounds() {
 		return new Rectangle(getX(), getY(), width, height);
 	}
@@ -137,7 +139,7 @@ public class Hero extends Creature {
 	public void setHeroClass(HeroClass heroClass) {
 		this.heroClass = heroClass;
 	}
-	
+
 	public void setCanGoRight(boolean canGoRight) {
 		this.canGoRight = canGoRight;
 	}
@@ -161,7 +163,7 @@ public class Hero extends Creature {
 	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
@@ -178,11 +180,9 @@ public class Hero extends Creature {
 		this.height = height;
 	}
 
-
 	public ArrayList<Bullet> getBullets() {
 		return bullets;
 	}
-
 
 	public void setBullets(ArrayList<Bullet> bullets) {
 		this.bullets = bullets;

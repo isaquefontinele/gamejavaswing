@@ -46,12 +46,15 @@ public class Bullet {
 
 	// Getters and Setters
 	public void setImage() {
-		currentImage = new ImageIcon(this.getClass().getResource(
+		currentImage = new ImageIcon(this.getClass().getResource( // Just inicializing the image
 				"/images/arrowRight.png")).getImage();
-
+		
+		// Bullet for Mage
 		if (heroClass == HeroClass.MAGE) {
 			currentImage = new ImageIcon(this.getClass().getResource(
 					"/images/fireball.png")).getImage();
+		
+		// Bullet for Hunter
 		} else {
 			switch (direction) {
 			case RIGHT:

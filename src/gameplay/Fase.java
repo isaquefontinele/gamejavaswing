@@ -7,28 +7,25 @@ import java.util.Collection;
 
 public class Fase {
 	
-	private int WINDOW_WIDTH;
-	private int WINDOW_HEIGHT;
 	private final int MATRIX_LENGTH = 11;
 	private int faseNum = 1;
 	private int monstersTotal = 3;
 	private int torchesTotal = 4;
+	private int blockSize;
+	private int heroPosX;
+	private int heroPosY;
+	private int exitPosX;
+	private int exitPosY;
 	private String[][] matrix = new String [MATRIX_LENGTH][MATRIX_LENGTH];
 	private String[][] matrixMonstersConfigs = new String[monstersTotal][3];
 	private String[] matrixTorchesConfigs = new String[torchesTotal];
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> walls;
+	private ArrayList<Torch> torches;
 	private ArrayList<Integer> groundTilesX;
 	private ArrayList<Integer> groundTilesY;
-	private ArrayList<Torch> torches;
-	private int blockSize;
-	private int heroPosX;
-	private int heroPosY;
-	private int exitPosX;
-	private int exitPosY;
 	private Wall doorWall;
-	
 
 	private String matrixRaw = 
 
@@ -68,9 +65,7 @@ public class Fase {
 	 * @param wINDOW_WIDTH 
 	 */
 	
-	public Fase(int WINDOW_WIDTH, int WINDOW_HEIGHT, int blockSize) {
-		this.WINDOW_WIDTH = WINDOW_WIDTH;
-		this.WINDOW_HEIGHT = WINDOW_HEIGHT;
+	public Fase(int blockSize) {
 		setBlockSize(blockSize);
 		
 		this.items = new ArrayList<Item>();

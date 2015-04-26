@@ -68,7 +68,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	public void initObjects() {
 		inGame = true;
-		currentFase = new Fase(GAME_WIDTH, GAME_HEIGHT, blockSize);
+		currentFase = new Fase(blockSize);
 
 		// Local Images
 		groundTile = new ImageIcon(this.getClass().getResource(
@@ -225,7 +225,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 						.intersects(monsters.get(j).getBounds())) {
 					monsters.get(j).shoot(bullets.get(i).getDamage());
 					bullets.remove(bullets.get(i));
-
+					// Kill monster
 					if (monsters.get(j).getLife() <= 0) {
 						currentScore += monsters.get(j).getScore();
 						monsters.remove(monsters.get(j));
@@ -334,25 +334,19 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				
 			}
 
-			// Print Pause
+			// Pause message
 			if (!timer.isRunning() && hero.getY() + hero.getHeight() > 0) {
 				g2d.drawString(pauseStr,
 						(GAME_WIDTH - metr.stringWidth(pauseStr)) / 2,
 						GAME_HEIGHT / 2);
 			}
 
-			// Touching monster
+			// Touching monster message
 			if (touchingMonster) {
 				g2d.drawString(touchingStr,
 						(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
 						GAME_HEIGHT / 2);
 			}
-
-			// Life
-			g2d.drawString(lifeStr, blockSize / 3, blockSize / 2);
-
-			// Score
-			g2d.drawString(scoreStr, blockSize * 3, blockSize / 2);
 
 			// Victory message
 			if (hero.getY() + hero.getHeight() <= 0) {
@@ -362,6 +356,12 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				timer.stop();
 				updateScore();
 			}
+			
+			// Life
+			g2d.drawString(lifeStr, blockSize / 3, blockSize / 2);
+
+			// Score
+			g2d.drawString(scoreStr, blockSize * 3, blockSize / 2);
 
 			// Update screen
 			g.dispose();
@@ -371,7 +371,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	// -----------------------End of Painting Area-----------------------
 
 	private void updateScore() {
-		// Do you thing with currentScore
+		//TODO
 	}
 
 	// Keyboard stuff
