@@ -6,8 +6,18 @@ import gameplay.Player;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.*;
+
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 /**
  * The best game ever!
@@ -27,6 +37,12 @@ public class Menu extends JFrame {
 	private Scoreboard scores;
 	private Gameplay gameplay;
 	private Player currentPlayer;
+	
+	//Music Variables
+	private MediaPlayer player;
+	private ArrayList<MediaPlayer> players;
+	private MediaPlayer nextPlayer;
+	private MediaView mediaView;
 
 	private JLabel titleLabel;
 	private JPanel headPanel, buttonPanel;
@@ -45,9 +61,60 @@ public class Menu extends JFrame {
 		resizeWindow();
 		initObjects();
 		applyMenuLayout();
+		
+		//Music
+		JFXPanel fxPanel = new JFXPanel();
+		SwingUtilities.invokeLater(new Runnable() {
+	      @Override public void run() {
+	        initMusic();
+	      }
+	    });
+	
 	}
 	
+	private void initMusic()
+	{
+		//Music
+		//Get File path to folder, generate list of players for every mp3 in it
+				URL dir_url = this.getClass().getResource("/MusicReplaceIfWorriedAboutCopyright/");
+				try {
+					File dir = new File(dir_url.toURI());
+					players = new ArrayList<MediaPlayer>();
+					for (String file : dir.list(new FilenameFilter() {
+					      @Override public boolean accept(File dir, String name) {
+					        return name.endsWith(".mp3");
+					      }
+					})) players.add(createPlayer("file:///" + (dir + "\\" + file).replace("\\", "/").replaceAll(" ", "%20")));
+					
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+				
+			    // play each audio file in turn.
+				mediaView = new MediaView(players.get(0));
+			    for (int i = 0; i < players.size(); i++) {
+			      player = players.get(i);
+			      nextPlayer = players.get((i + 1) % players.size());
+			      player.setOnEndOfMedia(new Runnable() {
+				      @Override public void run() {
+				    	   mediaView.setMediaPlayer(nextPlayer);
+					       nextPlayer.play();
+				      	}
+			      	  });
+			    }
+			    
+			    // start playing the first track.
+			    mediaView.setMediaPlayer(players.get(0));
+			    mediaView.getMediaPlayer().play();
+	}
 
+
+	private MediaPlayer createPlayer(String aMediaSrc) {
+		  /** @return a MediaPlayer for the given source which will report any errors it encounters */
+		    final MediaPlayer player = new MediaPlayer(new Media(aMediaSrc));
+		    return player;
+	}
+	
 	private void initObjects() {
 		headPanel = new JPanel();
 		buttonPanel = new JPanel();
@@ -56,7 +123,7 @@ public class Menu extends JFrame {
 		titleLabel = new JLabel();
 //		showPanel.setLayout(new GridLayout(1,1));
 		scores = new Scoreboard(MENU_WIDTH/2, MENU_HEIGHT);
-
+		
 		// define actions
 		Action playAction = new playAction();
 		Action continueAction = new continueAction();
@@ -73,7 +140,6 @@ public class Menu extends JFrame {
 		exitButton = new JButton(exitAction);
 		continueButton = new JButton(continueAction);
 	}
-
 
 	private void applyMenuLayout() {
 
@@ -269,16 +335,22 @@ public class Menu extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			showPanel.removeAll();
 			Action muteAction = new muteAction();
+			Action unmuteAction = new unmuteAction();
+			Action skipAction = new skipAction();
+			JButton skip = new JButton(skipAction);
 			JButton mute = new JButton(muteAction);
+			JButton unmute = new JButton(unmuteAction);
 			manager = new GridLayout(3, 3);
 			showPanel.setLayout(manager);
+			skip.setText("Skip Current Track");
 			mute.setText("Mute");
+			unmute.setText("Unmute");
 			showPanel.add(new JLabel(""));
 			showPanel.add(new JLabel(""));
 			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
+			showPanel.add(skip);
 			showPanel.add(mute);
-			showPanel.add(new JLabel(""));
+			showPanel.add(unmute);
 			showPanel.add(new JLabel(""));
 			showPanel.add(new JLabel(""));
 			showPanel.add(new JLabel(""));
@@ -321,7 +393,24 @@ public class Menu extends JFrame {
 	
 	private class muteAction extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
-			//Code dealing with removing sound
+			mediaView.getMediaPlayer().pause();
+			
+		}
+	}
+	
+	private class unmuteAction extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			mediaView.getMediaPlayer().play();
+		}
+	}
+	
+	private class skipAction extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			MediaPlayer curPlayer = mediaView.getMediaPlayer();
+	        MediaPlayer nextPlayer = players.get((players.indexOf(curPlayer) + 1) % players.size());
+	        mediaView.setMediaPlayer(nextPlayer);
+	        curPlayer.stop();
+	        nextPlayer.play();
 		}
 	}
 	
