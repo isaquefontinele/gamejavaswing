@@ -1,5 +1,6 @@
 package gameplay;
 
+import java.awt.Image;
 import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
@@ -9,34 +10,16 @@ public class Monster extends Creature {
 	private MonsterType type;
 	private int width;
 	private int height;
-	private int SPEED = 1;
+	private int SPEED;
 	private int maxRange;
 	private int currentRange = 0;
 	private monsterDirection direction;
 	private boolean right, left, up, down;
+	private int batIndex = 0;
+	private Image esqueleton, bat1, bat2, zombie;
 
 	public Monster() {
 	}
-
-	private void setMovement() {
-		if (direction == monsterDirection.HORIZONTAL) {
-			this.right = true;
-			this.left = false;
-			this.down = false;
-			this.up = false;
-		} 
-		if (direction == monsterDirection.VERTICAL) {
-			this.down = true;
-			this.up = false;
-			this.right = false;
-			this.left = false;
-		}
-	}
-	
-	public void atack(int damage) {
-		setLife(getLife()-damage);
-	}
-
 
 	public void ai() {
 		if (right) {
@@ -78,30 +61,96 @@ public class Monster extends Creature {
 		}
 	}
 
+	public void updateFrame() {
+		if (type == MonsterType.BAT) {
+			switch (batIndex ) {
+			case 15:
+				setImage(bat1);
+				break;
+			case 30:
+				setImage(bat2);
+				break;
+
+			}
+			if (batIndex == 30) {
+				batIndex = 0;
+			} else {
+				batIndex += 1;
+			}
+		}
+	}
+	
+	private void loadImages() {
+		switch (type) {
+		case ESQUELETON:
+			esqueleton = new ImageIcon(this.getClass().getResource(
+					"/images/esqueleton.png")).getImage();
+			setImage(esqueleton);
+			break;
+		case BAT:
+			bat1 = new ImageIcon(this.getClass().getResource(
+					"/images/bat1.png")).getImage();
+			bat2 = new ImageIcon(this.getClass().getResource(
+					"/images/bat2.png")).getImage();
+			break;
+		case ZOMBIE:
+			zombie = new ImageIcon(this.getClass().getResource(
+					"/images/zombie.png")).getImage();
+			break;
+		}
+	}
+	
 	// Getters and Setters
 	public void setImage(MonsterType monsterType) {
 		switch (monsterType) {
 		case ESQUELETON:
-			super.setImage(new ImageIcon(this.getClass().getResource(
-					"/images/esqueleton.png")).getImage());
+			super.setImage(esqueleton);
 			break;
-		case SPIDER:
-			super.setImage(new ImageIcon(this.getClass().getResource(
-					"/images/esqueleton.png")).getImage());
+		case BAT:
+			super.setImage(bat1);
 			break;
 		case ZOMBIE:
-			super.setImage(new ImageIcon(this.getClass().getResource(
-					"/images/esqueleton.png")).getImage());
+			super.setImage(zombie);
 			break;
 		}
-
+	}
+	
+	private void setMovement() {
+		if (direction == monsterDirection.HORIZONTAL) {
+			this.right = true;
+			this.left = false;
+			this.down = false;
+			this.up = false;
+		} 
+		if (direction == monsterDirection.VERTICAL) {
+			this.down = true;
+			this.up = false;
+			this.right = false;
+			this.left = false;
+		}
 	}
 
 	public void setType(MonsterType type) {
 		this.type = type;
+		loadImages();
 		setImage(type);
+		setSpeed(type);
 		this.setWidth(getImage().getWidth(null));
 		this.setHeight(getImage().getHeight(null));
+	}
+
+	private void setSpeed(MonsterType type) {
+		switch (type) {
+		case ESQUELETON:
+			SPEED = 3;
+			break;
+		case BAT:
+			SPEED = 2;
+			break;
+		case ZOMBIE:
+			SPEED = 1;
+			break;
+		}
 	}
 
 	public void setDirection(monsterDirection direction) {

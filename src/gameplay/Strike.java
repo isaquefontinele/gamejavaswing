@@ -9,20 +9,19 @@ public class Strike {
 	
 	private final Direction direction;
 	private final int SWING_SPEED = 2;
+	private final int INITIAL_X, INITIAL_Y;
 	private int x, y;
 	private int damage = 4;
 	private int width, height;
 	private Image currentImage;
 	boolean visible;
-	private final int INITIAL_X;
-	private final int INITIAL_Y;
 
 	public Strike(int x, int y, Direction direction) {
 		this.direction = direction;
-		this.x = x;
-		this.y = y;
 		this.INITIAL_X = x;
 		this.INITIAL_Y = y;
+		this.x = x;
+		this.y = y;
 		setImage();
 		width = currentImage.getWidth(null);
 		height = currentImage.getHeight(null);

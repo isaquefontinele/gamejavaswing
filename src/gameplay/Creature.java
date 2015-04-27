@@ -18,6 +18,10 @@ public abstract class Creature {
 		x += increaseX;
 		y += increaseY;
 	}
+	
+	public void atack(int damage) {
+		setLife(getLife()-damage);
+	}
 
 	// Getters and Setters
 	public String getName() {

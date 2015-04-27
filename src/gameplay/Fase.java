@@ -45,7 +45,7 @@ public class Fase {
 			
 			  "E V 100\n"
 			+ "E V 100\n"
-			+ "E H 100";
+			+ "B H 100";
 	
 	private String torchesConfig =
 			  "R\n"
@@ -170,6 +170,9 @@ public class Fase {
 					if (matrixMonstersConfigs[monsterIndex][0].equals("E")) {
 						tempMonster.setType(MonsterType.ESQUELETON);
 						tempMonster.setLife(12);
+					} else if (matrixMonstersConfigs[monsterIndex][0].equals("B")) {
+						tempMonster.setType(MonsterType.BAT);
+						tempMonster.setLife(6);
 					}
 					// Set Direction of Movement
 					if (matrixMonstersConfigs[monsterIndex][1].equals("H")) {

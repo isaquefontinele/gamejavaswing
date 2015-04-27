@@ -26,7 +26,7 @@ import menu.Score;
 public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private final int GAME_WIDTH, GAME_HEIGHT;
-	private int SPEED = 5;
+	private int SPEED = 10;
 	private int currentScore = 0;
 	private final int blockSize = 75;
 	private final long DELAY = 25;
@@ -53,6 +53,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private boolean inGame;
 	private boolean touchingMonster;
+	private boolean firstTouch;
 
 
 	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass,
@@ -78,6 +79,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	public void initObjects() {
 		inGame = true;
+		firstTouch = true;
 		currentFase = new Fase(blockSize);
 
 		// Local Images
@@ -155,6 +157,9 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		for (int i = 0; i < torches.size(); i++) {
 			torches.get(i).updateFrame();
 		}
+		for (int i = 0; i < monsters.size(); i++) {
+			monsters.get(i).updateFrame();
+		}
 	}
 
 	@Override
@@ -166,7 +171,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	@Override
 	public void run() {
-
 		long pastTime, timeDiff, sleep;
 		pastTime = System.currentTimeMillis();
 
@@ -177,10 +181,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			// Stuff to keep the loops with the same time
 			timeDiff = System.currentTimeMillis() - pastTime;
 			sleep = DELAY - timeDiff;
-
 			try {
 				Thread.sleep(sleep);
-
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted: " + e.getMessage());
 			}
@@ -196,12 +198,14 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		Rectangle monsterRect;
 		for (int i = 0; i < monsters.size(); i++) {
 			monsterRect = monsters.get(i).getBounds();
-
-			if (heroRect.intersects(monsterRect)) {
-				touchingMonster = true;
-				break;
+			if (firstTouch) {
+				if (heroRect.intersects(monsterRect)) {
+					hero.atack(monsters.get(i).getAttack());
+					touchingMonster = true;
+				}
 			} else {
 				touchingMonster = false;
+				firstTouch = true;
 			}
 		}
 
