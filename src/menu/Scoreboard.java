@@ -134,6 +134,7 @@ public class Scoreboard extends JPanel{
 			scores[i] = tempScore[i];
 		}
 		updateLabels();
+		writeToFile();
 	}
 	
 	public void printScores()

@@ -35,6 +35,7 @@ public class Menu extends JFrame {
 	private HeroClass currentHeroClass;
 	private GridLayout manager;
 	private Scoreboard scores;
+
 	private Gameplay gameplay;
 	private Player currentPlayer;
 	
@@ -43,6 +44,9 @@ public class Menu extends JFrame {
 	private ArrayList<MediaPlayer> players;
 	private MediaPlayer nextPlayer;
 	private MediaView mediaView;
+	JButton skip;
+	JButton mute;
+	JButton unmute;
 
 	private JLabel titleLabel;
 	private JPanel headPanel, buttonPanel;
@@ -97,8 +101,7 @@ public class Menu extends JFrame {
 			      nextPlayer = players.get((i + 1) % players.size());
 			      player.setOnEndOfMedia(new Runnable() {
 				      @Override public void run() {
-				    	   mediaView.setMediaPlayer(nextPlayer);
-					       nextPlayer.play();
+				    	   skip.doClick();
 				      	}
 			      	  });
 			    }
@@ -116,6 +119,9 @@ public class Menu extends JFrame {
 	}
 	
 	private void initObjects() {
+		
+
+		currentPlayer = new Player("Jeff");
 		headPanel = new JPanel();
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
@@ -131,7 +137,10 @@ public class Menu extends JFrame {
 		Action settingsAction = new settingsAction();
 		Action scoresAction = new scoresAction();
 		Action exitAction = new exitAction();
-
+		Action muteAction = new muteAction();
+		Action unmuteAction = new unmuteAction();
+		Action skipAction = new skipAction();
+		
 		// define buttons
 		playButton = new JButton(playAction);
 		creditsButton = new JButton(creditsAction);
@@ -139,6 +148,9 @@ public class Menu extends JFrame {
 		scoresButton = new JButton(scoresAction);
 		exitButton = new JButton(exitAction);
 		continueButton = new JButton(continueAction);
+		skip = new JButton(skipAction);
+		mute = new JButton(muteAction);
+		unmute = new JButton(unmuteAction);
 	}
 
 	private void applyMenuLayout() {
@@ -334,12 +346,7 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 			showPanel.removeAll();
-			Action muteAction = new muteAction();
-			Action unmuteAction = new unmuteAction();
-			Action skipAction = new skipAction();
-			JButton skip = new JButton(skipAction);
-			JButton mute = new JButton(muteAction);
-			JButton unmute = new JButton(unmuteAction);
+
 			manager = new GridLayout(3, 3);
 			showPanel.setLayout(manager);
 			skip.setText("Skip Current Track");
@@ -421,5 +428,22 @@ public class Menu extends JFrame {
 
 	public void setGameplay(Gameplay gameplay) {
 		this.gameplay = gameplay;
+	}
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+	
+	
+	public Scoreboard getScores() {
+		return scores;
+	}
+
+	public void setScores(Scoreboard scores) {
+		this.scores = scores;
 	}
 }

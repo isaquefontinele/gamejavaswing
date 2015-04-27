@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -20,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
 import menu.Menu;
+import menu.Score;
 
 public class Gameplay extends JPanel implements ActionListener, Runnable {
 
@@ -360,6 +362,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 						(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
 						GAME_HEIGHT / 2);
 				timer.stop();
+				updateScore();
 				initObjects();
 			}
 			
@@ -378,6 +381,10 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private void updateScore() {
 		//TODO
+//		currentScore;
+//		timer. need to get time
+		Score newScore = new Score(menu.getCurrentPlayer().getName(), 350, 1050);
+		menu.getScores().updateWithNewScore(newScore);
 	}
 
 	// Keyboard stuff
