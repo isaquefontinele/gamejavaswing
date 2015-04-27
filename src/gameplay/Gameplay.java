@@ -46,6 +46,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private ArrayList<Integer> groundTilesX;
 	private ArrayList<Integer> groundTilesY;
 	private ArrayList<Torch> torches;
+	private ArrayList<Strike> strikes;
 
 	private Image groundTile;
 	private Image door;
@@ -53,14 +54,15 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private boolean inGame;
 	private boolean touchingMonster;
 
+
 	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass,
-			JPanel buttonPanel, JPanel showPanel2, Menu menu) {
+			JPanel buttonPanel, JPanel showPanel, Menu menu) {
 
 		this.GAME_WIDTH = blockSize * 11;
 		this.GAME_HEIGHT = blockSize * 11;
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 
-		this.showPanel = showPanel2;
+		this.showPanel = showPanel;
 		this.buttonPanel = buttonPanel;
 		this.menu = menu;
 
@@ -93,6 +95,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		groundTilesY = currentFase.getGroundTilesY();
 		torches = currentFase.getTorches();
 		bullets = new ArrayList<Bullet>();
+		strikes = new ArrayList<Strike>();
 
 		timer = new Timer(SPEED, this);
 		timer.start();
@@ -117,6 +120,10 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			} else {
 				bullets.remove(bullets.get(i));
 			}
+		}
+		
+		for (int i = 0; i < strikes.size(); i++) {
+			strikes.get(i).move();
 		}
 	}
 
@@ -231,7 +238,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			for (int j = 0; j < monsters.size(); j++) {
 				if (bullets.get(i).getBounds()
 						.intersects(monsters.get(j).getBounds())) {
-					monsters.get(j).shoot(bullets.get(i).getDamage());
+					monsters.get(j).atack(bullets.get(i).getDamage());
 					bullets.remove(bullets.get(i));
 					// Kill monster
 					if (monsters.get(j).getLife() <= 0) {
@@ -250,6 +257,27 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 						.intersects(walls.get(j).getBounds())) {
 					bullets.remove(bullets.get(i));
 					break;
+				}
+			}
+		}
+		
+		// Colisions between strikes and monsters
+		for (int i = 0; i < monsters.size(); i++) {
+			for (int j = 0; j < strikes.size(); j++) {
+				if (monsters.get(i).getBounds().intersects(strikes.get(j).getBounds())) {
+					
+					monsters.get(i).atack(strikes.get(j).getDamage());
+					strikes.remove(strikes.get(j));
+					// Kill monster
+					if (monsters.get(i).getLife() <= 0) {
+						currentScore += monsters.get(i).getScore();
+						monsters.remove(monsters.get(i));
+					}
+				}
+				if (strikes.size() > 0) {
+					if (strikes.get(j).getRange() >= 10) {
+						strikes.remove(strikes.get(j));
+					}
 				}
 			}
 		}
@@ -302,6 +330,15 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			for (int i = 0; i < bullets.size(); i++) {
 				g2d.drawImage(bullets.get(i).getImage(), bullets.get(i).getX(),
 						bullets.get(i).getY(), this);
+			}
+			
+			// Print strikes
+			strikes.addAll(hero.getStrikes());
+			hero.getStrikes().clear();
+
+			for (int i = 0; i < strikes.size(); i++) {
+				g2d.drawImage(strikes.get(i).getImage(), strikes.get(i).getX(),
+						strikes.get(i).getY(), this);
 			}
 
 			// Print items

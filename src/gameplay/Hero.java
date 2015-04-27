@@ -19,6 +19,7 @@ public class Hero extends Creature {
 	private boolean canGoUp;
 	private boolean canGoDown;
 	private ArrayList<Bullet> bullets;
+	private ArrayList<Strike> strikes;
 
 	public Hero(HeroClass heroClass) {
 
@@ -37,6 +38,7 @@ public class Hero extends Creature {
 		canGoUp = true;
 		canGoDown = true;
 		setBullets(new ArrayList<Bullet>());
+		setStrikes(new ArrayList<Strike>());
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -52,7 +54,7 @@ public class Hero extends Creature {
 		}
 
 		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-			if (canGoRight && getX() <= 75 * 9 + width / 2) {
+			if (canGoRight) {
 				setIncreaseX(SPEED);
 				setDirection(Direction.RIGHT);
 				setImage();
@@ -79,7 +81,7 @@ public class Hero extends Creature {
 			if (heroClass != HeroClass.WARRIOR) { // Warriors can't shoot
 				shoot();
 			} else {
-				//TODO Implement sword attack
+				swingSword();
 			}
 		}
 	}
@@ -107,6 +109,23 @@ public class Hero extends Creature {
 	private void shoot() {
 		bullets.add(new Bullet(getX() + width / 2, getY() + height / 2,
 				getDirection(), heroClass));
+	}
+	
+	private void swingSword() {
+		switch (direction) {
+		case RIGHT:
+			strikes.add(new Strike(getX() + width, getY(), direction));
+			break;
+		case LEFT:
+			strikes.add(new Strike(getX() - width, getY(), direction));
+			break;
+		case UP:
+			strikes.add(new Strike(getX(), getY() - height, direction));
+			break;
+		case DOWN:
+			strikes.add(new Strike(getX(), getY() + height + height/2, direction));
+			break;
+		}
 	}
 
 	// Getters and Setters
@@ -212,5 +231,13 @@ public class Hero extends Creature {
 
 	public void setBullets(ArrayList<Bullet> bullets) {
 		this.bullets = bullets;
+	}
+
+	public ArrayList<Strike> getStrikes() {
+		return strikes;
+	}
+
+	public void setStrikes(ArrayList<Strike> swordStrike) {
+		this.strikes = swordStrike;
 	}
 }

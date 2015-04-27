@@ -32,6 +32,11 @@ public class Monster extends Creature {
 			this.left = false;
 		}
 	}
+	
+	public void atack(int damage) {
+		setLife(getLife()-damage);
+	}
+
 
 	public void ai() {
 		if (right) {
@@ -142,11 +147,6 @@ public class Monster extends Creature {
 
 	public monsterDirection getDirection() {
 		return direction;
-	}
-
-	public void shoot(int damage) {
-		setLife(getLife()-damage);
-		
 	}
 
 	public int getScore() {
