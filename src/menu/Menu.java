@@ -30,7 +30,7 @@ public class Menu extends JFrame {
 	private int GAME_WIDTH = BLOCK_SIZE * 11 + 15;;
 	private int GAME_HEIGHT = BLOCK_SIZE * 12 - 30;;
 
-	public boolean inGame = false;
+	private boolean inGame = false;
 	
 	private HeroClass currentHeroClass;
 	private GridLayout manager;
@@ -44,9 +44,9 @@ public class Menu extends JFrame {
 	private ArrayList<MediaPlayer> players;
 	private MediaPlayer nextPlayer;
 	private MediaView mediaView;
-	JButton skip;
-	JButton mute;
-	JButton unmute;
+	private JButton skip;
+	private JButton mute;
+	private JButton unmute;
 
 	private JLabel titleLabel;
 	private JPanel headPanel, buttonPanel;
@@ -65,69 +65,17 @@ public class Menu extends JFrame {
 		resizeWindow();
 		initObjects();
 		applyMenuLayout();
-		
-		//Music
-		JFXPanel fxPanel = new JFXPanel();
-		SwingUtilities.invokeLater(new Runnable() {
-	      @Override public void run() {
-	        initMusic();
-	      }
-	    });
-	
 	}
 	
-	private void initMusic()
-	{
-		//Music
-		//Get File path to folder, generate list of players for every mp3 in it
-				URL dir_url = this.getClass().getResource("/MusicReplaceIfWorriedAboutCopyright/");
-				try {
-					File dir = new File(dir_url.toURI());
-					players = new ArrayList<MediaPlayer>();
-					for (String file : dir.list(new FilenameFilter() {
-					      @Override public boolean accept(File dir, String name) {
-					        return name.endsWith(".mp3");
-					      }
-					})) players.add(createPlayer("file:///" + (dir + "\\" + file).replace("\\", "/").replaceAll(" ", "%20")));
-					
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
-				
-			    // play each audio file in turn.
-				mediaView = new MediaView(players.get(0));
-			    for (int i = 0; i < players.size(); i++) {
-			      player = players.get(i);
-			      nextPlayer = players.get((i + 1) % players.size());
-			      player.setOnEndOfMedia(new Runnable() {
-				      @Override public void run() {
-				    	   skip.doClick();
-				      	}
-			      	  });
-			    }
-			    
-			    // start playing the first track.
-			    mediaView.setMediaPlayer(players.get(0));
-			    mediaView.getMediaPlayer().play();
-	}
 
-
-	private MediaPlayer createPlayer(String aMediaSrc) {
-		  /** @return a MediaPlayer for the given source which will report any errors it encounters */
-		    final MediaPlayer player = new MediaPlayer(new Media(aMediaSrc));
-		    return player;
-	}
-	
 	private void initObjects() {
 		
-
 		currentPlayer = new Player("Jeff");
 		headPanel = new JPanel();
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
 		showPanel = new JPanel();
 		titleLabel = new JLabel();
-//		showPanel.setLayout(new GridLayout(1,1));
 		scores = new Scoreboard(MENU_WIDTH/2, MENU_HEIGHT);
 		
 		// define actions
@@ -151,6 +99,14 @@ public class Menu extends JFrame {
 		skip = new JButton(skipAction);
 		mute = new JButton(muteAction);
 		unmute = new JButton(unmuteAction);
+		
+		// Music
+		JFXPanel fxPanel = new JFXPanel();
+		SwingUtilities.invokeLater(new Runnable() {
+	      @Override public void run() {
+	        initMusic();
+	      }
+	    });
 	}
 
 	private void applyMenuLayout() {
@@ -171,6 +127,9 @@ public class Menu extends JFrame {
 		exitButton.setText("Exit");
 		continueButton.setText("Continue");
         titleLabel.setText("Dangerous Dungeon");
+		skip.setText("Skip Current Track");
+		mute.setText("Mute");
+		unmute.setText("Unmute");
 
 		// Title
         titleLabel.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
@@ -183,7 +142,7 @@ public class Menu extends JFrame {
         continueButton.setEnabled(false);
 
 
-     // Inside layout for head
+        // Inside layout for head
         javax.swing.GroupLayout headPanelLayout = new javax.swing.GroupLayout(headPanel);
         headPanel.setLayout(headPanelLayout);
         headPanelLayout.setHorizontalGroup(
@@ -280,7 +239,55 @@ public class Menu extends JFrame {
 
         pack();
 	}
+	
+	private void initMusic() {
+		// Music
+		// Get File path to folder, generate list of players for every mp3 in it
+		URL dir_url = this.getClass().getResource(
+				"/MusicReplaceIfWorriedAboutCopyright/");
+		try {
+			File dir = new File(dir_url.toURI());
+			players = new ArrayList<MediaPlayer>();
+			for (String file : dir.list(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.endsWith(".mp3");
+				}
+			}))
+				players.add(createPlayer("file:///"
+						+ (dir + "\\" + file).replace("\\", "/").replaceAll(
+								" ", "%20")));
 
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
+		// play each audio file in turn.
+		mediaView = new MediaView(players.get(0));
+		for (int i = 0; i < players.size(); i++) {
+			player = players.get(i);
+			nextPlayer = players.get((i + 1) % players.size());
+			player.setOnEndOfMedia(new Runnable() {
+				@Override
+				public void run() {
+					skip.doClick();
+				}
+			});
+		}
+
+		// start playing the first track.
+		mediaView.setMediaPlayer(players.get(0));
+		mediaView.getMediaPlayer().play();
+	}
+
+	private MediaPlayer createPlayer(String aMediaSrc) {
+		/**
+		 * @return a MediaPlayer for the given source which will report any
+		 *         errors it encounters
+		 */
+		final MediaPlayer player = new MediaPlayer(new Media(aMediaSrc));
+		return player;
+	}
 
 	@Override
 	public void paint(Graphics g) {
@@ -291,7 +298,7 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 
-			currentHeroClass = HeroClass.MAGE;
+			currentHeroClass = HeroClass.WARRIOR;
 			
 			setSize(GAME_WIDTH, GAME_HEIGHT);
 			setLocationRelativeTo(null);
@@ -349,9 +356,7 @@ public class Menu extends JFrame {
 
 			manager = new GridLayout(3, 3);
 			showPanel.setLayout(manager);
-			skip.setText("Skip Current Track");
-			mute.setText("Mute");
-			unmute.setText("Unmute");
+
 			showPanel.add(new JLabel(""));
 			showPanel.add(new JLabel(""));
 			showPanel.add(new JLabel(""));
@@ -361,6 +366,7 @@ public class Menu extends JFrame {
 			showPanel.add(new JLabel(""));
 			showPanel.add(new JLabel(""));
 			showPanel.add(new JLabel(""));
+			
 			revalidate();
 			repaint();
 		}

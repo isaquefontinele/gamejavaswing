@@ -21,14 +21,17 @@ public class Hero extends Creature {
 	private ArrayList<Bullet> bullets;
 
 	public Hero(HeroClass heroClass) {
-		setImage(heroClass);
+
+		setHeroClass(heroClass);
+		setDirection(Direction.DOWN);
+		setImage();
 		setIncreaseX(0);
 		setIncreaseY(0);
 		width = getImage().getWidth(null);
 		height = getImage().getHeight(null);
 		this.heroClass = heroClass;
 		setLife(heroClass.getLife());
-		direction = Direction.RIGHT;
+
 		canGoRight = true;
 		canGoLeft = true;
 		canGoUp = true;
@@ -44,6 +47,7 @@ public class Hero extends Creature {
 			if (canGoLeft) {
 				setIncreaseX(-SPEED);
 				setDirection(Direction.LEFT);
+				setImage();
 			}
 		}
 
@@ -51,6 +55,7 @@ public class Hero extends Creature {
 			if (canGoRight && getX() <= 75 * 9 + width / 2) {
 				setIncreaseX(SPEED);
 				setDirection(Direction.RIGHT);
+				setImage();
 			}
 		}
 
@@ -58,6 +63,7 @@ public class Hero extends Creature {
 			if (canGoUp) {
 				setIncreaseY(-SPEED);
 				setDirection(Direction.UP);
+				setImage();
 			}
 		}
 
@@ -65,6 +71,7 @@ public class Hero extends Creature {
 			if (canGoDown) {
 				setIncreaseY(SPEED);
 				setDirection(Direction.DOWN);
+				setImage();
 			}
 		}
 
@@ -103,11 +110,30 @@ public class Hero extends Creature {
 	}
 
 	// Getters and Setters
-	public void setImage(HeroClass heroClass) {
-		switch (heroClass) {
+	public void setImage() {
+		switch (getHeroClass()) {
 		case WARRIOR:
 			super.setImage(new ImageIcon(this.getClass().getResource(
-					"/images/hero.png")).getImage());
+					"/images/war_right.png")).getImage());
+			switch (direction) {
+			case RIGHT:
+				super.setImage(new ImageIcon(this.getClass().getResource(
+						"/images/war_right.png")).getImage());
+				break;
+			case LEFT:
+				super.setImage(new ImageIcon(this.getClass().getResource(
+						"/images/war_left.png")).getImage());
+				break;
+			case UP:
+				super.setImage(new ImageIcon(this.getClass().getResource(
+						"/images/war_up.png")).getImage());
+				break;
+			case DOWN:
+				super.setImage(new ImageIcon(this.getClass().getResource(
+						"/images/war_down.png")).getImage());
+				break;
+			}
+
 			break;
 		case MAGE:
 			super.setImage(new ImageIcon(this.getClass().getResource(

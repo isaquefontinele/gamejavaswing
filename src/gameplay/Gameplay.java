@@ -34,7 +34,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private Timer timer;
 	private Hero hero;
 	private JPanel buttonPanel;
-	JPanel showPanel;
+	private JPanel showPanel;
 	private Fase currentFase;
 	private Thread animator;
 	private Menu menu;
@@ -380,7 +380,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	// -----------------------End of Painting Area-----------------------
 
 	private void updateScore() {
-		//TODO
 //		currentScore;
 //		timer. need to get time
 		Score newScore = new Score(menu.getCurrentPlayer().getName(), 350, 1050);
