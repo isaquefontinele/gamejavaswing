@@ -285,6 +285,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				}
 			}
 		}
+		if (strikes.size() > 0) {
+			for (int i = 0; i < strikes.size(); i++) {
+				if (strikes.get(i).getRange() >= 10) {
+					strikes.remove(strikes.get(i));
+				}
+			}
+		}
 
 		// Collect items
 		for (int i = 0; i < items.size(); i++) {
