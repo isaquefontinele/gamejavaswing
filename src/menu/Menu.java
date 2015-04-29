@@ -59,8 +59,8 @@ public class Menu extends JFrame {
 	private JButton exitButton;
 	
 	private JRadioButton mageButton;
-	private JRadioButton archerButton;
-	private JRadioButton knightButton; 
+	private JRadioButton hunterButton;
+	private JRadioButton warriorButton; 
 	private ButtonGroup group;
 	
 	private Menu menu;
@@ -110,12 +110,12 @@ public class Menu extends JFrame {
 		//Radio Buttons
 		group = new ButtonGroup();
 		mageButton = new JRadioButton("Mage");
-		archerButton = new JRadioButton("Archer");
-		knightButton = new JRadioButton("Knight");
+		hunterButton = new JRadioButton("Hunter");
+		warriorButton = new JRadioButton("Warrior");
 		mageButton.setSelected(true);
 		group.add(mageButton);
-		group.add(archerButton);
-		group.add(knightButton);
+		group.add(hunterButton);
+		group.add(warriorButton);
 		
 		// Music
 		JFXPanel fxPanel = new JFXPanel();
@@ -316,11 +316,11 @@ public class Menu extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 
 			
-			if (knightButton.isSelected()) {
+			if (warriorButton.isSelected()) {
 				currentHeroClass = HeroClass.WARRIOR;
 			} else if (mageButton.isSelected()) {
 				currentHeroClass = HeroClass.MAGE;
-			} else if (archerButton.isSelected()) {
+			} else if (hunterButton.isSelected()) {
 				currentHeroClass = HeroClass.HUNTER;
 			}
 			
@@ -382,8 +382,8 @@ public class Menu extends JFrame {
 			showPanel.setLayout(manager);
 
 			showPanel.add(mageButton);
-			showPanel.add(knightButton);
-			showPanel.add(archerButton);
+			showPanel.add(warriorButton);
+			showPanel.add(hunterButton);
 			showPanel.add(skip);
 			showPanel.add(mute);
 			showPanel.add(unmute);
