@@ -57,6 +57,12 @@ public class Menu extends JFrame {
 	private JButton settingsButton;
 	private JButton creditsButton;
 	private JButton exitButton;
+	
+	private JRadioButton mageButton;
+	private JRadioButton archerButton;
+	private JRadioButton knightButton; 
+	private ButtonGroup group;
+	
 	private Menu menu;
 	
 	
@@ -99,6 +105,16 @@ public class Menu extends JFrame {
 		skip = new JButton(skipAction);
 		mute = new JButton(muteAction);
 		unmute = new JButton(unmuteAction);
+		
+		//Radio Buttons
+		group = new ButtonGroup();
+		mageButton = new JRadioButton("Mage");
+		archerButton = new JRadioButton("Archer");
+		knightButton = new JRadioButton("Knight");
+		mageButton.setSelected(true);
+		group.add(mageButton);
+		group.add(archerButton);
+		group.add(knightButton);
 		
 		// Music
 		JFXPanel fxPanel = new JFXPanel();
@@ -357,9 +373,9 @@ public class Menu extends JFrame {
 			manager = new GridLayout(3, 3);
 			showPanel.setLayout(manager);
 
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
+			showPanel.add(mageButton);
+			showPanel.add(knightButton);
+			showPanel.add(archerButton);
 			showPanel.add(skip);
 			showPanel.add(mute);
 			showPanel.add(unmute);

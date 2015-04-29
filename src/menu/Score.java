@@ -39,7 +39,7 @@ public class Score implements Comparable<Score> {
 
 	@Override
 	public int compareTo(Score other) {
-		return other.getPoints() - this.points;
+		return (other.getPoints() - this.points) - (other.getTime() - this.time);
 	}
 
 	// Getters and Setters
