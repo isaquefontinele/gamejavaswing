@@ -490,7 +490,9 @@ public class Menu extends JFrame {
 		} else {
 			setSize(GAME_WIDTH, GAME_HEIGHT);
 		}
-		
+		setLocationRelativeTo(null);
+		revalidate();
+		repaint();
 	}
 	
 	// Getters and Setters
