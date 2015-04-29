@@ -64,6 +64,8 @@ public class Menu extends JFrame {
 	private ButtonGroup group;
 	
 	private Menu menu;
+	private JLabel jLabel1;
+	private JLabel jLabel2;
 	
 	
 	public Menu() {
@@ -117,6 +119,8 @@ public class Menu extends JFrame {
 		group.add(hunterButton);
 		group.add(warriorButton);
 		
+		jLabel1 = new JLabel("Choose Your hero!");
+		jLabel2 = new JLabel("Adjust the music:");
 		// Music
 		JFXPanel fxPanel = new JFXPanel();
 		SwingUtilities.invokeLater(new Runnable() {
@@ -211,19 +215,10 @@ public class Menu extends JFrame {
                 .addComponent(exitButton)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
-
         
         // Inside layout for show panel
-        javax.swing.GroupLayout showPanelLayout = new javax.swing.GroupLayout(showPanel);
-        showPanel.setLayout(showPanelLayout);
-        showPanelLayout.setHorizontalGroup(
-            showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 569, Short.MAX_VALUE)
-        );
-        showPanelLayout.setVerticalGroup(
-            showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 472, Short.MAX_VALUE)
-        );
+        setShowPanelLayout();
+        
 
         // Layout for all the panels
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -253,12 +248,70 @@ public class Menu extends JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
+        
         pack();
 	}
 	
+	private void setShowPanelLayout() {
+		// Inside layout for show panel
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        mageButton.setBackground(showPanel.getBackground());
+        hunterButton.setBackground(showPanel.getBackground());
+        warriorButton.setBackground(showPanel.getBackground());
+
+        javax.swing.GroupLayout showPanelLayout = new javax.swing.GroupLayout(showPanel);
+        showPanel.setLayout(showPanelLayout);
+        showPanelLayout.setHorizontalGroup(
+            showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(showPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(showPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(showPanelLayout.createSequentialGroup()
+                        .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(showPanelLayout.createSequentialGroup()
+                                .addComponent(skip, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(mute, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(unmute, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(showPanelLayout.createSequentialGroup()
+                                .addComponent(mageButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(warriorButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(hunterButton))
+                            .addComponent(jLabel1))
+                        .addGap(64, 64, Short.MAX_VALUE))))
+        );
+        showPanelLayout.setVerticalGroup(
+            showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(showPanelLayout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel1)
+                .addGap(44, 44, 44)
+                .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(warriorButton)
+                    .addComponent(mageButton)
+                    .addComponent(hunterButton))
+                .addGap(69, 69, 69)
+                .addComponent(jLabel2)
+                .addGap(42, 42, 42)
+                .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(skip, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mute, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(unmute, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(111, Short.MAX_VALUE))
+        );
+		
+	}
+
+	// Can you hear it? This code is playing Music!
 	private void initMusic() {
-		// Music
+		
 		// Get File path to folder, generate list of players for every mp3 in it
 		URL dir_url = this.getClass().getResource(
 				"/MusicReplaceIfWorriedAboutCopyright/");
@@ -311,10 +364,10 @@ public class Menu extends JFrame {
 		super.paint(g);
 	}
 	
+	// "Light, Camera, ACTIONS!"
 	private class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-
 			
 			if (warriorButton.isSelected()) {
 				currentHeroClass = HeroClass.WARRIOR;
@@ -378,19 +431,7 @@ public class Menu extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			showPanel.removeAll();
 
-			manager = new GridLayout(3, 3);
-			showPanel.setLayout(manager);
-
-			showPanel.add(mageButton);
-			showPanel.add(warriorButton);
-			showPanel.add(hunterButton);
-			showPanel.add(skip);
-			showPanel.add(mute);
-			showPanel.add(unmute);
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
-			
+			setShowPanelLayout();
 			revalidate();
 			repaint();
 		}
@@ -419,15 +460,6 @@ public class Menu extends JFrame {
 		}
 	}
 	
-	public void resizeWindow() {
-		if (!inGame) {
-			setSize(MENU_WIDTH, MENU_HEIGHT);
-		} else {
-			setSize(GAME_WIDTH, GAME_HEIGHT);
-		}
-		
-	}
-	
 	private class muteAction extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			mediaView.getMediaPlayer().pause();
@@ -449,6 +481,16 @@ public class Menu extends JFrame {
 	        curPlayer.stop();
 	        nextPlayer.play();
 		}
+	}
+	
+	
+	public void resizeWindow() {
+		if (!inGame) {
+			setSize(MENU_WIDTH, MENU_HEIGHT);
+		} else {
+			setSize(GAME_WIDTH, GAME_HEIGHT);
+		}
+		
 	}
 	
 	// Getters and Setters
