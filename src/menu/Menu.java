@@ -67,7 +67,6 @@ public class Menu extends JFrame {
 	
 	
 	public Menu() {
-		menu = this;
 		resizeWindow();
 		initObjects();
 		applyMenuLayout();
@@ -75,6 +74,8 @@ public class Menu extends JFrame {
 	
 
 	private void initObjects() {
+		
+		menu = this;
 		
 		currentPlayer = new Player("Jeff");
 		headPanel = new JPanel();
@@ -314,7 +315,14 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 
-			currentHeroClass = HeroClass.WARRIOR;
+			
+			if (knightButton.isSelected()) {
+				currentHeroClass = HeroClass.WARRIOR;
+			} else if (mageButton.isSelected()) {
+				currentHeroClass = HeroClass.MAGE;
+			} else if (archerButton.isSelected()) {
+				currentHeroClass = HeroClass.HUNTER;
+			}
 			
 			setSize(GAME_WIDTH, GAME_HEIGHT);
 			setLocationRelativeTo(null);
