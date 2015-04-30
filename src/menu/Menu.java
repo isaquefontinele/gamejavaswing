@@ -396,6 +396,7 @@ public class Menu extends JFrame {
 		public void actionPerformed(ActionEvent event) {
 			
 			setSize(GAME_WIDTH, GAME_HEIGHT);
+			setLocationRelativeTo(null);
 			gameplay.setVisible(true);
 			gameplay.setEnabled(true);
 			
