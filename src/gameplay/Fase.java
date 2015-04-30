@@ -170,9 +170,11 @@ public class Fase {
 					if (matrixMonstersConfigs[monsterIndex][0].equals("E")) {
 						tempMonster.setType(MonsterType.ESQUELETON);
 						tempMonster.setLife(12);
+						tempMonster.setORIGINAL_LIFE(12);
 					} else if (matrixMonstersConfigs[monsterIndex][0].equals("B")) {
 						tempMonster.setType(MonsterType.BAT);
 						tempMonster.setLife(6);
+						tempMonster.setORIGINAL_LIFE(6);
 					}
 					// Set Direction of Movement
 					if (matrixMonstersConfigs[monsterIndex][1].equals("H")) {

@@ -30,6 +30,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private int currentScore = 0;
 	private final int blockSize = 75;
 	private final long DELAY = 25;
+	private float lifeBarWidth;
 
 	private Timer timer;
 	private Hero hero;
@@ -50,11 +51,10 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private Image groundTile;
 	private Image door;
+	private Image lifeBar;
 
 	private boolean inGame;
-	private boolean touchingMonster;
 	private boolean firstTouch;
-
 
 	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass,
 			JPanel buttonPanel, JPanel showPanel, Menu menu) {
@@ -87,6 +87,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				"/images/groundTile2.png")).getImage();
 		door = new ImageIcon(this.getClass().getResource("/images/door.png"))
 				.getImage();
+		lifeBar = new ImageIcon(this.getClass().getResource(
+				"/images/lifeBar.png")).getImage();
 
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
@@ -123,7 +125,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				bullets.remove(bullets.get(i));
 			}
 		}
-		
+
 		for (int i = 0; i < strikes.size(); i++) {
 			strikes.get(i).move();
 		}
@@ -201,10 +203,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			if (firstTouch) {
 				if (heroRect.intersects(monsterRect)) {
 					hero.atack(monsters.get(i).getAttack());
-					touchingMonster = true;
 				}
 			} else {
-				touchingMonster = false;
 				firstTouch = true;
 			}
 		}
@@ -264,12 +264,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				}
 			}
 		}
-		
+
 		// Colisions between strikes and monsters
 		for (int i = 0; i < monsters.size(); i++) {
 			for (int j = 0; j < strikes.size(); j++) {
-				if (monsters.get(i).getBounds().intersects(strikes.get(j).getBounds())) {
-					
+				if (monsters.get(i).getBounds()
+						.intersects(strikes.get(j).getBounds())) {
+
 					monsters.get(i).atack(strikes.get(j).getDamage());
 					strikes.remove(strikes.get(j));
 					// Kill monster
@@ -342,7 +343,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				g2d.drawImage(bullets.get(i).getImage(), bullets.get(i).getX(),
 						bullets.get(i).getY(), this);
 			}
-			
+
 			// Print strikes
 			strikes.addAll(hero.getStrikes());
 			hero.getStrikes().clear();
@@ -364,6 +365,12 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			for (int i = 0; i < monsters.size(); i++) {
 				g2d.drawImage(monsters.get(i).getImage(), monsters.get(i)
 						.getX(), monsters.get(i).getY(), this);
+				// Life bar
+				lifeBarWidth = 75 *(monsters.get(i).getLife() / (float) monsters.get(i).getORIGINAL_LIFE());
+				if (monsters.get(i).getLife() > 0) {
+					g2d.drawImage(lifeBar, monsters.get(i).getX(), monsters.get(i).getY() - 5, Math.round(lifeBarWidth), lifeBar
+							.getHeight(null), null);
+				}
 			}
 
 			// Print door
@@ -381,13 +388,18 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			for (int i = 0; i < torches.size(); i++) {
 				// If torch is on right side of the board
 				if (torches.get(i).getDirection() == Direction.LEFT) {
-					g2d.drawImage(torches.get(i).getImage(), torches.get(i).getX() - torches.get(i).getWidth()/2,
-							torches.get(i).getY(), torches.get(i).getWidth(), torches.get(i).getHeight(), null);
+					g2d.drawImage(torches.get(i).getImage(), torches.get(i)
+							.getX() - torches.get(i).getWidth() / 2, torches
+							.get(i).getY(), torches.get(i).getWidth(), torches
+							.get(i).getHeight(), null);
 				} else {
-					g2d.drawImage(torches.get(i).getImage(), torches.get(i).getX() + torches.get(i).getWidth()/2 + blockSize,
-							torches.get(i).getY(), -torches.get(i).getWidth(), torches.get(i).getHeight(), null);
+					g2d.drawImage(torches.get(i).getImage(),
+							torches.get(i).getX() + torches.get(i).getWidth()
+									/ 2 + blockSize, torches.get(i).getY(),
+							-torches.get(i).getWidth(), torches.get(i)
+									.getHeight(), null);
 				}
-				
+
 			}
 
 			// Pause message
@@ -397,12 +409,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 						GAME_HEIGHT / 2);
 			}
 
-			// Touching monster message
-			if (touchingMonster) {
-				g2d.drawString(touchingStr,
-						(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
-						GAME_HEIGHT / 2);
-			}
+
 
 			// Victory message
 			if (hero.getY() + hero.getHeight() <= 0) {
@@ -413,7 +420,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				updateScore();
 				initObjects();
 			}
-			
+
 			// Life
 			g2d.drawString(lifeStr, blockSize / 3, blockSize / 2);
 
@@ -428,8 +435,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	// -----------------------End of Painting Area-----------------------
 
 	private void updateScore() {
-//		currentScore;
-//		timer. need to get time
+		// currentScore;
+		// timer. need to get time
 		Score newScore = new Score(menu.getCurrentPlayer().getName(), 350, 1050);
 		menu.getScores().updateWithNewScore(newScore);
 	}
@@ -455,7 +462,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			this.setEnabled(false);
 			enableButtonPanel(true);
 			enableShowPanel(true);
-			
+
 			menu.resizeWindow();
 		}
 	}

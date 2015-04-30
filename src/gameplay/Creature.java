@@ -7,6 +7,7 @@ public abstract class Creature {
 	private String name;
 	private Image image;
 	private int life;
+	private int ORIGINAL_LIFE;
 	private boolean state;
 
 	private int x;
@@ -86,5 +87,13 @@ public abstract class Creature {
 
 	public void setImage(Image image) {
 		this.image = image;
+	}
+
+	public int getORIGINAL_LIFE() {
+		return ORIGINAL_LIFE;
+	}
+
+	public void setORIGINAL_LIFE(int oRIGINAL_LIFE) {
+		ORIGINAL_LIFE = oRIGINAL_LIFE;
 	}
 }
