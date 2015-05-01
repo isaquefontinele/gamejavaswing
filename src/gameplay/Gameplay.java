@@ -97,9 +97,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		inGame = true;
 		firstTouch = true;
 		
-		
-		
-		//currentFase = new Fase();
 		System.out.println(fases.size());
 		currentFase = fases.get(currentFaseNumber);
 		
@@ -407,6 +404,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		String lifeStr = "Hero Life:";
 		String scoreStr = "Score: " + currentScore;
 		String winStr = "Congratulations, you won!";
+		String gameOverStr = "Game Over!";
 		Font small = new Font("Helvetica", Font.BOLD, 30);
 		FontMetrics metr = this.getFontMetrics(small);
 		g2d.setColor(Color.white);
@@ -500,7 +498,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 						GAME_HEIGHT / 2);
 			}
 
-
+			// Game Over message
+			if (hero.getLife() <= 0) {
+				g2d.drawString(gameOverStr,
+						(GAME_WIDTH - metr.stringWidth(gameOverStr)) / 2,
+						GAME_HEIGHT / 2);
+				timer.stop();
+			}
 
 			// Victory message
 			if (heroIsOutsideLayout()) {
