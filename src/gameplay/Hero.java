@@ -32,7 +32,8 @@ public class Hero extends Creature {
 		height = getImage().getHeight(null);
 		this.heroClass = heroClass;
 		setLife(heroClass.getLife());
-
+		setORIGINAL_LIFE(heroClass.getLife());
+		
 		canGoRight = true;
 		canGoLeft = true;
 		canGoUp = true;

@@ -367,7 +367,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		Graphics2D g2d = (Graphics2D) g;
 		String pauseStr = "Game Paused";
 		String touchingStr = "Touching monster";
-		String lifeStr = "Life: " + hero.getLife();
+		String lifeStr = "Hero Life:";
 		String scoreStr = "Score: " + currentScore;
 		String winStr = "Congratulations, you won!";
 		Font small = new Font("Helvetica", Font.BOLD, 30);
@@ -475,11 +475,16 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				initObjects();
 			}
 
-			// Life
+			// Life string
 			g2d.drawString(lifeStr, BLOCK_SIZE / 3, BLOCK_SIZE / 2);
+			
+			// Hero lifebar
+			lifeBarWidth = 100 *(hero.getLife() / (float) hero.getORIGINAL_LIFE());
+			g2d.drawImage(lifeBar, BLOCK_SIZE*2 + BLOCK_SIZE/2, BLOCK_SIZE / 3, Math.round(lifeBarWidth), lifeBar
+					.getHeight(null)*2, null);
 
 			// Score
-			g2d.drawString(scoreStr, BLOCK_SIZE * 3, BLOCK_SIZE / 2);
+			g2d.drawString(scoreStr, BLOCK_SIZE * 4, BLOCK_SIZE / 2);
 
 			// Update screen
 			g.dispose();

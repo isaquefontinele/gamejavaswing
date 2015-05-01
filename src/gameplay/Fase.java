@@ -8,7 +8,7 @@ import java.util.Collection;
 public class Fase {
 	
 //	private final int MATRIX_LENGTH = 11;
-	private final int MATRIX_ROWS = 12;
+	private final int MATRIX_ROWS = 11;
 	private final int MATRIX_COLUMNS = 11;
 	private int BLOCK_SIZE = 75;
 

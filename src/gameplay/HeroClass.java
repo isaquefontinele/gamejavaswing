@@ -1,7 +1,7 @@
 package gameplay;
 
 public enum HeroClass {
-	WARRIOR(20), MAGE(10), HUNTER(15);
+	WARRIOR(2000), MAGE(1000), HUNTER(1500);
 	
 	private int life;
 	
