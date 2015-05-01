@@ -33,9 +33,9 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private int GAME_WIDTH;
 	private int GAME_HEIGHT;
 	private final int SPEED = 10;
-	private final int blockSize = 75;
+	private final int BLOCK_SIZE = 75;
 	private final long DELAY = 25;
-	private final String filePath = "/menu/Fases.txt";;
+	private final String filePath = "/menu/Fases.txt";
 	
 	private int currentScore = 0;
 	private float lifeBarWidth;
@@ -89,8 +89,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		firstTouch = true;
 		currentFase = new Fase();
 		
-		this.GAME_WIDTH = blockSize * currentFase.getMatrixWidth();
-		this.GAME_HEIGHT = blockSize * currentFase.getMatrixHeight();
+		this.GAME_WIDTH = BLOCK_SIZE * currentFase.getMatrixWidth();
+		this.GAME_HEIGHT = BLOCK_SIZE * currentFase.getMatrixHeight();
 		setSize(GAME_WIDTH, GAME_HEIGHT);
 
 		// Local Images
@@ -247,11 +247,11 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 					break;
 				} else if (hero.getDirection() == Direction.LEFT) {
 					hero.setCanGoRight(false);
-					hero.setX(walls.get(i).getX() + blockSize);
+					hero.setX(walls.get(i).getX() + BLOCK_SIZE);
 					break;
 				} else if (hero.getDirection() == Direction.UP) {
 					hero.setCanGoRight(false);
-					hero.setY(walls.get(i).getY() + blockSize);
+					hero.setY(walls.get(i).getY() + BLOCK_SIZE);
 					break;
 				} else if (hero.getDirection() == Direction.DOWN) {
 					hero.setCanGoRight(false);
@@ -419,7 +419,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				} else {
 					g2d.drawImage(torches.get(i).getImage(),
 							torches.get(i).getX() + torches.get(i).getWidth()
-									/ 2 + blockSize, torches.get(i).getY(),
+									/ 2 + BLOCK_SIZE, torches.get(i).getY(),
 							-torches.get(i).getWidth(), torches.get(i)
 									.getHeight(), null);
 				}
@@ -446,10 +446,10 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 
 			// Life
-			g2d.drawString(lifeStr, blockSize / 3, blockSize / 2);
+			g2d.drawString(lifeStr, BLOCK_SIZE / 3, BLOCK_SIZE / 2);
 
 			// Score
-			g2d.drawString(scoreStr, blockSize * 3, blockSize / 2);
+			g2d.drawString(scoreStr, BLOCK_SIZE * 3, BLOCK_SIZE / 2);
 
 			// Update screen
 			g.dispose();
@@ -486,9 +486,33 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			this.setEnabled(false);
 			enableButtonPanel(true);
 			enableShowPanel(true);
-
+			timer.stop();
 			menu.resizeWindow();
 		}
+	}
+
+	public int getGAME_WIDTH() {
+		return GAME_WIDTH;
+	}
+
+	public void setGAME_WIDTH(int gAME_WIDTH) {
+		GAME_WIDTH = gAME_WIDTH;
+	}
+
+	public int getGAME_HEIGHT() {
+		return GAME_HEIGHT;
+	}
+
+	public void setGAME_HEIGHT(int gAME_HEIGHT) {
+		GAME_HEIGHT = gAME_HEIGHT;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public void setTimer(Timer timer) {
+		this.timer = timer;
 	}
 
 	// Other Classes

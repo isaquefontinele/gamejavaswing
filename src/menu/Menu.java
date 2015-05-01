@@ -26,9 +26,8 @@ public class Menu extends JFrame {
 
 	private final int MENU_WIDTH = 800;
 	private final int MENU_HEIGHT = 600;
-	private final int BLOCK_SIZE = 75;
-	private int GAME_WIDTH = BLOCK_SIZE * 11 + 15;;
-	private int GAME_HEIGHT = BLOCK_SIZE * 12 - 30;;
+	private int GAME_WIDTH;
+	private int GAME_HEIGHT;
 
 	private boolean inGame = false;
 	
@@ -377,14 +376,20 @@ public class Menu extends JFrame {
 				currentHeroClass = HeroClass.HUNTER;
 			}
 			
-			setSize(GAME_WIDTH, GAME_HEIGHT);
-			setLocationRelativeTo(null);
+
+			
 			setLayout(null);
 			
 			// New Game
 			gameplay = new Gameplay(MENU_WIDTH, MENU_HEIGHT, currentHeroClass, buttonPanel, showPanel, menu);
 			add(gameplay);
-
+			
+			GAME_WIDTH = gameplay.getGAME_WIDTH() + 15;
+			GAME_HEIGHT = gameplay.getGAME_HEIGHT() + 40;
+			
+			setSize(GAME_WIDTH, GAME_HEIGHT);
+			setLocationRelativeTo(null);
+			
 			gameplay.enableButtonPanel(false);
 			gameplay.enableShowPanel(false);
 			gameplay.setLocation(0, 0);
@@ -399,7 +404,7 @@ public class Menu extends JFrame {
 			setLocationRelativeTo(null);
 			gameplay.setVisible(true);
 			gameplay.setEnabled(true);
-			
+			gameplay.getTimer().start();
 			gameplay.enableButtonPanel(false);
 			gameplay.enableShowPanel(false);
 			gameplay.setLocation(0, 0);

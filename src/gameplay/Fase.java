@@ -72,7 +72,7 @@ public class Fase {
 	 */
 	
 	public Fase() {
-		setBlockSize(BLOCK_SIZE );
+		setBlockSize(BLOCK_SIZE);
 		
 		this.items = new ArrayList<Item>();
 		this.monsters = new ArrayList<Monster>();
@@ -80,7 +80,7 @@ public class Fase {
 		this.groundTilesX = new ArrayList<Integer>();
 		this.groundTilesY = new ArrayList<Integer>();
 		this.torches = new ArrayList<Torch>();
-				
+
 		
 		loadMatrix();
 		loadMonstersConfig();
@@ -90,15 +90,17 @@ public class Fase {
 	
 	private void loadMatrix() {
 		String[] tempLine = new String[3];
-		String[] tempColumn = new String[11];
+		String[] tempColumn = new String[MATRIX_COLUMNS];
 		
 		tempLine = matrixRaw.split("\n");
+		System.out.println(tempLine.length);
 		for (int i = 0; i < MATRIX_ROWS; i++) {
 			tempColumn = tempLine[i].split("\\s");
 			for (int j = 0; j < MATRIX_COLUMNS; j++) {
 				matrix[i][j] = tempColumn[j];
 			}
 		}
+		
 	}
 	
 	private void loadMonstersConfig() {
@@ -311,11 +313,11 @@ public class Fase {
 	}
 	
 	public int getMatrixWidth() {
-		return matrix.length;
+		return MATRIX_ROWS;
 	}
 
 	public int getMatrixHeight() {
-		return matrix[0].length;
+		return MATRIX_COLUMNS;
 	}
 	
 	public ArrayList<Integer> getGroundTilesX() {
