@@ -47,7 +47,6 @@ public class Menu extends JFrame {
 	private JButton mute;
 	private JButton unmute;
 
-	private JLabel titleLabel;
 	private JPanel headPanel, buttonPanel;
 	private JPanel showPanel;
 	private JButton playButton;
@@ -56,15 +55,20 @@ public class Menu extends JFrame {
 	private JButton settingsButton;
 	private JButton creditsButton;
 	private JButton exitButton;
-	
+
+	private ButtonGroup group;	
 	private JRadioButton mageButton;
 	private JRadioButton hunterButton;
 	private JRadioButton warriorButton; 
-	private ButtonGroup group;
 	
 	private Menu menu;
 	private JLabel jLabel1;
 	private JLabel jLabel2;
+	private JLabel titleLabel;
+	private JLabel credits1;
+	private JLabel credits2;
+	private JLabel credits3;
+	private JLabel credits4;
 	
 	
 	public Menu() {
@@ -77,7 +81,6 @@ public class Menu extends JFrame {
 	private void initObjects() {
 		
 		menu = this;
-		currentPlayer = new Player("Jeff");
 		headPanel = new JPanel();
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
@@ -119,6 +122,11 @@ public class Menu extends JFrame {
 		
 		jLabel1 = new JLabel("Choose Your hero!");
 		jLabel2 = new JLabel("Adjust the music:");
+		credits1 = new JLabel("This game was made as a project for the class CS390");
+		credits2 = new JLabel("Ohio Wesleyan University, 2015.");
+		credits3 = new JLabel("by:");
+		credits4 = new JLabel("Isaque Fontinele & Danny O'Dea");
+		
 		// Music
 		JFXPanel fxPanel = new JFXPanel();
 		SwingUtilities.invokeLater(new Runnable() {
@@ -149,6 +157,13 @@ public class Menu extends JFrame {
 		skip.setText("Skip Current Track");
 		mute.setText("Mute");
 		unmute.setText("Unmute");
+		
+		
+		Font creditsFont = new java.awt.Font("Tahoma", 1, 18);
+        credits1.setFont(creditsFont);
+        credits2.setFont(creditsFont);
+        credits3.setFont(creditsFont);
+        credits4.setFont(creditsFont);
 
 		// Title
         titleLabel.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
@@ -303,8 +318,36 @@ public class Menu extends JFrame {
                     .addComponent(mute, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(unmute, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(111, Short.MAX_VALUE))
+        );	
+	}
+	
+	private void setCreditsLayout() {
+        javax.swing.GroupLayout showPanelLayout = new javax.swing.GroupLayout(showPanel);
+        showPanel.setLayout(showPanelLayout);
+        showPanelLayout.setHorizontalGroup(
+            showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(showPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(credits3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(credits1, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                    .addComponent(credits2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(credits4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-		
+        showPanelLayout.setVerticalGroup(
+            showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(showPanelLayout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(credits1)
+                .addGap(18, 18, 18)
+                .addComponent(credits2)
+                .addGap(54, 54, 54)
+                .addComponent(credits3)
+                .addGap(18, 18, 18)
+                .addComponent(credits4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 	}
 
 	// Can you hear it? This code is playing Music!
@@ -356,7 +399,8 @@ public class Menu extends JFrame {
 		final MediaPlayer player = new MediaPlayer(new Media(aMediaSrc));
 		return player;
 	}
-
+	
+	// Print of main frame
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -367,6 +411,17 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 			
+			String name = "";
+			if (currentPlayer == null) {
+				name = JOptionPane.showInputDialog("Hi! Please type your name to start:");
+			}
+			
+			if (name == null) {
+				return;
+			} else {
+				currentPlayer = new Player("Anonymous");
+			}
+			
 			if (warriorButton.isSelected()) {
 				currentHeroClass = HeroClass.WARRIOR;
 			} else if (mageButton.isSelected()) {
@@ -374,9 +429,7 @@ public class Menu extends JFrame {
 			} else if (hunterButton.isSelected()) {
 				currentHeroClass = HeroClass.HUNTER;
 			}
-			
-
-			
+						
 			setLayout(null);
 			
 			// New Game
@@ -414,22 +467,13 @@ public class Menu extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 			showPanel.removeAll();
-			manager = new GridLayout(3, 3);
-			showPanel.setLayout(manager);
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
-			JLabel l = new JLabel("Isaque Fontinele & Danny O'Dea");
-			showPanel.add(l);
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
-			showPanel.add(new JLabel(""));
+			setCreditsLayout();
+
 			revalidate();
 			repaint();
 		}
 	}
+	
 
 	private class settingsAction extends AbstractAction {
 

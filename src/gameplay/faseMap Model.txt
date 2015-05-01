@@ -1,23 +1,30 @@
 11x11
-W W W W W W W W W W W
-W N N N N N N N N E W
+W W W W W W W W W E W
+W N N N N N N N N N W
 W N W N N N N N W N W
-W N W N W W W N W N W
+W N T N W W W N T N W
 W M W N N N N N W M W
 W N N W N W N W N N W
-W N W O N M N O N N W
-W N N W W W W W N N W
+W N W O N M N O W N W
+T N N W W W W W N N T
 W N W N N N N N W N W
-W I N N N N N N N N W
+W I N N N H N N N N W
 W W W W W W W W W W W
 3
-E V 100
-E H 100
-E V 100
+Z V 100
+S V 100
+B H 100
 2
 T
 T
-0
+4
+R
+L
+R
+L
+NEXT
+(...)
+END
 
 
 
@@ -25,12 +32,22 @@ T
 Explaining:
 
 11x11 = Matrix dimensions
+
 Matrix itself
-3 = Number of monsters in order of reading row after row
-E V 100
-E = type of monster (skeleton)
+
+3 = Number of monsters
+S V 100
+S = type of monster (skeleton)
 V = Direction of move (vertical)
 100 = Max range
+
 2 = Number of items
 T = type of item (treasure)
-0 = End of reading
+
+4 = Number of torches
+R = Torch turned to right side
+L = Torch turned to left side
+
+NEXT = Separator between different fases
+
+END = End of file

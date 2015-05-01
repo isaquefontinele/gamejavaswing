@@ -34,34 +34,6 @@ public class Fase {
 	private String monsterConfig;
 	private String torchesConfig;
 
-//	private String matrixRaw = 
-//
-//			  "W W W W W W W W W E W\n"
-//			+ "W N N N N N N N N N W\n"
-//			+ "W N W N N N N N W N W\n"
-//			+ "W N T N W W W N T N W\n"
-//			+ "W M W N N N N N W M W\n"
-//			+ "W N N W N W N W N N W\n"
-//			+ "W N W O N M N O W N W\n"
-//			+ "T N N W W W W W N N T\n"
-//			+ "W N W N N N N N W N W\n"
-//			+ "W N N N N H N N N N W\n"
-//			+ "W W W W W W W W W W W\n"
-//			+ "W N W N W N W N W N W";
-//
-//	private String monsterConfig = 
-//			
-//			  "S V 100\n"
-//			+ "S V 100\n"
-//			+ "B H 100";
-//	
-//	private String torchesConfig =
-//			  "R\n"
-//			+ "L\n"
-//			+ "R\n"
-//			+ "L";
-	
-	
 	/**
 	 *  N = Nothing == ground
 	 *  W = Walls
