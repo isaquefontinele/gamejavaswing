@@ -52,8 +52,8 @@ NEXT11x20
 W W W W W W W W W W W W W W W W W W W W
 W N H N N N N N N N N N N N N N N N N W
 W N N N W N W W N N N N N W N W W N N W
-T N N N W M O W N N N N N W M O W N N T
-W N N N W N O W N N N N N W N O W N N W
+T N N N W M O W N N N N N W M N W N N T
+W N N N W N O W N N N N N W N N W N N W
 W N N N W W W W N N N N N W W W W N N W
 W N N N N N N N N N N N N N N N N N N W
 T N N N N N N N N N N N N N N N N N N T
@@ -63,9 +63,7 @@ W E W W W W W W W W W W W W W W W W W W
 2
 S V 100
 S V 100
-4
-T
-T
+2
 T
 T
 4
