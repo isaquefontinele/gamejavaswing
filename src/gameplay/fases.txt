@@ -131,4 +131,35 @@ L
 L
 L
 L
+NEXT11x10
+W W W W W W W W W W
+W M N N N W N H N T
+W N W W N W N N N W
+T N W N N W W N N W
+W N W N M N W M O W
+T N N W W N W N N T
+W M N N W O W W N W
+T N O N W N N W M W
+W N O N W N N W N W
+W N O N W N N N N T
+W W W E W W W W W W
+5
+B H 60
+S H 60
+S V 100
+B V 85
+S H 30
+5
+T
+T
+T
+T
+T
+6
+L
+R
+L
+R
+L
+R
 END
