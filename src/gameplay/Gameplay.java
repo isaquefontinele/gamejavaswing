@@ -39,7 +39,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private final int BLOCK_SIZE = 75;
 	private final long DELAY = 25;
 	private int currentFaseNumber = 0;
-	
 	private int currentScore = 0;
 	private float lifeBarWidth;
 
@@ -53,6 +52,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private Thread animator;
 	private Menu menu;
 	private File file;
+	private FileReader read;
 	
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
@@ -62,6 +62,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private ArrayList<Integer> groundTilesY;
 	private ArrayList<Torch> torches;
 	private ArrayList<Strike> strikes;
+	private ArrayList<MediaPlayer> soundEffects;
 
 	private Image groundTile;
 	private Image door;
@@ -69,9 +70,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private boolean inGame;
 	private boolean firstTouch;
-	private FileReader read;
-	
-	private ArrayList<MediaPlayer> soundEffects;
 	private boolean gameOver;
 	private boolean won;
 
@@ -163,12 +161,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	}
 	
 	private void checkStates() {
-
+		// Check if hero died
 		if (hero.getLife() <= 0) {
 			gameOver = true;
 			pause();
 		}
 		
+		// Check victory
 		if (heroIsOutsideLayout()) {
 			if (currentFaseNumber >= fases.size()-1) {
 				currentFaseNumber = fases.size()-1;

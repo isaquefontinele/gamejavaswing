@@ -226,12 +226,16 @@ public class Fase {
 					// Set Type
 					if (matrixMonstersConfigs[monsterIndex][0].equals("S")) {
 						tempMonster.setType(MonsterType.ESQUELETON);
-						tempMonster.setLife(12);
-						tempMonster.setORIGINAL_LIFE(12);
+						tempMonster.setLife(10);
+						tempMonster.setORIGINAL_LIFE(10);
 					} else if (matrixMonstersConfigs[monsterIndex][0].equals("B")) {
 						tempMonster.setType(MonsterType.BAT);
 						tempMonster.setLife(6);
 						tempMonster.setORIGINAL_LIFE(6);
+					} else if (matrixMonstersConfigs[monsterIndex][0].equals("Z")) {
+						tempMonster.setType(MonsterType.ZOMBIE);
+						tempMonster.setLife(10);
+						tempMonster.setORIGINAL_LIFE(10);
 					}
 					// Set Direction of Movement
 					if (matrixMonstersConfigs[monsterIndex][1].equals("H")) {

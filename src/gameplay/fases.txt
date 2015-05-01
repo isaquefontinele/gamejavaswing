@@ -11,7 +11,7 @@ W N W N N N N N W N W
 W I N N N H N N N N W
 W W W W W W W W W W W
 3
-S V 100
+Z V 100
 S V 100
 B H 100
 2
@@ -75,7 +75,7 @@ R
 L
 NEXT9x9
 W T T T T T T T W
-T N N M H N N N T 
+T N N M N N H N T 
 T N N M M N N N T
 T N O M M O N N T
 T M M M M M M N T
