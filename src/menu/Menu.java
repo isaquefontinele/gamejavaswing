@@ -314,7 +314,7 @@ public class Menu extends JFrame {
 		
 		// Get File path to folder, generate list of players for every mp3 in it
 		URL dir_url = this.getClass().getResource(
-				"/MusicReplaceIfWorriedAboutCopyright/");
+				"/music/");
 		try {
 			File dir = new File(dir_url.toURI());
 			players = new ArrayList<MediaPlayer>();
