@@ -77,7 +77,6 @@ public class Menu extends JFrame {
 	private void initObjects() {
 		
 		menu = this;
-		
 		currentPlayer = new Player("Jeff");
 		headPanel = new JPanel();
 		buttonPanel = new JPanel();
@@ -449,7 +448,6 @@ public class Menu extends JFrame {
 			showPanel.removeAll();
 			showPanel.setLayout(null);
 			showPanel.add(scores);
-
 			revalidate();
 			repaint();
 		}

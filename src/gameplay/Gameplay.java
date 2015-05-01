@@ -98,6 +98,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	public void initObjects() {
 		inGame = true;
 		firstTouch = true;
+
 		gameOver = false;
 		won = false;
 
@@ -564,7 +565,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private void updateScore() {
 		// currentScore;
 		// timer. need to get time
-		Score newScore = new Score(menu.getCurrentPlayer().getName(), 350, 1050);
+		Score newScore = new Score(menu.getCurrentPlayer().getName(), currentScore);
 		menu.getScores().updateWithNewScore(newScore);
 	}
 

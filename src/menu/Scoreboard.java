@@ -27,7 +27,7 @@ public class Scoreboard extends JPanel{
 	{
 		filepath = "/menu/GameScores.txt";
 		scores = new Score[10];
-		newScore = new Score("DLO", 1000, 600);
+		newScore = new Score("DLO", 1000);
 		for(int i = 0; i < 10; i++)
 		{
 			scores[i] = newScore;
