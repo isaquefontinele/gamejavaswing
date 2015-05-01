@@ -97,7 +97,6 @@ public class Fase {
 		
 		
 		String[] temp = loadString.split("\n");
-		System.out.println(Arrays.toString(temp));
 		String[] dimension = temp[0].split("x");
 		
 		
@@ -146,7 +145,6 @@ public class Fase {
 		matrix = new String [MATRIX_ROWS][MATRIX_COLUMNS];
 		
 		tempLine = matrixRaw.split("\n");
-		System.out.println(tempLine.length);
 		for (int i = 0; i < MATRIX_ROWS; i++) {
 			tempColumn = tempLine[i].split("\\s");
 			for (int j = 0; j < MATRIX_COLUMNS; j++) {
