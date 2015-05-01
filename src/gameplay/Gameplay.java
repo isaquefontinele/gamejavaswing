@@ -97,7 +97,11 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		inGame = true;
 		firstTouch = true;
 
-		currentFase = fases.get(currentFaseNumber);
+		if(currentFaseNumber <= fases.size())
+		{
+			currentFase = fases.get(currentFaseNumber);
+		}
+		
 		
 		this.GAME_WIDTH = BLOCK_SIZE * currentFase.getMatrixWidth();
 		this.GAME_HEIGHT = BLOCK_SIZE * currentFase.getMatrixHeight();
@@ -552,7 +556,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private void updateScore() {
 		// currentScore;
 		// timer. need to get time
-		Score newScore = new Score(menu.getCurrentPlayer().getName(), 350, 1050);
+		Score newScore = new Score(menu.getCurrentPlayer().getName(), currentScore);
 		menu.getScores().updateWithNewScore(newScore);
 	}
 

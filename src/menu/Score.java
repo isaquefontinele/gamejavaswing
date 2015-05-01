@@ -4,15 +4,11 @@ public class Score implements Comparable<Score> {
 
 	private int points;
 	
-	//Time may be more useful as a timestamp, this may complicate the file
-	//we could just keep track of seconds or something like that
-	private int time;
 	//private Player player;
 	private String player;
 
-	public Score(String player, int time, int points) {
+	public Score(String player, int points) {
 		this.points = points;
-		this.time = time;
 		this.player = player;
 	}
 	
@@ -23,23 +19,21 @@ public class Score implements Comparable<Score> {
 		
 		player = tokens[0].trim();
 		points = Integer.parseInt(tokens[1].trim());
-		time = Integer.parseInt(tokens[2].trim());
 	}
 
 	@Override
 	//player.getName();
 	public String toString() {
-		return "Name: " + player + " - Score: " + points
-				+ " - Time: " + time;
+		return "Name: " + player + " - Score: " + points;
 	}
 	
 	public String fileToString() {
-		return (player + " " + points + " " + time);
+		return (player + " " + points);
 	}
 
 	@Override
 	public int compareTo(Score other) {
-		return (other.getPoints() - this.points) - (other.getTime() - this.time);
+		return (other.getPoints() - this.points);
 	}
 
 	// Getters and Setters
@@ -51,15 +45,6 @@ public class Score implements Comparable<Score> {
 		this.points = points;
 	}
 
-	public int getTime() {
-		return time;
-	}
-
-	public void setTime(int time) {
-		this.time = time;
-	}
-	
-
 	public String getPlayer() {
 		return player;
 	}
@@ -67,12 +52,4 @@ public class Score implements Comparable<Score> {
 	public void setPlayer(String player) {
 		this.player = player;
 	}
-
-	/*public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
-	}*/
 }
