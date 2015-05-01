@@ -12,20 +12,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
 import menu.Menu;
@@ -33,11 +31,14 @@ import menu.Score;
 
 public class Gameplay extends JPanel implements ActionListener, Runnable {
 
-	private final int GAME_WIDTH, GAME_HEIGHT;
-	private int SPEED = 10;
-	private int currentScore = 0;
+	private int GAME_WIDTH;
+	private int GAME_HEIGHT;
+	private final int SPEED = 10;
 	private final int blockSize = 75;
 	private final long DELAY = 25;
+	private final String filePath = "/menu/Fases.txt";;
+	
+	private int currentScore = 0;
 	private float lifeBarWidth;
 
 	private Timer timer;
@@ -47,7 +48,10 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private Fase currentFase;
 	private Thread animator;
 	private Menu menu;
-
+	private File file;
+//	private FileReader reader;
+	private BufferedReader reader;
+	
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> walls;
@@ -69,10 +73,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass,
 			JPanel buttonPanel, JPanel showPanel, Menu menu) {
 
-		this.GAME_WIDTH = blockSize * 11;
-		this.GAME_HEIGHT = blockSize * 11;
-		setSize(GAME_WIDTH, GAME_HEIGHT);
-
 		this.showPanel = showPanel;
 		this.buttonPanel = buttonPanel;
 		this.menu = menu;
@@ -90,7 +90,11 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	public void initObjects() {
 		inGame = true;
 		firstTouch = true;
-		currentFase = new Fase(blockSize);
+		currentFase = new Fase();
+		
+		this.GAME_WIDTH = blockSize * currentFase.getMatrixWidth();
+		this.GAME_HEIGHT = blockSize * currentFase.getMatrixHeight();
+		setSize(GAME_WIDTH, GAME_HEIGHT);
 
 		// Local Images
 		groundTile = new ImageIcon(this.getClass().getResource(
@@ -144,6 +148,19 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		checkCollisions();
 		repaint();
 	}
+	
+//	private void loadFases() {
+//		file = new File(filePath);
+////		Reader r = new BufferedReader();
+//		reader = new BufferedReader(file);
+//		
+//		while (reader.readLine() != "END") {
+//			String genericString = "";
+//			
+//		}
+//		
+//
+//	}
 
 	// Updates bullets movement
 	private void bulletsMove() {

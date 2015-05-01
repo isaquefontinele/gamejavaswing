@@ -7,16 +7,19 @@ import java.util.Collection;
 
 public class Fase {
 	
-	private final int MATRIX_LENGTH = 11;
+//	private final int MATRIX_LENGTH = 11;
+	private final int MATRIX_ROWS = 12;
+	private final int MATRIX_COLUMNS = 11;
+	private int BLOCK_SIZE = 75;
+
 	private int faseNum = 1;
 	private int monstersTotal = 3;
 	private int torchesTotal = 4;
-	private int blockSize;
 	private int heroPosX;
 	private int heroPosY;
 	private int exitPosX;
 	private int exitPosY;
-	private String[][] matrix = new String [MATRIX_LENGTH][MATRIX_LENGTH];
+	private String[][] matrix = new String [MATRIX_ROWS][MATRIX_COLUMNS];
 	private String[][] matrixMonstersConfigs = new String[monstersTotal][3];
 	private String[] matrixTorchesConfigs = new String[torchesTotal];
 	private ArrayList<Item> items;
@@ -39,12 +42,13 @@ public class Fase {
 			+ "T N N W W W W W N N T\n"
 			+ "W N W N N N N N W N W\n"
 			+ "W N N N N H N N N N W\n"
-			+ "W W W W W W W W W W W";
+			+ "W W W W W W W W W W W\n"
+			+ "W N W N W N W N W N W";
 
 	private String monsterConfig = 
 			
-			  "E V 100\n"
-			+ "E V 100\n"
+			  "S V 100\n"
+			+ "S V 100\n"
 			+ "B H 100";
 	
 	private String torchesConfig =
@@ -52,6 +56,7 @@ public class Fase {
 			+ "L\n"
 			+ "R\n"
 			+ "L";
+	
 	
 	/**
 	 *  N = Nothing == ground
@@ -61,12 +66,13 @@ public class Fase {
 	 *  E = Exit
 	 *  I = Entrance
 	 *  O = Objects
+	 *  T = Torch
 	 * @param wINDOW_HEIGHT 
 	 * @param wINDOW_WIDTH 
 	 */
 	
-	public Fase(int blockSize) {
-		setBlockSize(blockSize);
+	public Fase() {
+		setBlockSize(BLOCK_SIZE );
 		
 		this.items = new ArrayList<Item>();
 		this.monsters = new ArrayList<Monster>();
@@ -74,8 +80,7 @@ public class Fase {
 		this.groundTilesX = new ArrayList<Integer>();
 		this.groundTilesY = new ArrayList<Integer>();
 		this.torches = new ArrayList<Torch>();
-		
-		
+				
 		
 		loadMatrix();
 		loadMonstersConfig();
@@ -88,9 +93,9 @@ public class Fase {
 		String[] tempColumn = new String[11];
 		
 		tempLine = matrixRaw.split("\n");
-		for (int i = 0; i < MATRIX_LENGTH; i++) {
+		for (int i = 0; i < MATRIX_ROWS; i++) {
 			tempColumn = tempLine[i].split("\\s");
-			for (int j = 0; j < MATRIX_LENGTH; j++) {
+			for (int j = 0; j < MATRIX_COLUMNS; j++) {
 				matrix[i][j] = tempColumn[j];
 			}
 		}
@@ -120,8 +125,6 @@ public class Fase {
 	private void setThingsPositions() {
 		int monsterIndex = 0;
 		int torchesIndex = 0;
-		int blockWidth = 75;
-		int blockHeight = 75;
 		String[] matrixRow;
 		for (int i = 0; i < matrix.length; i++) {
 			matrixRow = matrix[i];
@@ -130,44 +133,44 @@ public class Fase {
 				
 				case "W": 
 					Wall tempWall = new Wall();
-					tempWall.setX(blockWidth*j);
-					tempWall.setY(blockHeight*i);
+					tempWall.setX(BLOCK_SIZE*j);
+					tempWall.setY(BLOCK_SIZE*i);
 					walls.add(tempWall);
 					break;
 				case "O":
 					Item tempItem = new Item();
-					tempItem.setX(blockWidth*j);
-					tempItem.setY(blockHeight*i);
+					tempItem.setX(BLOCK_SIZE*j);
+					tempItem.setY(BLOCK_SIZE*i);
 					items.add(tempItem);
 					// Ground tile
-					groundTilesX.add(blockWidth*j);
-					groundTilesY.add(blockHeight*i);
+					groundTilesX.add(BLOCK_SIZE*j);
+					groundTilesY.add(BLOCK_SIZE*i);
 					break;
 				case "E":
-					setExitPosX(blockWidth*j);
-					setExitPosY(blockHeight*i);
+					setExitPosX(BLOCK_SIZE*j);
+					setExitPosY(BLOCK_SIZE*i);
 					// Ground tile
-					groundTilesX.add(blockWidth*j);
-					groundTilesY.add(blockHeight*i);
+					groundTilesX.add(BLOCK_SIZE*j);
+					groundTilesY.add(BLOCK_SIZE*i);
 					
 					Wall doorWall = new Wall();
-					doorWall.setX(blockWidth*j);
-					doorWall.setY(blockHeight*i);
+					doorWall.setX(BLOCK_SIZE*j);
+					doorWall.setY(BLOCK_SIZE*i);
 					setDoorWall(doorWall);
 					walls.add(doorWall);
 					break;
 				case "H":
-					setHeroPosX(blockWidth*j);
-					setHeroPosY(blockHeight*i);
+					setHeroPosX(BLOCK_SIZE*j);
+					setHeroPosY(BLOCK_SIZE*i);
 					// Ground tile
-					groundTilesX.add(blockWidth*j);
-					groundTilesY.add(blockHeight*i);
+					groundTilesX.add(BLOCK_SIZE*j);
+					groundTilesY.add(BLOCK_SIZE*i);
 					break;
 				case "M":
 					// Create generic monster
 					Monster tempMonster = new Monster();
 					// Set Type
-					if (matrixMonstersConfigs[monsterIndex][0].equals("E")) {
+					if (matrixMonstersConfigs[monsterIndex][0].equals("S")) {
 						tempMonster.setType(MonsterType.ESQUELETON);
 						tempMonster.setLife(12);
 						tempMonster.setORIGINAL_LIFE(12);
@@ -185,19 +188,19 @@ public class Fase {
 					// Set max Range
 					tempMonster.setMaxRange(Integer.parseInt(matrixMonstersConfigs[monsterIndex][2]));
 					// Set location
-					tempMonster.setX(blockWidth*j);
-					tempMonster.setY(blockHeight*i);
+					tempMonster.setX(BLOCK_SIZE*j);
+					tempMonster.setY(BLOCK_SIZE*i);
 					monsters.add(tempMonster);
 					monsterIndex++;
 					// Ground tile
-					groundTilesX.add(blockWidth*j);
-					groundTilesY.add(blockHeight*i);
+					groundTilesX.add(BLOCK_SIZE*j);
+					groundTilesY.add(BLOCK_SIZE*i);
 					break;
 				case "T":
 					// Add torch
 					Torch tempTorch = new Torch();
-					tempTorch.setX(blockWidth*j);
-					tempTorch.setY(blockHeight*i);
+					tempTorch.setX(BLOCK_SIZE*j);
+					tempTorch.setY(BLOCK_SIZE*i);
 					if (matrixTorchesConfigs[torchesIndex].equals("L")) {
 						tempTorch.setDirection(Direction.LEFT);
 					} else {
@@ -208,14 +211,14 @@ public class Fase {
 					
 					// Add wall
 					Wall tempWall2 = new Wall();
-					tempWall2.setX(blockWidth*j);
-					tempWall2.setY(blockHeight*i);
+					tempWall2.setX(BLOCK_SIZE*j);
+					tempWall2.setY(BLOCK_SIZE*i);
 					walls.add(tempWall2);
 					break;
 				default: // Nothing
 					// Ground tile
-					groundTilesX.add(blockWidth*j);
-					groundTilesY.add(blockHeight*i);
+					groundTilesX.add(BLOCK_SIZE*j);
+					groundTilesY.add(BLOCK_SIZE*i);
 				}
 			}
 		}
@@ -292,11 +295,11 @@ public class Fase {
 	}
 
 	public int getBlockSize() {
-		return blockSize;
+		return BLOCK_SIZE;
 	}
 
 	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
+		this.BLOCK_SIZE = blockSize;
 	}
 
 	public int getFaseNum() {
