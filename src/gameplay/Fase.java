@@ -97,12 +97,11 @@ public class Fase {
 		
 		
 		String[] temp = loadString.split("\n");
-		System.out.println(Arrays.toString(temp));
 		String[] dimension = temp[0].split("x");
 		
 		
-		MATRIX_ROWS = Integer.parseInt(dimension[0].trim());
-		MATRIX_COLUMNS = Integer.parseInt(dimension[1].trim());
+		this.MATRIX_ROWS = Integer.parseInt(dimension[0].trim());
+		this.MATRIX_COLUMNS = Integer.parseInt(dimension[1].trim());
 		String tempo = "";
 		for (int i = 1; i < MATRIX_ROWS+1; i++) {
 			tempo+=temp[i];
@@ -146,7 +145,6 @@ public class Fase {
 		matrix = new String [MATRIX_ROWS][MATRIX_COLUMNS];
 		
 		tempLine = matrixRaw.split("\n");
-		System.out.println(tempLine.length);
 		for (int i = 0; i < MATRIX_ROWS; i++) {
 			tempColumn = tempLine[i].split("\\s");
 			for (int j = 0; j < MATRIX_COLUMNS; j++) {

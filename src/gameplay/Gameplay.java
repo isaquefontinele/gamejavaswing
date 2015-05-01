@@ -97,12 +97,12 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		inGame = true;
 		firstTouch = true;
 		
-		System.out.println(fases.size());
 		currentFase = fases.get(currentFaseNumber);
 		
 		this.GAME_WIDTH = BLOCK_SIZE * currentFase.getMatrixWidth();
 		this.GAME_HEIGHT = BLOCK_SIZE * currentFase.getMatrixHeight();
 		setSize(GAME_WIDTH, GAME_HEIGHT);
+		menu.setSize(GAME_WIDTH, GAME_HEIGHT);
 
 		// Local Images
 		groundTile = new ImageIcon(this.getClass().getResource(
@@ -190,7 +190,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 		fasesString = gen.split("NEXT");
 		
-//		System.out.println(Arrays.toString(fasesString));
 		for (int i = 0; i < fasesString.length; i++) {
 			fases.add(new Fase(fasesString[i]));
 		}
@@ -492,7 +491,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 
 			// Pause message
-			if (!timer.isRunning() && !heroIsOutsideLayout()) {
+			if (!timer.isRunning() && !heroIsOutsideLayout() && hero.getLife()>0) {
 				g2d.drawString(pauseStr,
 						(GAME_WIDTH - metr.stringWidth(pauseStr)) / 2,
 						GAME_HEIGHT / 2);
@@ -508,8 +507,9 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 			// Victory message
 			if (heroIsOutsideLayout()) {
-				if(currentFaseNumber <= fases.size())
-				{
+				if(currentFaseNumber > fases.size()){
+					currentFaseNumber = fases.size();
+				} else {
 					currentFaseNumber++;
 				}
 				if (currentFaseNumber > fases.size()) {
