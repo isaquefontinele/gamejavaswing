@@ -146,7 +146,6 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		bullets = new ArrayList<Bullet>();
 		strikes = new ArrayList<Strike>();
 
-
 		timer.start();
 	}
 
@@ -179,8 +178,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				currentFaseNumber++;
 				initObjects();
 			}
-		}		
-		
+		}
 	}
 
 	private void loadFases() {
