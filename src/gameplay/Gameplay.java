@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -73,6 +72,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private FileReader read;
 	
 	private ArrayList<MediaPlayer> soundEffects;
+	private boolean gameOver;
+	private boolean won;
 
 	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass,
 			JPanel buttonPanel, JPanel showPanel, Menu menu) {
@@ -90,12 +91,15 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		
 		fases = new ArrayList<Fase>();
 		loadFases();
+		timer = new Timer(SPEED, this);
 		initObjects();
 	}
 
 	public void initObjects() {
 		inGame = true;
 		firstTouch = true;
+		gameOver = false;
+		won = false;
 
 		currentFase = fases.get(currentFaseNumber);
 		
@@ -142,7 +146,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		bullets = new ArrayList<Bullet>();
 		strikes = new ArrayList<Strike>();
 
-		timer = new Timer(SPEED, this);
+
 		timer.start();
 	}
 
@@ -154,9 +158,31 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		hero.move();
 		bulletsMove();
 		checkCollisions();
+		checkStates();
 		repaint();
 	}
 	
+	private void checkStates() {
+
+		if (hero.getLife() <= 0) {
+			gameOver = true;
+			pause();
+		}
+		
+		if (heroIsOutsideLayout()) {
+			if (currentFaseNumber >= fases.size()-1) {
+				currentFaseNumber = fases.size()-1;
+				won = true;
+				pause();
+				updateScore();
+			} else {
+				currentFaseNumber++;
+				initObjects();
+			}
+		}		
+		
+	}
+
 	private void loadFases() {
 		URL dir_url = this.getClass().getResource("/gameplay/fases.txt/");
 		try {
@@ -498,31 +524,19 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 
 			// Game Over message
-			if (hero.getLife() <= 0) {
+			else if (gameOver) {
 				g2d.drawString(gameOverStr,
 						(GAME_WIDTH - metr.stringWidth(gameOverStr)) / 2,
 						GAME_HEIGHT / 2);
-				timer.stop();
 			}
 
 			// Victory message
-			if (heroIsOutsideLayout()) {
-				if(currentFaseNumber > fases.size()){
-					currentFaseNumber = fases.size();
-				} else {
-					currentFaseNumber++;
-				}
-				if (currentFaseNumber > fases.size()) {
-					g2d.drawString(winStr,
-							(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
-							GAME_HEIGHT / 2);
-					timer.stop();
-					updateScore();
-				} else {
-					initObjects();
-				}
-				
+			else if (won) {
+				g2d.drawString(winStr,
+						(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
+						GAME_HEIGHT / 2);
 			}
+			
 
 			// Life string
 			g2d.drawString(lifeStr, BLOCK_SIZE / 3, BLOCK_SIZE / 2);
@@ -556,18 +570,22 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		menu.getScores().updateWithNewScore(newScore);
 	}
 
+	private void pause() {
+		if (timer.isRunning()) {
+			timer.stop();
+			repaint();
+		} else {
+			timer.start();
+		}
+	}
+	
 	// Keyboard stuff
 	public void checkState(KeyEvent e) {
 		int key = e.getKeyCode();
 
 		// Pause
 		if (key == KeyEvent.VK_P) {
-			if (timer.isRunning()) {
-				timer.stop();
-				repaint();
-			} else {
-				timer.start();
-			}
+			pause();
 		}
 
 		// ESC
