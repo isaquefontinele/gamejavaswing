@@ -8,7 +8,7 @@ public class Bullet {
 
 	private final Direction direction;
 	private HeroClass heroClass;
-	private final int MISSILE_SPEED = 2;
+	private final int MISSILE_SPEED = 3;
 	private int x, y;
 	private int damage = 3;
 	private int width, height;

@@ -28,7 +28,7 @@ Explaining:
 Matrix itself
 3 = Number of monsters in order of reading row after row
 E V 100
-E = type of monster (esqueleton)
+E = type of monster (skeleton)
 V = Direction of move (vertical)
 100 = Max range
 2 = Number of items
