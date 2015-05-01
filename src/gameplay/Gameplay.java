@@ -96,7 +96,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	public void initObjects() {
 		inGame = true;
 		firstTouch = true;
-		
+
 		currentFase = fases.get(currentFaseNumber);
 		
 		this.GAME_WIDTH = BLOCK_SIZE * currentFase.getMatrixWidth();
@@ -189,7 +189,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		}
 
 		fasesString = gen.split("NEXT");
-		
+
 		for (int i = 0; i < fasesString.length; i++) {
 			fases.add(new Fase(fasesString[i]));
 		}
