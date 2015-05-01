@@ -12,12 +12,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -36,7 +39,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private final int SPEED = 10;
 	private final int blockSize = 75;
 	private final long DELAY = 25;
-	private final String filePath = "/menu/Fases.txt";;
+	private int currentFaseNumber = 0;
 	
 	private int currentScore = 0;
 	private float lifeBarWidth;
@@ -45,12 +48,12 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private Hero hero;
 	private JPanel buttonPanel;
 	private JPanel showPanel;
+	private String[] fasesString;
+	private ArrayList<Fase> fases;
 	private Fase currentFase;
 	private Thread animator;
 	private Menu menu;
 	private File file;
-//	private FileReader reader;
-	private BufferedReader reader;
 	
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
@@ -67,6 +70,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private boolean inGame;
 	private boolean firstTouch;
+	private FileReader read;
 	
 	private ArrayList<MediaPlayer> soundEffects;
 
@@ -83,14 +87,21 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		setDoubleBuffered(true);
 
 		hero = new Hero(heroClass);
-
+		
+		fases = new ArrayList<Fase>();
+		loadFases();
 		initObjects();
 	}
 
 	public void initObjects() {
 		inGame = true;
 		firstTouch = true;
-		currentFase = new Fase();
+		
+		
+		
+		//currentFase = new Fase();
+		System.out.println(fases.size());
+		currentFase = fases.get(currentFaseNumber);
 		
 		this.GAME_WIDTH = blockSize * currentFase.getMatrixWidth();
 		this.GAME_HEIGHT = blockSize * currentFase.getMatrixHeight();
@@ -149,18 +160,44 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		repaint();
 	}
 	
-//	private void loadFases() {
-//		file = new File(filePath);
-////		Reader r = new BufferedReader();
-//		reader = new BufferedReader(file);
-//		
-//		while (reader.readLine() != "END") {
-//			String genericString = "";
-//			
-//		}
-//		
-//
-//	}
+	private void loadFases() {
+		URL dir_url = this.getClass().getResource("/gameplay/fases.txt/");
+		try {
+			file = new File(dir_url.toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			read = new FileReader(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		char check = ' ';
+		String gen = "";
+
+		while (!gen.contains("END")) {
+
+			try {
+				check = (char) read.read();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			gen = gen + check;
+		}
+		try {
+			read.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		fasesString = gen.split("NEXT");
+		
+//		System.out.println(Arrays.toString(fasesString));
+		for (int i = 0; i < fasesString.length; i++) {
+			fases.add(new Fase(fasesString[i]));
+		}
+	}
 
 	// Updates bullets movement
 	private void bulletsMove() {
@@ -457,7 +494,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 
 			// Pause message
-			if (!timer.isRunning() && hero.getY() + hero.getHeight() > 0) {
+			if (!timer.isRunning() && !heroIsOutsideLayout()) {
 				g2d.drawString(pauseStr,
 						(GAME_WIDTH - metr.stringWidth(pauseStr)) / 2,
 						GAME_HEIGHT / 2);
@@ -466,13 +503,18 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 
 			// Victory message
-			if (hero.getY() + hero.getHeight() <= 0) {
-				g2d.drawString(winStr,
-						(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
-						GAME_HEIGHT / 2);
-				timer.stop();
-				updateScore();
-				initObjects();
+			if (heroIsOutsideLayout()) {
+				currentFaseNumber++;
+				if (currentFaseNumber > fases.size()) {
+					g2d.drawString(winStr,
+							(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
+							GAME_HEIGHT / 2);
+					timer.stop();
+					updateScore();
+				} else {
+					initObjects();
+				}
+				
 			}
 
 			// Life
@@ -484,6 +526,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			// Update screen
 			g.dispose();
 		}
+	}
+	
+	private boolean heroIsOutsideLayout() {
+		if(hero.getX()<=0 || hero.getX() > blockSize*currentFase.getMatrixHeight()+1 || hero.getY() <= 0 || hero.getY() >= blockSize*currentFase.getMatrixWidth()+1){
+			return true;
+		}
+		return false;
 	}
 
 	// -----------------------End of Painting Area-----------------------
