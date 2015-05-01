@@ -12,17 +12,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.FilenameFilter;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
 import menu.Menu;
@@ -66,6 +67,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	private boolean inGame;
 	private boolean firstTouch;
+	
+	private ArrayList<MediaPlayer> soundEffects;
 
 	public Gameplay(int MENU_WIDTH, int MENU_HEIGHT, HeroClass heroClass,
 			JPanel buttonPanel, JPanel showPanel, Menu menu) {
@@ -100,7 +103,26 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				.getImage();
 		lifeBar = new ImageIcon(this.getClass().getResource(
 				"/images/lifeBar.png")).getImage();
+		
+		//Sound Effect Setup
+		URL dir_url = this.getClass().getResource("/soundEffects/");
+		try {
+			File dir = new File(dir_url.toURI());
+			soundEffects = new ArrayList<MediaPlayer>();
+			for (String file : dir.list(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return name.endsWith(".mp3");
+				}
+			}))
+				soundEffects.add(createPlayer("file:///"
+						+ (dir + "\\" + file).replace("\\", "/").replaceAll(
+								" ", "%20")));
 
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}	
+		
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
 		walls = currentFase.getWalls();
@@ -220,12 +242,14 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private void checkCollisions() {
 		Rectangle heroRect = hero.getBounds();
 
-		// Colisions of hero with monsters
+		// Collisions of hero with monsters
 		Rectangle monsterRect;
 		for (int i = 0; i < monsters.size(); i++) {
 			monsterRect = monsters.get(i).getBounds();
 			if (firstTouch) {
 				if (heroRect.intersects(monsterRect)) {
+					soundEffects.get(1).stop();
+					soundEffects.get(1).play();
 					hero.atack(monsters.get(i).getAttack());
 				}
 			} else {
@@ -233,7 +257,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 		}
 
-		// Colisions of hero with walls
+		// Collisions of hero with walls
 		hero.setCanGoDown(true);
 		hero.setCanGoUp(true);
 		hero.setCanGoRight(true);
@@ -261,11 +285,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 		}
 
-		// Colisions between bullets and monsters
+		// Collisions between bullets and monsters
 		for (int i = 0; i < bullets.size(); i++) {
 			for (int j = 0; j < monsters.size(); j++) {
 				if (bullets.get(i).getBounds()
 						.intersects(monsters.get(j).getBounds())) {
+					soundEffects.get(4).stop();
+					soundEffects.get(4).play();
 					monsters.get(j).atack(bullets.get(i).getDamage());
 					bullets.remove(bullets.get(i));
 					// Kill monster
@@ -278,7 +304,7 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 		}
 
-		// Colisions between bullets and walls
+		// Collisions between bullets and walls
 		for (int i = 0; i < bullets.size(); i++) {
 			for (int j = 0; j < walls.size(); j++) {
 				if (bullets.get(i).getBounds()
@@ -289,12 +315,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 		}
 
-		// Colisions between strikes and monsters
+		// Collisions between strikes and monsters
 		for (int i = 0; i < monsters.size(); i++) {
 			for (int j = 0; j < strikes.size(); j++) {
 				if (monsters.get(i).getBounds()
 						.intersects(strikes.get(j).getBounds())) {
-
+					soundEffects.get(3).stop();
+					soundEffects.get(3).play();
 					monsters.get(i).atack(strikes.get(j).getDamage());
 					strikes.remove(strikes.get(j));
 					// Kill monster
@@ -321,14 +348,17 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		// Collect items
 		for (int i = 0; i < items.size(); i++) {
 			if (items.get(i).getBounds().intersects(hero.getBounds())) {
+				soundEffects.get(0).stop();
+				soundEffects.get(0).play();	
 				currentScore += 50;
 				items.remove(items.get(i));
 				break;
 			}
-		}
+			
+		}		
 	}
 
-	// -----------------------End of Colisions-----------------------
+	// -----------------------End of Collisions-----------------------
 
 	// Start of Painting area. Take care about fresh ink.
 	@Override
@@ -526,5 +556,14 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			hero.keyPressed(e);
 			checkState(e);
 		}
+	}
+	
+	private MediaPlayer createPlayer(String aMediaSrc) {
+		/**
+		 * @return a MediaPlayer for the given source which will report any
+		 *         errors it encounters
+		 */
+		final MediaPlayer player = new MediaPlayer(new Media(aMediaSrc));
+		return player;
 	}
 }
