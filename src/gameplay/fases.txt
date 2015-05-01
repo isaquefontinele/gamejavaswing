@@ -48,4 +48,62 @@ R
 L
 R
 L
+NEXT11x20
+W W W W W W W W W W W W W W W W W W W W
+W N H N N N N N N N N N N N N N N N N W
+W N N N W N W W N N N N N W N W W N N W
+T N N N W M O W N N N N N W M O W N N T
+W N N N W N O W N N N N N W N O W N N W
+W N N N W W W W N N N N N W W W W N N W
+W N N N N N N N N N N N N N N N N N N W
+T N N N N N N N N N N N N N N N N N N T
+W N N N N N N N N N N N N N N N N N N W
+W N N N N N N N N N N N N N N N N N N W
+W E W W W W W W W W W W W W W W W W W W
+2
+S V 100
+S V 100
+4
+T
+T
+T
+T
+4
+R
+L
+R
+L
+NEXT6x6
+W T T T T W
+T H N M M T
+T N N M M T
+T N O M M T
+T M M M M T
+W W W E W W
+10
+S H 50
+S H 20
+S H 50
+S H 20
+S H 50
+S H 20
+S V 20
+S V 20
+S H 50
+S H 20
+1
+T
+12
+L
+L
+L
+L
+L
+L
+L
+L
+L
+L
+L
+L
 END

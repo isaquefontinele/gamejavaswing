@@ -508,7 +508,10 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 			// Victory message
 			if (heroIsOutsideLayout()) {
-				currentFaseNumber++;
+				if(currentFaseNumber <= fases.size())
+				{
+					currentFaseNumber++;
+				}
 				if (currentFaseNumber > fases.size()) {
 					g2d.drawString(winStr,
 							(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
