@@ -1,0 +1,51 @@
+11x11
+W W W W W W W W W E W
+W N N N N N N N N N W
+W N W N N N N N W N W
+W N T N W W W N T N W
+W M W N N N N N W M W
+W N N W N W N W N N W
+W N W O N M N O W N W
+T N N W W W W W N N T
+W N W N N N N N W N W
+W I N N N H N N N N W
+W W W W W W W W W W W
+3
+S V 100
+S V 100
+B H 100
+2
+T
+T
+4
+R
+L
+R
+L
+NEXT11x11
+W W W W W W W W W W W
+W H N N N N N N M N W
+W W W W W W W W W O W
+T N N N N N N N N N T
+W O W W W W W W W W W
+W N N M N N N N N N W
+W W W W W W W W W O W
+T N N N N N M N N N T
+W O W W W W W W W W W
+W N N N N N N N N N W
+W W W W W W W W W E W
+3
+B H 100
+B H 100
+B H 100
+4
+T
+T
+T
+T
+4
+R
+L
+R
+L
+END

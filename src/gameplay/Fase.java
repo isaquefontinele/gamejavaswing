@@ -7,21 +7,20 @@ import java.util.Collection;
 
 public class Fase {
 	
-//	private final int MATRIX_LENGTH = 11;
-	private final int MATRIX_ROWS = 11;
-	private final int MATRIX_COLUMNS = 11;
+	private int MATRIX_ROWS = 12;
+	private int MATRIX_COLUMNS = 11;
 	private int BLOCK_SIZE = 75;
 
-	private int faseNum = 1;
 	private int monstersTotal = 3;
 	private int torchesTotal = 4;
+	private int itemsTotal = 2;
 	private int heroPosX;
 	private int heroPosY;
 	private int exitPosX;
 	private int exitPosY;
-	private String[][] matrix = new String [MATRIX_ROWS][MATRIX_COLUMNS];
-	private String[][] matrixMonstersConfigs = new String[monstersTotal][3];
-	private String[] matrixTorchesConfigs = new String[torchesTotal];
+	private String[][] matrix;
+	private String[][] matrixMonstersConfigs;
+	private String[] matrixTorchesConfigs;
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> walls;
@@ -29,33 +28,38 @@ public class Fase {
 	private ArrayList<Integer> groundTilesX;
 	private ArrayList<Integer> groundTilesY;
 	private Wall doorWall;
-
-	private String matrixRaw = 
-
-			  "W W W W W W W W W E W\n"
-			+ "W N N N N N N N N N W\n"
-			+ "W N W N N N N N W N W\n"
-			+ "W N T N W W W N T N W\n"
-			+ "W M W N N N N N W M W\n"
-			+ "W N N W N W N W N N W\n"
-			+ "W N W O N M N O W N W\n"
-			+ "T N N W W W W W N N T\n"
-			+ "W N W N N N N N W N W\n"
-			+ "W N N N N H N N N N W\n"
-			+ "W W W W W W W W W W W\n"
-			+ "W N W N W N W N W N W";
-
-	private String monsterConfig = 
-			
-			  "S V 100\n"
-			+ "S V 100\n"
-			+ "B H 100";
 	
-	private String torchesConfig =
-			  "R\n"
-			+ "L\n"
-			+ "R\n"
-			+ "L";
+	private String loadString;
+	private String matrixRaw;
+	private String monsterConfig;
+	private String torchesConfig;
+
+//	private String matrixRaw = 
+//
+//			  "W W W W W W W W W E W\n"
+//			+ "W N N N N N N N N N W\n"
+//			+ "W N W N N N N N W N W\n"
+//			+ "W N T N W W W N T N W\n"
+//			+ "W M W N N N N N W M W\n"
+//			+ "W N N W N W N W N N W\n"
+//			+ "W N W O N M N O W N W\n"
+//			+ "T N N W W W W W N N T\n"
+//			+ "W N W N N N N N W N W\n"
+//			+ "W N N N N H N N N N W\n"
+//			+ "W W W W W W W W W W W\n"
+//			+ "W N W N W N W N W N W";
+//
+//	private String monsterConfig = 
+//			
+//			  "S V 100\n"
+//			+ "S V 100\n"
+//			+ "B H 100";
+//	
+//	private String torchesConfig =
+//			  "R\n"
+//			+ "L\n"
+//			+ "R\n"
+//			+ "L";
 	
 	
 	/**
@@ -71,9 +75,10 @@ public class Fase {
 	 * @param wINDOW_WIDTH 
 	 */
 	
-	public Fase() {
+	public Fase(String newFase) {
 		setBlockSize(BLOCK_SIZE);
 		
+		this.loadString = newFase;
 		this.items = new ArrayList<Item>();
 		this.monsters = new ArrayList<Monster>();
 		this.walls = new ArrayList<Wall>();
@@ -81,16 +86,64 @@ public class Fase {
 		this.groundTilesY = new ArrayList<Integer>();
 		this.torches = new ArrayList<Torch>();
 
-		
+		rawBreak();
 		loadMatrix();
 		loadMonstersConfig();
 		loadTorchesConfig();
 		setThingsPositions();
 	}
 	
+	private void rawBreak() {
+		
+		
+		String[] temp = loadString.split("\n");
+		System.out.println(Arrays.toString(temp));
+		String[] dimension = temp[0].split("x");
+		
+		
+		MATRIX_ROWS = Integer.parseInt(dimension[0].trim());
+		MATRIX_COLUMNS = Integer.parseInt(dimension[1].trim());
+		String tempo = "";
+		for (int i = 1; i < MATRIX_ROWS+1; i++) {
+			tempo+=temp[i];
+			if (i != MATRIX_ROWS) {
+				tempo+="\n";
+			}
+		}
+		matrixRaw = tempo;
+		monstersTotal = Integer.parseInt(temp[MATRIX_ROWS+1].trim());
+		tempo = "";
+		for (int i = MATRIX_ROWS+2; i < (MATRIX_ROWS+2)+monstersTotal; i++) {
+			tempo+=temp[i];
+			if (i != (MATRIX_ROWS+1)+monstersTotal) {
+				tempo+="\n";
+			}
+		}
+		monsterConfig = tempo;
+		itemsTotal = Integer.parseInt(temp[(MATRIX_ROWS+monstersTotal)+2].trim());
+		tempo = "";
+		for (int i = (MATRIX_ROWS+monstersTotal)+3; i < ((MATRIX_ROWS+monstersTotal)+3+itemsTotal); i++) {
+			tempo+=temp[i];
+		}
+		
+		
+		
+		torchesTotal = Integer.parseInt(temp[(MATRIX_ROWS+monstersTotal)+3+itemsTotal].trim());
+		tempo = "";
+		for (int i = (MATRIX_ROWS+monstersTotal)+4+itemsTotal; i < ((MATRIX_ROWS+monstersTotal)+4+itemsTotal+torchesTotal); i++) {
+			tempo+=temp[i];
+			if (i !=  ((MATRIX_ROWS+monstersTotal)+4+itemsTotal+torchesTotal)) {
+				tempo+="\n";
+			}
+		}
+		torchesConfig = tempo;
+	}
+
 	private void loadMatrix() {
 		String[] tempLine = new String[3];
 		String[] tempColumn = new String[MATRIX_COLUMNS];
+		
+		matrix = new String [MATRIX_ROWS][MATRIX_COLUMNS];
 		
 		tempLine = matrixRaw.split("\n");
 		System.out.println(tempLine.length);
@@ -104,9 +157,10 @@ public class Fase {
 	}
 	
 	private void loadMonstersConfig() {
+		matrixMonstersConfigs = new String[monstersTotal][3];
 		String[] tempLine = new String[3];
 		String[] tempColumn = new String[3];
-		
+				
 		tempLine = monsterConfig.split("\n");
 		for (int i = 0; i < monstersTotal; i++) {
 			tempColumn = tempLine[i].split("\\s");
@@ -114,14 +168,13 @@ public class Fase {
 				matrixMonstersConfigs[i][j] = tempColumn[j];
 			}
 		}
-//		Arrays.deepToString(matrixMonstersConfigs);
 	}
 	
 	private void loadTorchesConfig() {
+		matrixTorchesConfigs = new String[torchesTotal];
 		String[] tempLine = new String[3];
 				
 		matrixTorchesConfigs = torchesConfig.split("\n");
-		Arrays.toString(matrixTorchesConfigs);
 	}
 	
 	private void setThingsPositions() {
@@ -131,6 +184,7 @@ public class Fase {
 		for (int i = 0; i < matrix.length; i++) {
 			matrixRow = matrix[i];
 			for (int j = 0; j < matrixRow.length; j++) {
+				
 				switch (matrixRow[j]) {
 				
 				case "W": 
@@ -203,7 +257,7 @@ public class Fase {
 					Torch tempTorch = new Torch();
 					tempTorch.setX(BLOCK_SIZE*j);
 					tempTorch.setY(BLOCK_SIZE*i);
-					if (matrixTorchesConfigs[torchesIndex].equals("L")) {
+					if (matrixTorchesConfigs[torchesIndex].trim().equals("L")) {
 						tempTorch.setDirection(Direction.LEFT);
 					} else {
 						tempTorch.setDirection(Direction.RIGHT);
@@ -302,14 +356,6 @@ public class Fase {
 
 	public void setBlockSize(int blockSize) {
 		this.BLOCK_SIZE = blockSize;
-	}
-
-	public int getFaseNum() {
-		return faseNum;
-	}
-
-	public void setFaseNum(int faseNum) {
-		this.faseNum = faseNum;
 	}
 	
 	public int getMatrixWidth() {
