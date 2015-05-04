@@ -148,8 +148,6 @@ public class Fase {
 	 * build the fase accordingly.
 	 * For more details look at the file faseMap.txt
 	 * 
-	 * @param wINDOW_HEIGHT
-	 * @param wINDOW_WIDTH
 	 */
 	private void setThingsPositions() {
 		int monsterIndex = 0;

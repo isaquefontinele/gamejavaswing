@@ -409,6 +409,7 @@ public class Menu extends JFrame {
 
 	/**
 	 * Creates a media player
+	 * @param aMediaSrc - a string with the address for the music file
 	 * @return a MediaPlayer for the given source which will report any
 	 *         errors it encounters
 	 */
