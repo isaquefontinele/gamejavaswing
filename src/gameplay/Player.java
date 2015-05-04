@@ -13,7 +13,7 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Name: " + name + " - ID: " + id;
+		return "Name: " + name;
 	}
 
 	// Getters and Setters

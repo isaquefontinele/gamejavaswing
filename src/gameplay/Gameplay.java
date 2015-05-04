@@ -33,11 +33,11 @@ import menu.Score;
 
 public class Gameplay extends JPanel implements ActionListener, Runnable {
 
-	private int GAME_WIDTH;
-	private int GAME_HEIGHT;
 	private final int SPEED = 10;
 	private final int BLOCK_SIZE = 75;
 	private final long DELAY = 25;
+	private int GAME_WIDTH;
+	private int GAME_HEIGHT;
 	private int currentFaseNumber = 0;
 	private int currentScore = 0;
 	private float lifeBarWidth;
@@ -47,13 +47,13 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 	private JPanel buttonPanel;
 	private JPanel showPanel;
 	private String[] fasesString;
-	private ArrayList<Fase> fases;
 	private Fase currentFase;
 	private Thread animator;
 	private Menu menu;
 	private File file;
 	private FileReader read;
-	
+
+	private ArrayList<Fase> fases;
 	private ArrayList<Item> items;
 	private ArrayList<Monster> monsters;
 	private ArrayList<Wall> walls;
@@ -86,22 +86,24 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		setDoubleBuffered(true);
 
 		hero = new Hero(heroClass);
-		
 		fases = new ArrayList<Fase>();
-		loadFases();
 		timer = new Timer(SPEED, this);
+
+		loadFases();
 		initObjects();
 	}
 
+	/*
+	 * Inicializes the objects
+	 */
 	public void initObjects() {
 		inGame = true;
 		firstTouch = true;
-
 		gameOver = false;
 		won = false;
 
 		currentFase = fases.get(currentFaseNumber);
-		
+
 		this.GAME_WIDTH = BLOCK_SIZE * currentFase.getMatrixWidth();
 		this.GAME_HEIGHT = BLOCK_SIZE * currentFase.getMatrixHeight();
 		setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -114,8 +116,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				.getImage();
 		lifeBar = new ImageIcon(this.getClass().getResource(
 				"/images/lifeBar.png")).getImage();
-		
-		//Sound Effect Setup
+
+		// Sound Effect Setup
 		URL dir_url = this.getClass().getResource("/soundEffects/");
 		try {
 			File dir = new File(dir_url.toURI());
@@ -132,8 +134,8 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
-		}	
-		
+		}
+
 		items = currentFase.getItems();
 		monsters = currentFase.getMonsters();
 		walls = currentFase.getWalls();
@@ -159,18 +161,21 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		checkStates();
 		repaint();
 	}
-	
+
+	/*
+	 * Check the states of objects and may finish the game
+	 */
 	private void checkStates() {
 		// Check if hero died
 		if (hero.getLife() <= 0) {
 			gameOver = true;
 			pause();
 		}
-		
+
 		// Check victory
 		if (heroIsOutsideLayout()) {
-			if (currentFaseNumber >= fases.size()-1) {
-				currentFaseNumber = fases.size()-1;
+			if (currentFaseNumber >= fases.size() - 1) {
+				currentFaseNumber = fases.size() - 1;
 				won = true;
 				pause();
 				updateScore();
@@ -181,6 +186,10 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		}
 	}
 
+	/*
+	 * Gets the file fases and reads it. Generates all the fases contained on
+	 * the file.
+	 */
 	private void loadFases() {
 		URL dir_url = this.getClass().getResource("/gameplay/fases.txt/");
 		try {
@@ -219,8 +228,11 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		}
 	}
 
-	// Updates bullets movement
+	/*
+	 * Updates bullets and strikes position
+	 */
 	private void bulletsMove() {
+		// Updates bullets (mage and hunter)
 		for (int i = 0; i < bullets.size(); i++) {
 			if (bullets.get(i).isVisible()) {
 				bullets.get(i).move();
@@ -229,12 +241,15 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			}
 		}
 
+		// Updates strikes (warrior)
 		for (int i = 0; i < strikes.size(); i++) {
 			strikes.get(i).move();
 		}
 	}
 
-	// Updates monsters movement
+	/*
+	 * Updates monsters position
+	 */
 	private void monstersMove() {
 		for (int i = 0; i < monsters.size(); i++) {
 			monsters.get(i).ai();
@@ -242,7 +257,9 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		}
 	}
 
-	// Change visibility of the main menu components
+	/*
+	 * Enable or disable the buttons panel
+	 */
 	public void enableButtonPanel(boolean pick) {
 		Component[] components1 = buttonPanel.getComponents();
 		for (int i = 0; i < components1.length; i++) {
@@ -250,6 +267,9 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		}
 	}
 
+	/*
+	 * Enable or disable the show panel
+	 */
 	public void enableShowPanel(boolean pick) {
 		Component[] components1 = showPanel.getComponents();
 		for (int i = 0; i < components1.length; i++) {
@@ -257,11 +277,16 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		}
 	}
 
+	// Animation functions
+	/*
+	 * Updates the frames of the animations
+	 */
 	private void animate() {
 		// Update Torch
 		for (int i = 0; i < torches.size(); i++) {
 			torches.get(i).updateFrame();
 		}
+		// Update bat
 		for (int i = 0; i < monsters.size(); i++) {
 			monsters.get(i).updateFrame();
 		}
@@ -294,8 +319,11 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			pastTime = System.currentTimeMillis();
 		}
 	}
+	// End of animation functions
 
-	// WATCH OUT!!! Collisions ahead!
+	/*
+	 * WATCH OUT!!! Collisions ahead!
+	 */
 	private void checkCollisions() {
 		Rectangle heroRect = hero.getBounds();
 
@@ -406,18 +434,20 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 		for (int i = 0; i < items.size(); i++) {
 			if (items.get(i).getBounds().intersects(hero.getBounds())) {
 				soundEffects.get(0).stop();
-				soundEffects.get(0).play();	
+				soundEffects.get(0).play();
 				currentScore += 50;
 				items.remove(items.get(i));
 				break;
 			}
-			
-		}		
+
+		}
 	}
 
 	// -----------------------End of Collisions-----------------------
 
-	// Start of Painting area. Take care about fresh ink.
+	/*
+	 * Start of Painting area. Take care about fresh ink.
+	 */
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -478,10 +508,12 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 				g2d.drawImage(monsters.get(i).getImage(), monsters.get(i)
 						.getX(), monsters.get(i).getY(), this);
 				// Life bar
-				lifeBarWidth = 75 *(monsters.get(i).getLife() / (float) monsters.get(i).getORIGINAL_LIFE());
+				lifeBarWidth = 75 * (monsters.get(i).getLife() / (float) monsters
+						.get(i).getORIGINAL_LIFE());
 				if (monsters.get(i).getLife() > 0) {
-					g2d.drawImage(lifeBar, monsters.get(i).getX(), monsters.get(i).getY() - 5, Math.round(lifeBarWidth), lifeBar
-							.getHeight(null), null);
+					g2d.drawImage(lifeBar, monsters.get(i).getX(), monsters
+							.get(i).getY() - 5, Math.round(lifeBarWidth),
+							lifeBar.getHeight(null), null);
 				}
 			}
 
@@ -498,24 +530,25 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 			// Print torches
 			for (int i = 0; i < torches.size(); i++) {
-				// If torch is on right side of the board
 				if (torches.get(i).getDirection() == Direction.LEFT) {
 					g2d.drawImage(torches.get(i).getImage(), torches.get(i)
 							.getX() - torches.get(i).getWidth() / 2, torches
 							.get(i).getY(), torches.get(i).getWidth(), torches
 							.get(i).getHeight(), null);
 				} else {
-					g2d.drawImage(torches.get(i).getImage(),
-							torches.get(i).getX() + torches.get(i).getWidth()
-									/ 2 + BLOCK_SIZE, torches.get(i).getY(),
-							-torches.get(i).getWidth(), torches.get(i)
-									.getHeight(), null);
+					g2d.drawImage(torches.get(i).getImage(), torches.get(i)
+							.getX()
+							+ torches.get(i).getWidth()
+							/ 2
+							+ BLOCK_SIZE, torches.get(i).getY(), -torches
+							.get(i).getWidth(), torches.get(i).getHeight(),
+							null);
 				}
-
 			}
 
 			// Pause message
-			if (!timer.isRunning() && !heroIsOutsideLayout() && hero.getLife()>0) {
+			if (!timer.isRunning() && !heroIsOutsideLayout()
+					&& hero.getLife() > 0) {
 				g2d.drawString(pauseStr,
 						(GAME_WIDTH - metr.stringWidth(pauseStr)) / 2,
 						GAME_HEIGHT / 2);
@@ -534,15 +567,16 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 						(GAME_WIDTH - metr.stringWidth(touchingStr)) / 2,
 						GAME_HEIGHT / 2);
 			}
-			
 
 			// Life string
 			g2d.drawString(lifeStr, BLOCK_SIZE / 3, BLOCK_SIZE / 2);
-			
+
 			// Hero lifebar
-			lifeBarWidth = 100 *(hero.getLife() / (float) hero.getORIGINAL_LIFE());
-			g2d.drawImage(lifeBar, BLOCK_SIZE*2 + BLOCK_SIZE/2, BLOCK_SIZE / 3, Math.round(lifeBarWidth), lifeBar
-					.getHeight(null)*2, null);
+			lifeBarWidth = 100 * (hero.getLife() / (float) hero
+					.getORIGINAL_LIFE());
+			g2d.drawImage(lifeBar, BLOCK_SIZE * 2 + BLOCK_SIZE / 2,
+					BLOCK_SIZE / 3, Math.round(lifeBarWidth),
+					lifeBar.getHeight(null) * 2, null);
 
 			// Score
 			g2d.drawString(scoreStr, BLOCK_SIZE * 4, BLOCK_SIZE / 2);
@@ -551,23 +585,36 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			g.dispose();
 		}
 	}
-	
+	// -----------------------End of Painting Area-----------------------
+
+
+	/*
+	 * Check if hero is outside of the layout.
+	 */
 	private boolean heroIsOutsideLayout() {
-		if(hero.getX()<=0 || hero.getX() > BLOCK_SIZE*currentFase.getMatrixHeight()+1 || hero.getY() <= 0 || hero.getY() >= BLOCK_SIZE*currentFase.getMatrixWidth()+1){
+		if (hero.getX() <= 0
+				|| hero.getX() > BLOCK_SIZE * currentFase.getMatrixHeight() + 1
+				|| hero.getY() <= 0
+				|| hero.getY() >= BLOCK_SIZE * currentFase.getMatrixWidth() + 1) {
 			return true;
 		}
 		return false;
 	}
-
-	// -----------------------End of Painting Area-----------------------
-
+	
+	/*
+	 * Updates the score
+	 */
 	private void updateScore() {
 		// currentScore;
 		// timer. need to get time
-		Score newScore = new Score(menu.getCurrentPlayer().getName(), currentScore);
+		Score newScore = new Score(menu.getCurrentPlayer().getName(),
+				currentScore);
 		menu.getScores().updateWithNewScore(newScore);
 	}
 
+	/*
+	 * Pauses the game
+	 */
 	private void pause() {
 		if (timer.isRunning()) {
 			timer.stop();
@@ -576,8 +623,10 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			timer.start();
 		}
 	}
-	
-	// Keyboard stuff
+
+	/*
+	 * Keyboard stuff
+	 */
 	public void checkState(KeyEvent e) {
 		int key = e.getKeyCode();
 
@@ -597,7 +646,36 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 			menu.resizeWindow();
 		}
 	}
+	
+	/*
+	 * Creates a music player
+	 */
+	private MediaPlayer createPlayer(String aMediaSrc) {
+		/**
+		 * @return a MediaPlayer for the given source which will report any
+		 *         errors it encounters
+		 */
+		final MediaPlayer player = new MediaPlayer(new Media(aMediaSrc));
+		return player;
+	}
+	
+	// Other Classes
+	/*
+	 * Reads the keyboard input
+	 */
+	private class TAdapter extends KeyAdapter {
 
+		public void keyReleased(KeyEvent e) {
+			hero.keyReleased(e);
+		}
+
+		public void keyPressed(KeyEvent e) {
+			hero.keyPressed(e);
+			checkState(e);
+		}
+	}
+
+	// Getters and Setters
 	public int getGAME_WIDTH() {
 		return GAME_WIDTH;
 	}
@@ -620,27 +698,5 @@ public class Gameplay extends JPanel implements ActionListener, Runnable {
 
 	public void setTimer(Timer timer) {
 		this.timer = timer;
-	}
-
-	// Other Classes
-	private class TAdapter extends KeyAdapter {
-
-		public void keyReleased(KeyEvent e) {
-			hero.keyReleased(e);
-		}
-
-		public void keyPressed(KeyEvent e) {
-			hero.keyPressed(e);
-			checkState(e);
-		}
-	}
-	
-	private MediaPlayer createPlayer(String aMediaSrc) {
-		/**
-		 * @return a MediaPlayer for the given source which will report any
-		 *         errors it encounters
-		 */
-		final MediaPlayer player = new MediaPlayer(new Media(aMediaSrc));
-		return player;
 	}
 }

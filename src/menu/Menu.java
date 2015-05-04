@@ -32,20 +32,16 @@ public class Menu extends JFrame {
 	private boolean inGame = false;
 	
 	private HeroClass currentHeroClass;
-	private GridLayout manager;
 	private Scoreboard scores;
 
 	private Gameplay gameplay;
 	private Player currentPlayer;
 	
 	//Music Variables
-	private MediaPlayer player;
 	private ArrayList<MediaPlayer> players;
+	private MediaPlayer player;
 	private MediaPlayer nextPlayer;
 	private MediaView mediaView;
-	private JButton skip;
-	private JButton mute;
-	private JButton unmute;
 
 	private JPanel headPanel, buttonPanel;
 	private JPanel showPanel;
@@ -55,6 +51,9 @@ public class Menu extends JFrame {
 	private JButton settingsButton;
 	private JButton creditsButton;
 	private JButton exitButton;
+	private JButton skip;
+	private JButton mute;
+	private JButton unmute;
 
 	private ButtonGroup group;	
 	private JRadioButton mageButton;
@@ -62,8 +61,8 @@ public class Menu extends JFrame {
 	private JRadioButton warriorButton; 
 	
 	private Menu menu;
-	private JLabel jLabel1;
-	private JLabel jLabel2;
+	private JLabel chooseHero;
+	private JLabel adjustMusic;
 	private JLabel titleLabel;
 	private JLabel credits1;
 	private JLabel credits2;
@@ -77,7 +76,9 @@ public class Menu extends JFrame {
 		applyMenuLayout();
 	}
 	
-
+	/*
+	 * Objects initialization
+	 */
 	private void initObjects() {
 		
 		menu = this;
@@ -120,8 +121,8 @@ public class Menu extends JFrame {
 		group.add(hunterButton);
 		group.add(warriorButton);
 		
-		jLabel1 = new JLabel("Choose Your hero!");
-		jLabel2 = new JLabel("Adjust the music:");
+		chooseHero = new JLabel("Choose Your hero!");
+		adjustMusic = new JLabel("Adjust the music:");
 		credits1 = new JLabel("This game was made as a project for the class CS390");
 		credits2 = new JLabel("Ohio Wesleyan University, 2015.");
 		credits3 = new JLabel("by:");
@@ -136,6 +137,9 @@ public class Menu extends JFrame {
 	    });
 	}
 
+	/*
+	 * Set the menu's layout.
+	 */
 	private void applyMenuLayout() {
 
 		// add buttons
@@ -158,7 +162,7 @@ public class Menu extends JFrame {
 		mute.setText("Mute");
 		unmute.setText("Unmute");
 		
-		
+		// Set fonts
 		Font creditsFont = new java.awt.Font("Tahoma", 1, 18);
         credits1.setFont(creditsFont);
         credits2.setFont(creditsFont);
@@ -173,10 +177,10 @@ public class Menu extends JFrame {
         headPanel.setBackground(new java.awt.Color(51, 255, 0));
         showPanel.setBackground(new java.awt.Color(255, 102, 102));
         
+        // Disable continue
         continueButton.setEnabled(false);
 
-
-        // Inside layout for head
+        // Internal layout for head
         javax.swing.GroupLayout headPanelLayout = new javax.swing.GroupLayout(headPanel);
         headPanel.setLayout(headPanelLayout);
         headPanelLayout.setHorizontalGroup(
@@ -194,8 +198,7 @@ public class Menu extends JFrame {
                 .addContainerGap())
         );
 
-
-        // Inside layout for buttons panel
+        // Internal layout for buttons panel
         javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
         buttonPanelLayout.setHorizontalGroup(
@@ -229,10 +232,9 @@ public class Menu extends JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         
-        // Inside layout for show panel
+        // Internal layout for show panel
         setShowPanelLayout();
         
-
         // Layout for all the panels
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -265,10 +267,12 @@ public class Menu extends JFrame {
         pack();
 	}
 	
+	/*
+	 * Set internal layout for show panel
+	 */
 	private void setShowPanelLayout() {
-		// Inside layout for show panel
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        chooseHero.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        adjustMusic.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         mageButton.setBackground(showPanel.getBackground());
         hunterButton.setBackground(showPanel.getBackground());
         warriorButton.setBackground(showPanel.getBackground());
@@ -281,7 +285,7 @@ public class Menu extends JFrame {
                 .addContainerGap()
                 .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(showPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(adjustMusic)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(showPanelLayout.createSequentialGroup()
                         .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,21 +301,21 @@ public class Menu extends JFrame {
                                 .addComponent(warriorButton)
                                 .addGap(18, 18, 18)
                                 .addComponent(hunterButton))
-                            .addComponent(jLabel1))
+                            .addComponent(chooseHero))
                         .addGap(64, 64, Short.MAX_VALUE))))
         );
         showPanelLayout.setVerticalGroup(
             showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(showPanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(jLabel1)
+                .addComponent(chooseHero)
                 .addGap(44, 44, 44)
                 .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(warriorButton)
                     .addComponent(mageButton)
                     .addComponent(hunterButton))
                 .addGap(69, 69, 69)
-                .addComponent(jLabel2)
+                .addComponent(adjustMusic)
                 .addGap(42, 42, 42)
                 .addGroup(showPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(skip, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -321,6 +325,9 @@ public class Menu extends JFrame {
         );	
 	}
 	
+	/*
+	 * Set internal layout for credits
+	 */
 	private void setCreditsLayout() {
         javax.swing.GroupLayout showPanelLayout = new javax.swing.GroupLayout(showPanel);
         showPanel.setLayout(showPanelLayout);
@@ -350,7 +357,9 @@ public class Menu extends JFrame {
         );
 	}
 
-	// Can you hear it? This code is playing Music!
+	/*
+	 * Can you hear it? This code is playing Music!
+	 */
 	private void initMusic() {
 		
 		// Get File path to folder, generate list of players for every mp3 in it
@@ -391,22 +400,28 @@ public class Menu extends JFrame {
 		mediaView.getMediaPlayer().play();
 	}
 
+	/**
+	 * Creates a media player
+	 * @return a MediaPlayer for the given source which will report any
+	 *         errors it encounters
+	 */
 	private MediaPlayer createPlayer(String aMediaSrc) {
-		/**
-		 * @return a MediaPlayer for the given source which will report any
-		 *         errors it encounters
-		 */
+
 		final MediaPlayer player = new MediaPlayer(new Media(aMediaSrc));
 		return player;
 	}
 	
-	// Print of main frame
+	/*
+	 * (non-Javadoc)
+	 * @see java.awt.Window#paint(java.awt.Graphics)
+	 */
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 	}
 	
 	// "Light, Camera, ACTIONS!"
+	// Actions for buttons
 	private class playAction extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
@@ -531,7 +546,10 @@ public class Menu extends JFrame {
 		}
 	}
 	
-	
+	/*
+	 * Resize the window when it changes from the menu to the game, 
+	 * and vice-versa
+	 */
 	public void resizeWindow() {
 		if (!inGame) {
 			setSize(MENU_WIDTH, MENU_HEIGHT);
@@ -559,7 +577,6 @@ public class Menu extends JFrame {
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
-	
 	
 	public Scoreboard getScores() {
 		return scores;

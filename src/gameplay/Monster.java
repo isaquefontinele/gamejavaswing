@@ -21,6 +21,9 @@ public class Monster extends Creature {
 	public Monster() {
 	}
 
+	/*
+	 * Controls monsters movement
+	 */
 	public void ai() {
 		if (right) {
 			if (currentRange <= maxRange) {
@@ -61,9 +64,12 @@ public class Monster extends Creature {
 		}
 	}
 
+	/*
+	 * Updates animation frames
+	 */
 	public void updateFrame() {
 		if (type == MonsterType.BAT) {
-			switch (batIndex ) {
+			switch (batIndex) {
 			case 15:
 				setImage(bat1);
 				break;
@@ -79,7 +85,10 @@ public class Monster extends Creature {
 			}
 		}
 	}
-	
+
+	/*
+	 * Load images
+	 */
 	private void loadImages() {
 		switch (type) {
 		case ESQUELETON:
@@ -88,10 +97,10 @@ public class Monster extends Creature {
 			setImage(esqueleton);
 			break;
 		case BAT:
-			bat1 = new ImageIcon(this.getClass().getResource(
-					"/images/bat1.png")).getImage();
-			bat2 = new ImageIcon(this.getClass().getResource(
-					"/images/bat2.png")).getImage();
+			bat1 = new ImageIcon(this.getClass()
+					.getResource("/images/bat1.png")).getImage();
+			bat2 = new ImageIcon(this.getClass()
+					.getResource("/images/bat2.png")).getImage();
 			break;
 		case ZOMBIE:
 			zombie = new ImageIcon(this.getClass().getResource(
@@ -99,7 +108,7 @@ public class Monster extends Creature {
 			break;
 		}
 	}
-	
+
 	// Getters and Setters
 	public void setImage(MonsterType monsterType) {
 		switch (monsterType) {
@@ -114,14 +123,14 @@ public class Monster extends Creature {
 			break;
 		}
 	}
-	
+
 	private void setMovement() {
 		if (direction == monsterDirection.HORIZONTAL) {
 			this.right = true;
 			this.left = false;
 			this.down = false;
 			this.up = false;
-		} 
+		}
 		if (direction == monsterDirection.VERTICAL) {
 			this.down = true;
 			this.up = false;

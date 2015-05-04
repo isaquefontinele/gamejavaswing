@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public class Strike {
-	
+
 	private final Direction direction;
 	private final int SWING_SPEED = 2;
 	private final int INITIAL_X, INITIAL_Y;
@@ -27,6 +27,9 @@ public class Strike {
 		height = currentImage.getHeight(null);
 	}
 
+	/*
+	 * Updates strike position
+	 */
 	public void move() {
 		switch (direction) {
 		case RIGHT:
@@ -46,50 +49,51 @@ public class Strike {
 
 	// Getters and Setters
 	public void setImage() {
-		currentImage = new ImageIcon(this.getClass().getResource( // Just inicializing the image
+		// Just inicializing the image
+		currentImage = new ImageIcon(this.getClass().getResource(
 				"/images/swing_down.png")).getImage();
-		
+
 		switch (direction) {
 		case RIGHT:
-			currentImage = new ImageIcon(this.getClass().getResource( // Just inicializing the image
+			currentImage = new ImageIcon(this.getClass().getResource(
 					"/images/swing_right.png")).getImage();
 			break;
 		case LEFT:
-			currentImage = new ImageIcon(this.getClass().getResource( // Just inicializing the image
+			currentImage = new ImageIcon(this.getClass().getResource(
 					"/images/swing_left.png")).getImage();
 			break;
 		case UP:
-			currentImage = new ImageIcon(this.getClass().getResource( // Just inicializing the image
+			currentImage = new ImageIcon(this.getClass().getResource(
 					"/images/swing_up.png")).getImage();
 			break;
 		case DOWN:
-			currentImage = new ImageIcon(this.getClass().getResource( // Just inicializing the image
+			currentImage = new ImageIcon(this.getClass().getResource(
 					"/images/swing_down.png")).getImage();
 			break;
 		}
 	}
-	
+
 	public int getRange() {
 		switch (direction) {
 		case RIGHT:
-			return Math.abs(x-INITIAL_X);
+			return Math.abs(x - INITIAL_X);
 		case LEFT:
-			return Math.abs(x-INITIAL_X);
+			return Math.abs(x - INITIAL_X);
 		case UP:
-			return Math.abs(y-INITIAL_Y);
+			return Math.abs(y - INITIAL_Y);
 		default:
-			return Math.abs(y-INITIAL_Y);
+			return Math.abs(y - INITIAL_Y);
 		}
 	}
-	
+
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
 	}
-	
+
 	public Image getImage() {
 		return currentImage;
 	}
-	
+
 	public int getX() {
 		return x;
 	}

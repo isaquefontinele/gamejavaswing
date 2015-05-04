@@ -33,7 +33,7 @@ public class Hero extends Creature {
 		this.heroClass = heroClass;
 		setLife(heroClass.getLife());
 		setORIGINAL_LIFE(heroClass.getLife());
-		
+
 		canGoRight = true;
 		canGoLeft = true;
 		canGoUp = true;
@@ -42,6 +42,9 @@ public class Hero extends Creature {
 		setStrikes(new ArrayList<Strike>());
 	}
 
+	/*
+	 * Keyboard key pressed actions
+	 */
 	public void keyPressed(KeyEvent e) {
 
 		int key = e.getKeyCode();
@@ -87,6 +90,9 @@ public class Hero extends Creature {
 		}
 	}
 
+	/*
+	 * Keyboard key released actions
+	 */
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 
@@ -107,11 +113,17 @@ public class Hero extends Creature {
 		}
 	}
 
+	/*
+	 * Hero's shooting (only mage and hunter uses this function)
+	 */
 	private void shoot() {
 		bullets.add(new Bullet(getX() + width / 2, getY() + height / 2,
 				getDirection(), heroClass));
 	}
-	
+
+	/*
+	 * Hero's striking (only warrior uses this function)
+	 */
 	private void swingSword() {
 		switch (direction) {
 		case RIGHT:
@@ -124,7 +136,8 @@ public class Hero extends Creature {
 			strikes.add(new Strike(getX(), getY() - height, direction));
 			break;
 		case DOWN:
-			strikes.add(new Strike(getX(), getY() + height + height/2, direction));
+			strikes.add(new Strike(getX(), getY() + height + height / 2,
+					direction));
 			break;
 		}
 	}
@@ -154,7 +167,6 @@ public class Hero extends Creature {
 				break;
 			}
 
-			break;
 		case MAGE:
 			super.setImage(new ImageIcon(this.getClass().getResource(
 					"/images/mage.png")).getImage());

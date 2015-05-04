@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 public class Torch {
 
 	private Image image;
-	private Image f1,f2,f3,f4,f5,f6,f7,f8,f9;
+	private Image f1, f2, f3, f4, f5, f6, f7, f8, f9;
 	private int torchIndex = 1;
 	private int x;
 	private int y;
@@ -18,7 +18,7 @@ public class Torch {
 	private Direction direction;
 
 	public Torch() {
-		
+
 		this.f1 = new ImageIcon(this.getClass().getResource(
 				"/images/torch1.png")).getImage();
 		this.f2 = new ImageIcon(this.getClass().getResource(
@@ -39,11 +39,14 @@ public class Torch {
 				"/images/torch9.png")).getImage();
 		this.image = f1;
 		this.direction = Direction.LEFT;
+
 		setWidth(getImage().getWidth(null));
 		setHeight(getImage().getHeight(null));
-		
 	}
-	
+
+	/*
+	 * Updates the current frame of the torch
+	 */
 	public void updateFrame() {
 		switch (torchIndex) {
 		case 1:
@@ -81,6 +84,7 @@ public class Torch {
 		}
 	}
 
+	// Getters and Setters
 	public int getX() {
 		return x;
 	}

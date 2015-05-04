@@ -3,30 +3,30 @@ package menu;
 public class Score implements Comparable<Score> {
 
 	private int points;
-	
-	//private Player player;
+
+	// private Player player;
 	private String player;
 
 	public Score(String player, int points) {
 		this.points = points;
 		this.player = player;
 	}
-	
-	//Reads in a string with the correct information separating information blocks by " " 
-	public Score(String fileInput)
-	{
+
+	// Reads in a string with the correct information separating information
+	// blocks by " "
+	public Score(String fileInput) {
 		String[] tokens = fileInput.split(" ");
-		
+
 		player = tokens[0].trim();
 		points = Integer.parseInt(tokens[1].trim());
 	}
 
 	@Override
-	//player.getName();
+	// player.getName();
 	public String toString() {
 		return "Name: " + player + " - Score: " + points;
 	}
-	
+
 	public String fileToString() {
 		return (player + " " + points);
 	}

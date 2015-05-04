@@ -4,12 +4,12 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * @version 1.00 2015-02-24
+ * @version 1.00
+ * @since 2015-02-24
  * @author Isaque Fontinele & Denny O'Dea
  */
 public class Facade {
 	public Facade() {
-		
 	}
 	
 	public void run(){

@@ -8,7 +8,6 @@ import javax.swing.ImageIcon;
 public class Item {
 
 	private Image image;
-//	private int[] pos = new int[2]; //Change to X,Y
 	private int x;
 	private int y;
 	private int width;
@@ -25,7 +24,7 @@ public class Item {
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
 	}
-	
+
 	public Image getImage() {
 		return image;
 	}

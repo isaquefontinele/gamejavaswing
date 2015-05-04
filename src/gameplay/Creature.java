@@ -6,10 +6,10 @@ public abstract class Creature {
 
 	private String name;
 	private Image image;
+	private boolean state;
+	
 	private int life;
 	private int ORIGINAL_LIFE;
-	private boolean state;
-
 	private int x;
 	private int y;
 	private int increaseX;
@@ -19,9 +19,9 @@ public abstract class Creature {
 		x += increaseX;
 		y += increaseY;
 	}
-	
+
 	public void atack(int damage) {
-		setLife(getLife()-damage);
+		setLife(getLife() - damage);
 	}
 
 	// Getters and Setters

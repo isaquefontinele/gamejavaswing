@@ -23,7 +23,9 @@ L
 R
 L
 NEXT
-(...)
+"FASE 2"
+NEXT
+"FASE 3"
 END
 
 
