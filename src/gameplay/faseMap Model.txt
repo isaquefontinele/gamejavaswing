@@ -31,25 +31,30 @@ END
 
 
 
-Explaining:
 
-11x11 = Matrix dimensions
 
-Matrix itself
+Format Explanations:
 
-3 = Number of monsters
+11x11 = Are the matrix dimensions
+
+After that you have the matrix itself showing the positions of all the elements on the grid.
+
+3 = The number of monsters
+
 S V 100
-S = type of monster (skeleton)
-V = Direction of move (vertical)
+S = Type of monster (skeleton/zombie/bat)
+V = Direction of movement (vertical)
 100 = Max range
 
 2 = Number of items
-T = type of item (treasure)
+T = Type of item (treasure)
 
 4 = Number of torches
 R = Torch turned to right side
 L = Torch turned to left side
 
-NEXT = Separator between different fases
+NEXT = Separator between different levels
+
+“Fase 2 and 3” = Just hypothetical different levels
 
 END = End of file

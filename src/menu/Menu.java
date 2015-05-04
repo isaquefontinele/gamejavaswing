@@ -36,6 +36,7 @@ public class Menu extends JFrame {
 
 	private Gameplay gameplay;
 	private Player currentPlayer;
+	private Menu menu;
 	
 	//Music Variables
 	private ArrayList<MediaPlayer> players;
@@ -60,7 +61,6 @@ public class Menu extends JFrame {
 	private JRadioButton hunterButton;
 	private JRadioButton warriorButton; 
 	
-	private Menu menu;
 	private JLabel chooseHero;
 	private JLabel adjustMusic;
 	private JLabel titleLabel;
@@ -69,6 +69,14 @@ public class Menu extends JFrame {
 	private JLabel credits3;
 	private JLabel credits4;
 	
+	// Singleton implementation
+//	private static Menu menu = new Menu();
+//	
+//	protected Menu() {
+//		resizeWindow();
+//		initObjects();
+//		applyMenuLayout();
+//	}
 	
 	public Menu() {
 		resizeWindow();
@@ -80,7 +88,6 @@ public class Menu extends JFrame {
 	 * Objects initialization
 	 */
 	private void initObjects() {
-		
 		menu = this;
 		headPanel = new JPanel();
 		buttonPanel = new JPanel();
@@ -448,7 +455,7 @@ public class Menu extends JFrame {
 			setLayout(null);
 			
 			// New Game
-			gameplay = new Gameplay(MENU_WIDTH, MENU_HEIGHT, currentHeroClass, buttonPanel, showPanel, menu);
+			gameplay = new Gameplay(MENU_WIDTH, MENU_HEIGHT, currentHeroClass, buttonPanel, showPanel, getMenu());
 			add(gameplay);
 			
 			GAME_WIDTH = gameplay.getGAME_WIDTH() + 15;
@@ -585,4 +592,8 @@ public class Menu extends JFrame {
 	public void setScores(Scoreboard scores) {
 		this.scores = scores;
 	}
+	
+    public Menu getMenu(){
+        return menu;
+    }
 }
